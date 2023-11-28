@@ -6,7 +6,12 @@ import { UserInfo } from "~/components/userInfo";
 import { UserJobsTracker } from "~/components/userJobsTracker";
 
 const ProfilePage: NextPage = () => {
-  const { isSignedIn, user, isLoaded } = useUser();
+
+const { isSignedIn, user, isLoaded } = useUser();
+
+if (!user) {
+  return <div>Loading...</div>;
+}
 
   return (
     <>
