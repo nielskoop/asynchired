@@ -2,7 +2,7 @@ import { SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
 import Link from "next/link";
 
 export const NavLinks = () => {
-  const { isSignedIn, user, isLoaded } = useUser();
+  const { isSignedIn, user } = useUser();
 
   return (
     <>

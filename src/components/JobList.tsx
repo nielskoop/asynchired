@@ -5,7 +5,7 @@ import { api } from "~/utils/api";
 
 export function JobTag(props: { tag: string; type: string }) {
   return (
-    <div className="mr-2 flex items-center">
+    <div className="mr-2 flex items-center gap-[1px]">
       <Image
         src={`/JobTags/${props.type}.svg`}
         height={20}
