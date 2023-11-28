@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { useUser } from "@clerk/nextjs";
+import { TagIcon } from "./TagIcon";
 
 export const UserInfo = () => {
   const { user } = useUser();
@@ -17,44 +18,24 @@ export const UserInfo = () => {
         <h1 className="mt-[30%] pb-4 text-2xl font-bold">{user?.fullName}</h1>
         <ul className="pb-4">
           <li>
-            <Image
-              src={"/046-business 1.svg"}
-              alt={`suitcase icon`}
-              width={20}
-              height={20}
-              className="mr-1 inline"
-            />
-            Unemployed
+            <TagIcon className="gap-2" text="Unemployed" type="company" />
           </li>
           <li>
-            <Image
-              src={"/071-location pin 1.svg"}
-              alt={`suitcase icon`}
-              width={20}
-              height={20}
-              className="mr-1 inline"
-            />
-            Alicante, Spain
+            <TagIcon className="gap-2" text="Alicante, Spain" type="location" />
           </li>
           <li>
-            <Image
-              src={"/148-education 1.svg"}
-              alt={`suitcase icon`}
-              width={20}
-              height={20}
-              className="mr-1 inline"
+            <TagIcon
+              className="gap-2"
+              text="React, Next.js, Node.js, Angular, Figma"
+              type="tech"
             />
-            React, Next.js, Node.js, Angular, Figma
           </li>
           <li>
-            <Image
-              src={"/149-education 1.svg"}
-              alt={`suitcase icon`}
-              width={20}
-              height={20}
-              className="mr-1 inline"
+            <TagIcon
+              className="gap-2"
+              text="Proud bootcamper"
+              type="education"
             />
-            Proud bootcamper
           </li>
         </ul>
         <div className="flex grow flex-col justify-end">
