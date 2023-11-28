@@ -7,15 +7,15 @@ body {
 }
 
 .bg-image-mobile {
-  background-image: url("/homepage-bg-globe 2.png");
+  background-image: url("/blue_background_world_wide_web.png");
   background-size: cover;
   background-position: center;
 }
 
 .bg-image-large {
-  background-image: url("/homepage-bg-globe 2.png");
+  background-image: url("/world_wide_web_blue_globe.png");
   background-size: cover;
-  background-position: bottom;
+  background-position: 0% 15%;
 }
 
 .hamburger {

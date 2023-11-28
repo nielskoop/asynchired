@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { useUser } from "@clerk/nextjs";
 import { TagIcon } from "./TagIcon";
+import { EditProfileButton } from "./editProfileButton";
 
 export const UserInfo = () => {
   const { user } = useUser();
@@ -38,11 +39,7 @@ export const UserInfo = () => {
             />
           </li>
         </ul>
-        <div className="flex grow flex-col justify-end">
-          <button className="m-4 rounded-2xl bg-black p-2 text-white">
-            Edit Profile
-          </button>
-        </div>
+        <EditProfileButton />
       </div>
     </>
   );

@@ -1,10 +1,22 @@
 import React, { useEffect, useState } from "react";
 import type { Post } from "@prisma/client";
 import { api } from "~/utils/api";
+import { useRouter } from "next/router";
+import { JobListingModal } from "./jobListingModal";
 import { LoadingPage } from "./Loading";
 import { TagIcon } from "./TagIcon";
 
+import {
+  LikeButton,
+  DislikeButton,
+  OriginalPostButton,
+  MarkAppliedButton,
+} from "./jobListingButtons";
+
 export function JobListing(post: Post) {
+  const router = useRouter();
+  const currentUrl = router.asPath;
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [screenSize, setScreenSize] = useState<number>();
 
   useEffect(() => {
@@ -20,7 +32,7 @@ export function JobListing(post: Post) {
 
   return (
     <div className="flex justify-between border-b border-slate-300 p-3 sm:mt-3 sm:rounded-2xl sm:border-x sm:border-t">
-      <div>
+      <div className="cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
         <div className="mb-2">
           <span className="font-bold">{post.title}</span>
           <span className="ml-2 text-xs font-light text-slate-500">
@@ -51,16 +63,17 @@ export function JobListing(post: Post) {
           )}
         </div>
       </div>
-      {screenSize && screenSize > 767 && (
-        <div className="mr-4 flex gap-4">
+      <JobListingModal isOpen={isOpen} setIsOpen={setIsOpen} {...post} />
+      {currentUrl === "/" && screenSize && screenSize > 767 && (
+        <div className="mr-4 flex items-center gap-4">
           {screenSize && screenSize > 1200 && (
             <>
-              <button />
-              <button>Mark as applied</button>
+              <OriginalPostButton url={post.url} />
+              <MarkAppliedButton />
             </>
           )}
-          <button>Dislike</button>
-          <button>Like</button>
+          <DislikeButton />
+          <LikeButton />
         </div>
       )}
     </div>
