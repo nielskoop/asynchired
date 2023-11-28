@@ -2,27 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Font added to body at the bottom of this file */
-
 body {
   @apply bg-white;
-
-  overscroll-behavior: none;
-
-}
-
-body {
-  font-family: Arial, Helvetica, sans-serif;
 }
 
 .bg-image-mobile {
-  background-image: url('/homepage-bg-globe 2.png');
+  background-image: url("/homepage-bg-globe 2.png");
   background-size: cover;
   background-position: center;
 }
 
 .bg-image-large {
-  background-image: url('/homepage-bg-globe 2.png');
+  background-image: url("/homepage-bg-globe 2.png");
   background-size: cover;
   background-position: bottom;
 }
