@@ -7,8 +7,8 @@ export const UserJobsTracker = () => {
 
   return (
     <>
-      <div className="relative mb-8 flex min-h-[400px] min-w-[400px] flex-col items-center rounded-lg border-2 border-solid border-gray-300">
-        <ul className="border-b-solid flex w-full flex-row justify-center border-b-2 border-gray-300 pt-2">
+      <div className="relative mb-8 flex min-h-[400px] min-w-[400px] flex-col items-center rounded-lg border-2 border-solid border-[#1A78E6]">
+        <ul className="border-b-solid flex w-full flex-row justify-center border-b-2 border-[#1A78E6] pt-2 text-lg">
           <li>
             <Link
               href={`/${user?.firstName}/applied`}

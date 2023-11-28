@@ -3,7 +3,7 @@ import Image from "next/image";
 export const OriginalPostButton = (props: {url: string}) => {
   return (
       <button className="h-min rounded-xl bg-[#1A78E6] px-2 py-1 text-white">
-        See original post
+        See source
       </button>
   );
 };
@@ -25,6 +25,7 @@ export const LikeButton = () => {
         alt="Like button"
         height={30}
         width={30}
+        className="min-w-[30px] m-1"
       />
     </button>
   );
@@ -38,6 +39,7 @@ export const DislikeButton = () => {
         alt="Disike button"
         height={30}
         width={30}
+        className="min-w-[30px] m-1"
       />
     </button>
   );

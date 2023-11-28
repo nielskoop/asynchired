@@ -9,6 +9,11 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
     <ClerkProvider>
+      <style jsx global>{`
+        html {
+          font-family: ${inter.style.fontFamily};
+        }
+      `}</style>
       <main className={`${inter.variable} font-sans`}>
         <Component {...pageProps} />
       </main>
