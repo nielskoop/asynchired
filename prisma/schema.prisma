@@ -11,10 +11,27 @@ datasource db {
 }
 
 model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    id          Int      @id @default(autoincrement())
+    title       String
+    location    String
+    company     String
+    jobDescription  String
+    salary      String?
+    datePosted  DateTime?
+    logo        String?
+    url         String
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+}
 
-    @@index([name])
+model User {
+    userId      Int     @id @default(autoincrement())
+    username    String
+    email       String
+    profilePicture  String @default("~/public/blank-profile-pic")
+    likedPosts  Int[]
+    dislikedPosts   Int[]
+    appliedPosts    Int[]
+
+    @@index([username])
 }
