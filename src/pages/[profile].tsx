@@ -6,12 +6,11 @@ import { UserInfo } from "~/components/userInfo";
 import { UserJobsTracker } from "~/components/userJobsTracker";
 
 const ProfilePage: NextPage = () => {
+  const { user } = useUser();
 
-const { isSignedIn, user, isLoaded } = useUser();
-
-if (!user) {
-  return <div>Loading...</div>;
-}
+  if (!user) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
@@ -25,7 +24,7 @@ if (!user) {
         <UserInfo />
         <UserJobsTracker />
       </div>
-      <div className="p-4 text-2xl font-bold text-center">
+      <div className="p-4 text-center text-2xl font-bold">
         <h2>Your Saved Searches</h2>
       </div>
     </>

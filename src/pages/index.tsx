@@ -1,5 +1,4 @@
 import Head from "next/head";
-import Link from "next/link";
 import JobList from "~/components/JobList";
 import { Nav } from "~/components/nav";
 

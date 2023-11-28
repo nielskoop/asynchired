@@ -2,7 +2,7 @@ import Image from "next/image";
 import { useUser } from "@clerk/nextjs";
 
 export const UserInfo = () => {
-  const { isSignedIn, user, isLoaded } = useUser();
+  const { user } = useUser();
 
   return (
     <>
