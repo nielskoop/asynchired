@@ -13,7 +13,7 @@ export const profileRouter = createTRPCRouter({
         username: [input.username],
       });
 
-      if (!user) {
+      if (!user?.username) {
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
           message: "User not found",

@@ -1,62 +1,88 @@
-import type { GetStaticProps } from "next";
 import Head from "next/head";
-import { api } from "~/utils/api";
 import type { NextPage } from "next/types";
 import Image from "next/image";
+import { Nav } from "~/components/nav";
+import { useUser } from "@clerk/nextjs";
 
-const ProfilePage: NextPage<{ username: string }> = ({ username }) => {
-  const { data, isLoading } = api.profile.getUserByUsername.useQuery({
-    username,
-  });
-
-  if (!data) return <div>404</div>;
+const ProfilePage: NextPage = () => {
+  const { isSignedIn, user, isLoaded } = useUser();
 
   return (
     <>
       <Head>
-        <title>{`${data.username}'s profile`}</title>
+        <title>Async Hired Profile</title>
       </Head>
-      <div className="relative h-36 bg-slate-600">
-        <Image
-          src={data.profileImageUrl}
-          alt={`${data.username ?? ""}'s profile pic`}
-          width={128}
-          height={128}
-          className="absolute bottom-0 left-0 -mb-[64px] ml-4 rounded-full border-4 border-black bg-black"
-        />
+      <div className="bg-image-mobile md: bg-image-large flex w-full flex-col justify-center">
+        <Nav />
+      </div>
+      <div className="flex flex-row items-center justify-center pt-24">
+        <div className="relative flex min-h-[400px] flex-col items-center rounded-lg border-2 border-solid border-gray-300 px-8">
+          <Image
+            src={user!.imageUrl}
+            alt={`Profile picture`}
+            width={128}
+            height={128}
+            className="left-50% absolute top-[-16.5%] rounded-full border-2 border-solid border-gray-300"
+            // className="left-50% absolute top-[-15%] rounded-full bg-gray-300 p-0.5"
+          />
+          <h1 className="mt-[30%] pb-4 text-2xl font-bold">{user?.fullName}</h1>
+          <ul className="pb-4">
+            <li>
+              <Image
+                src={"/046-business 1.svg"}
+                alt={`suitcase icon`}
+                width={20}
+                height={20}
+                className="mr-1 inline"
+              />
+              Unemployed
+            </li>
+            <li>
+              <Image
+                src={"/071-location pin 1.svg"}
+                alt={`suitcase icon`}
+                width={20}
+                height={20}
+                className="mr-1 inline"
+              />
+              Alicante, Spain
+            </li>
+            <li>
+              <Image
+                src={"/148-education 1.svg"}
+                alt={`suitcase icon`}
+                width={20}
+                height={20}
+                className="mr-1 inline"
+              />
+              React, Next.js, Node.js, Angular, Figma
+            </li>
+            <li>
+              <Image
+                src={"/149-education 1.svg"}
+                alt={`suitcase icon`}
+                width={20}
+                height={20}
+                className="mr-1 inline"
+              />
+              Proud bootcamper
+            </li>
+          </ul>
+          <div className="flex grow flex-col justify-end">
+            <button className="m-4 rounded-2xl bg-black p-2 text-white">
+              Edit Profile
+            </button>
+          </div>
+        </div>
+        <div className="flex flex-col bg-blue-300"></div>
       </div>
       <div className="h-[64px]"></div>
-      <div className="p-4 text-2xl font-bold">{`@${data.username ?? ""}`}</div>
+      <div className="p-4 text-2xl font-bold">
+        <h2>Your Saved Searches</h2>
+      </div>
       <div className="w-full border-b border-slate-400"></div>
     </>
   );
-};
-
-import { createServerSideHelpers } from "@trpc/react-query/server";
-import { appRouter } from "~/server/api/root";
-import SuperJSON from "superjson";
-import { db } from "~/server/db";
-
-export const getStaticProps: GetStaticProps = async (context) => {
-const ssg = createServerSideHelpers({
-router: appRouter,
-    ctx: { db, userId: null },
-    transformer: SuperJSON,
-  });
-  const username = context.params?.slug;
-  // currently logging undefined, added code into trpc, roots, profile ts router, something is missing
-  console.log("Username type:" ,typeof username)
-  if (typeof username !== "string") throw new Error("no slug");
-  await ssg.profile.getUserByUsername.prefetch({ username });
-  return {
-    props: {
-      trpcState: ssg.dehydrate(),
-      username,
-    },
-  };
-};
-export const getStaticPaths = () => {
-  return { paths: [], fallback: "blocking" };
 };
 
 export default ProfilePage;
