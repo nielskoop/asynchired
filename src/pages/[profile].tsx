@@ -104,12 +104,6 @@ const ProfilePage: NextPage = () => {
               </Link>
             </li>
           </ul>
-
-          <div className="flex grow flex-col justify-end">
-            <button className="m-4 rounded-2xl bg-black p-2 text-white">
-              Edit Profile
-            </button>
-          </div>
         </div>
       </div>
       <div className="p-4 text-2xl font-bold text-center">
