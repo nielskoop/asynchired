@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
+import JobList from "~/components/JobList";
 import { Nav } from "~/components/nav";
 
 // import { api } from "~/utils/api";
@@ -39,6 +40,10 @@ export default function Home() {
               </form>
             </div>
           </div>
+        </div>
+        <div className="bg-slate-300">Tag Widget</div>
+        <div>
+          <JobList />
         </div>
       </main>
     </>

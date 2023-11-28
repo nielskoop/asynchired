@@ -6,12 +6,18 @@ import "~/styles/globals.css";
 
 import { ClerkProvider } from "@clerk/nextjs";
 
+import { Inter } from "next/font/google";
+
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
     <ClerkProvider>
-      <Component {...pageProps} />;
+      <main className={`${inter.variable} font-sans`}>
+        <Component {...pageProps} />
+      </main>
     </ClerkProvider>
-  )
+  );
 };
 
 export default api.withTRPC(MyApp);
