@@ -50,22 +50,14 @@ export function JobPreview(post: Post) {
   );
 }
 
+import useScreenSize from "~/hooks/useScreenSize";
+
 export function JobListing(post: Post) {
   const router = useRouter();
   const currentUrl = router.asPath;
   const [isOpen, setIsOpen] = useModal(post.id);
-  const [screenSize, setScreenSize] = useState<number>();
 
-  useEffect(() => {
-    const handleResize = () => {
-      setScreenSize(window.innerWidth);
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+  const screenSize = useScreenSize();
 
   return (
     <div className="flex justify-between border-b border-slate-300 p-3 sm:mt-3 sm:rounded-2xl sm:border-x sm:border-t">

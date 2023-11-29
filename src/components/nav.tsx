@@ -2,20 +2,10 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { NavLinks } from "./navLinks";
 import Link from "next/link";
+import useScreenSize from "~/hooks/useScreenSize";
 
 export const Nav = () => {
-  const [isMobileOrTablet, setIsMobileOrTablet] = useState(false);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobileOrTablet(window.innerWidth < 768);
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+  const screenSize = useScreenSize();
 
   return (
     <nav className="flex w-full flex-row items-center justify-between px-8 font-semibold">
@@ -29,8 +19,7 @@ export const Nav = () => {
         />
       </Link>
       {
-        // User is on a mobile phone or tablet
-        isMobileOrTablet ? (
+        screenSize! < 768 ? (
           <button className="hamburgerButton">
             {/* REPLACE FALSE WITH MENU OPEN LOGIC AND TAILWIND SYNTAX*/}
             <div className={`hamburger ${false ? "active" : ""}`}>
