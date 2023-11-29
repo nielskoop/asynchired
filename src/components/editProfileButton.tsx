@@ -1,8 +1,8 @@
-import { useState } from "react";
 import { ProfileEditModal } from "./profileEditModal";
+import { useModal } from "~/context/modalStore";
 
 export const EditProfileButton = () => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useModal('editProfile');
 
   return (
     <>
@@ -14,7 +14,7 @@ export const EditProfileButton = () => {
           Edit Profile
         </button>
       </div>
-      <ProfileEditModal isOpen={isOpen} setIsOpen={setIsOpen} />
+      <ProfileEditModal/>
     </>
   );
 };

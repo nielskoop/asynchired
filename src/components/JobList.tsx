@@ -5,8 +5,7 @@ import { useRouter } from "next/router";
 import { JobListingModal } from "./jobListingModal";
 import { LoadingPage } from "./Loading";
 import { TagIcon } from "./TagIcon";
-import Image from "next/image";
-
+import { useModal } from "~/context/modalStore";
 
 import {
   LikeButton,
@@ -15,48 +14,46 @@ import {
   MarkAppliedButton,
 } from "./jobListingButtons";
 
-
-export function JobPreview (post: Post) {
-
+export function JobPreview(post: Post) {
   return (
     <>
-<div className="mb-2">
-          <span className="font-bold">{post.title}</span>
-          <span className="ml-2 text-xs font-light text-slate-500">
-            6 days ago
-          </span>
-        </div>
-        <div className="flex flex-wrap">
-          {post.company && (
-            <TagIcon
-              className="mr-2 gap-[1px] text-sm"
-              text={post.company}
-              type={"company"}
-            />
-          )}
-          {post.location && (
-            <TagIcon
-              className="mr-2 gap-[1px] text-sm"
-              text={post.location}
-              type={"location"}
-            />
-          )}
-          {post.salary && (
-            <TagIcon
-              className="mr-2 gap-[1px] text-sm"
-              text={post.salary}
-              type={"salary"}
-            />
-          )}
+      <div className="mb-2">
+        <span className="font-bold">{post.title}</span>
+        <span className="ml-2 text-xs font-light text-slate-500">
+          6 days ago
+        </span>
       </div>
-      </>
-)
-};
+      <div className="flex flex-wrap">
+        {post.company && (
+          <TagIcon
+            className="mr-2 gap-[1px] text-sm"
+            text={post.company}
+            type={"company"}
+          />
+        )}
+        {post.location && (
+          <TagIcon
+            className="mr-2 gap-[1px] text-sm"
+            text={post.location}
+            type={"location"}
+          />
+        )}
+        {post.salary && (
+          <TagIcon
+            className="mr-2 gap-[1px] text-sm"
+            text={post.salary}
+            type={"salary"}
+          />
+        )}
+      </div>
+    </>
+  );
+}
 
 export function JobListing(post: Post) {
   const router = useRouter();
   const currentUrl = router.asPath;
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useModal(post.id);
   const [screenSize, setScreenSize] = useState<number>();
 
   useEffect(() => {
@@ -75,7 +72,7 @@ export function JobListing(post: Post) {
       <div className="cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
         <JobPreview {...post} />
       </div>
-      <JobListingModal isOpen={isOpen} setIsOpen={setIsOpen} post={post} />
+      <JobListingModal post={post} />
       {currentUrl === "/" && screenSize && screenSize > 767 && (
         <div className="mr-4 flex items-center gap-4">
           {screenSize && screenSize > 1200 && (

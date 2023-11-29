@@ -1,5 +1,4 @@
 import { Dialog } from "@headlessui/react";
-import { ModalProps } from "~/types/modals";
 import type { Post } from "@prisma/client";
 import { JobPreview } from "./JobList";
 import {
@@ -8,19 +7,12 @@ import {
   MarkAppliedButton,
   OriginalPostButton,
 } from "./jobListingButtons";
-import Image from "next/image";
 import { useState } from "react";
+import { useModal } from "~/context/modalStore";
 
-interface JobListingModalProps extends ModalProps {
-  post: Post;
-}
+export const JobListingModal: React.FC<{post: Post}> = ({post}) => {
 
-export const JobListingModal: React.FC<JobListingModalProps> = ({
-  isOpen,
-  setIsOpen,
-  post,
-}) => {
-
+  const [isOpen, setIsOpen] = useModal(post.id);
   const [imageError, setImageError] = useState(false);
 
   console.log(post);
