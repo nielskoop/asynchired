@@ -1,11 +1,27 @@
 import Head from "next/head";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import { LocationInputBox } from "~/components/Inputs/LocationInputBox";
+import { RoleInputBox } from "~/components/Inputs/RoleInputBox";
 import JobList from "~/components/JobList";
-import { Nav } from "~/components/nav";
+import { NavBar } from "~/components/NavBar";
 
 // import { api } from "~/utils/api";
 
 export default function Home() {
   // const hello = api.post.hello.useQuery({ text: "from tRPC" });
+  const [screenSize, setScreenSize] = useState<number>();
+
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenSize(window.innerWidth);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <>
@@ -14,27 +30,34 @@ export default function Home() {
         <meta name="description" content="All developer jobs in one place" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="align-center flex h-full w-full flex-col">
-        <div className="bg-image-mobile md: bg-image-large flex w-full flex-col justify-center">
-          <Nav />
-          <div className="px-8 pb-4">
-            <p className="p-2 text-center text-white">
+      <main>
+        <div className="flex h-96 w-full flex-col bg-slate-500 md:h-[450px]">
+          <NavBar />
+          <div className="relative left-1/2 top-1/3 -translate-x-2/4 -translate-y-2/4">
+            <p className="mb-4 text-center text-2xl text-white md:text-4xl">
               All the dev jobs,
               <span className="font-semibold"> one place</span>
             </p>
             <div className="flex w-full justify-center">
-              <form className="flex max-w-4xl flex-col items-center justify-center">
-                <input
-                  type="text"
-                  placeholder="Role"
-                  className="rounded-t-md p-1"
-                />
-                <input type="text" placeholder="Location" className="p-1" />
+              <form className="flex flex-col items-center justify-center md:flex-row md:gap-4">
+                <div className="flex gap-2">
+                  <RoleInputBox />
+                  <LocationInputBox />
+                </div>
                 <button
                   type="submit"
-                  className="w-full rounded-b-md bg-green-700 p-1 font-semibold text-white"
+                  className="w-full rounded-b-md bg-green-700 p-1 font-semibold text-white md:w-max"
                 >
-                  Search Jobs
+                  {screenSize && screenSize < 768 ? (
+                    "Search Jobs"
+                  ) : (
+                    <Image
+                      src={"find.svg"}
+                      height={36}
+                      width={36}
+                      alt="search button"
+                    />
+                  )}
                 </button>
               </form>
             </div>
