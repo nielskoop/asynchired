@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import type { Post } from "@prisma/client";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
