@@ -1,6 +1,6 @@
 import Head from "next/head";
 import type { NextPage } from "next/types";
-import { Nav } from "~/components/nav";
+import { NavBar } from "~/components/NavBar";
 import { useUser } from "@clerk/nextjs";
 import { UserInfo } from "~/components/userInfo";
 import { UserJobsTracker } from "~/components/userJobsTracker";
@@ -18,7 +18,7 @@ const ProfilePage: NextPage = () => {
         <title>Async Hired Profile</title>
       </Head>
       <div className="bg-image-mobile md: bg-image-large">
-        <Nav />
+        <NavBar />
       </div>
       <div className="flex flex-row flex-wrap items-center justify-center pt-24">
         <UserInfo />
