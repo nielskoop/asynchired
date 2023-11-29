@@ -21,13 +21,13 @@ export const NavLinks = () => {
 
   return (
     <>
-      <Link href={`/${user?.firstName}`} className="rounded-md bg-white p-2">
+      <Link href={`/${user?.firstName}`} className="rounded-xl bg-white p-2">
         Saved Searches
       </Link>
-      <Link href={`/${user?.firstName}`} className="rounded-md bg-white p-2">
+      <Link href={`/${user?.firstName}`} className="rounded-xl bg-white p-2">
         Liked Jobs
       </Link>
-      <Link href={`/${user?.firstName}`} className="rounded-md bg-white p-2">
+      <Link href={`/${user?.firstName}`} className="rounded-xl bg-white p-2">
         Applied Jobs
       </Link>
     </>
@@ -57,7 +57,7 @@ export const NavBar = () => {
         {screenSize! < 768 ? (
           <HamburgerButton />
         ) : (
-          <span className="rounded-md bg-white p-2">
+          <span className="rounded-xl bg-white p-2">
             {isSignedIn ? <SignOutButton /> : <SignInButton />}
           </span>
         )}

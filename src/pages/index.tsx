@@ -5,11 +5,14 @@ import { LocationInputBox } from "~/components/Inputs/LocationInputBox";
 import { RoleInputBox } from "~/components/Inputs/RoleInputBox";
 import JobList from "~/components/JobList";
 import { NavBar } from "~/components/NavBar";
+import { api } from "~/utils/api";
 
 // import { api } from "~/utils/api";
 
 export default function Home() {
   // const hello = api.post.hello.useQuery({ text: "from tRPC" });
+  api.post.getAllPosts.useQuery();
+
   const [screenSize, setScreenSize] = useState<number>();
 
   useEffect(() => {
@@ -31,7 +34,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <div className="flex h-96 w-full flex-col bg-slate-500 md:h-[450px]">
+        <div className="md:bg-image-large flex-col bg-image-mobile flex h-96 w-full md:h-[450px]">
           <NavBar />
           <div className="relative left-1/2 top-1/3 -translate-x-2/4 -translate-y-2/4">
             <p className="mb-4 text-center text-2xl text-white md:text-4xl">

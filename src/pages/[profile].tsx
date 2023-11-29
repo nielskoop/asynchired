@@ -4,12 +4,13 @@ import { NavBar } from "~/components/NavBar";
 import { useUser } from "@clerk/nextjs";
 import { UserInfo } from "~/components/userInfo";
 import { UserJobsTracker } from "~/components/userJobsTracker";
+import { LoadingPage } from "~/components/Loading";
 
 const ProfilePage: NextPage = () => {
   const { user } = useUser();
 
   if (!user) {
-    return <div>Loading...</div>;
+    return <LoadingPage/>;
   }
 
   return (
