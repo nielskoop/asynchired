@@ -1,10 +1,12 @@
 import { type Config } from "tailwindcss";
-import { fontFamily } from "tailwindcss/defaultTheme";
 
 export default {
   content: ["./src/**/*.tsx"],
   theme: {
     extend: {
+      backgroundImage: {
+        "hero-mobile": "url('/public/hero-bg.png')",
+      },
       fontFamily: {
         sans: ["var(--font-inter)"],
       },
