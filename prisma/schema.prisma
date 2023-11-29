@@ -12,6 +12,7 @@ datasource db {
 
 model Post {
     id          Int      @id @default(autoincrement())
+    source     String
     title       String
     location    String
     company     String
@@ -20,18 +21,21 @@ model Post {
     datePosted  DateTime?
     logo        String?
     url         String
+    jobId      String
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
 }
 
 model User {
-    userId      Int     @id @default(autoincrement())
-    username    String
-    email       String
+    id              String     @id
+    name            String
+    email           String
+    job             String
+    location        String
+    techStack       String
+    education       String
     profilePicture  String @default("~/public/blank-profile-pic")
-    likedPosts  Int[]
+    likedPosts      Int[]
     dislikedPosts   Int[]
     appliedPosts    Int[]
-
-    @@index([username])
 }

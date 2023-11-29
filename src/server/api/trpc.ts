@@ -52,6 +52,7 @@ export const createTRPCContext = (opts: CreateNextContextOptions) => {
 
   const userId = sesh.userId;
 
+  console.log(sesh)
   return {
     db,
     userId,
@@ -102,6 +103,8 @@ export const createTRPCRouter = t.router;
  * are logged in.
  */
 
+export const publicProcedure = t.procedure;
+
 export const enforceUserIsAuthed = t.middleware(async ({ ctx, next }) => {
   if (!ctx.userId) {
     throw new TRPCError({
@@ -115,4 +118,4 @@ export const enforceUserIsAuthed = t.middleware(async ({ ctx, next }) => {
   });
 });
 
-export const publicProcedure = t.procedure;
+export const privateProcedure = t.procedure.use(enforceUserIsAuthed);
