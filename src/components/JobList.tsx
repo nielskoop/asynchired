@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import type { Post } from "@prisma/client";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import { JobListingModal } from "./jobListingModal";
 import { LoadingPage } from "./Loading";
 import { TagIcon } from "./TagIcon";
-import Image from "next/image";
+import { useModal } from "~/context/modalStore";
 
 import {
   LikeButton,
@@ -50,29 +50,21 @@ export function JobPreview(post: Post) {
   );
 }
 
+import useScreenSize from "~/hooks/useScreenSize";
+
 export function JobListing(post: Post) {
   const router = useRouter();
   const currentUrl = router.asPath;
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [screenSize, setScreenSize] = useState<number>();
+  const [isOpen, setIsOpen] = useModal(post.id);
 
-  useEffect(() => {
-    const handleResize = () => {
-      setScreenSize(window.innerWidth);
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+  const screenSize = useScreenSize();
 
   return (
     <div className="flex justify-between border-b border-slate-300 p-3 sm:mt-3 sm:rounded-2xl sm:border-x sm:border-t">
       <div className="cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
         <JobPreview {...post} />
       </div>
-      <JobListingModal isOpen={isOpen} setIsOpen={setIsOpen} post={post} />
+      <JobListingModal post={post} />
       {currentUrl === "/" && screenSize && screenSize > 767 && (
         <div className="mr-4 flex items-center gap-4">
           {screenSize && screenSize > 1200 && (

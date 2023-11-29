@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
 import Link from "next/link";
+import useScreenSize from "~/hooks/useScreenSize";
 
 export const HamburgerButton = () => {
   return (
@@ -35,19 +36,9 @@ export const NavLinks = () => {
 };
 
 export const NavBar = () => {
-  const [isMobileOrTablet, setIsMobileOrTablet] = useState(false);
   const { isSignedIn } = useUser();
 
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobileOrTablet(window.innerWidth < 768);
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+  const screenSize = useScreenSize();
 
   return (
     <nav className="flex items-center justify-between px-8 font-semibold">
@@ -61,10 +52,10 @@ export const NavBar = () => {
             className="rounded- py-3"
           />
         </Link>
-        {!isMobileOrTablet && <NavLinks />}
+        {screenSize! > 768 && <NavLinks />}
       </div>
       <div>
-        {isMobileOrTablet ? (
+        {screenSize! < 768 ? (
           <HamburgerButton />
         ) : (
           <span className="rounded-md bg-white p-2">

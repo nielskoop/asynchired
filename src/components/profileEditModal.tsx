@@ -1,12 +1,10 @@
 import { useUser } from "@clerk/nextjs";
 import { Dialog } from "@headlessui/react";
 import Image from "next/image";
-import { ModalProps } from "~/types/modals";
+import { useModal } from "~/context/modalStore";
 
-export const ProfileEditModal: React.FC<ModalProps> = ({
-  isOpen,
-  setIsOpen,
-}) => {
+export const ProfileEditModal: React.FC = () => {
+  const [isOpen, setIsOpen] = useModal("editProfile");
 
   const { user } = useUser();
 
@@ -30,7 +28,7 @@ export const ProfileEditModal: React.FC<ModalProps> = ({
           className={"flex flex-row items-center justify-evenly"}
         >
           <h3 className="w-1/2 pl-1"> Update your account details below</h3>
-          <div className="pr-1 flex flex-col">
+          <div className="flex flex-col pr-1">
             <Image
               src={user!.imageUrl}
               alt={`Profile picture`}
