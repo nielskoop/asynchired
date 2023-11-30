@@ -70,11 +70,11 @@ export function JobListing(post: Post) {
           {screenSize && screenSize > 1200 && (
             <>
               <OriginalPostButton url={post.url} />
-              <MarkAppliedButton {...post} />
+              <MarkAppliedButton post={post} />
             </>
           )}
-          <DislikeButton {...post} />
-          <LikeButton {...post} />
+          <DislikeButton post={post} />
+          <LikeButton post={post} />
         </div>
       )}
     </div>
@@ -92,7 +92,7 @@ export default function JobList() {
       {data.map((post) => {
         return (
           <div className="sm:mx-auto sm:w-4/5" key={post.id}>
-            <JobListing {...post}  />
+            <JobListing {...post} />
           </div>
         );
       })}

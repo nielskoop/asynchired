@@ -5,20 +5,22 @@ import { useUser, useClerk } from "@clerk/nextjs";
 import { LoadingSpinner } from "./Loading";
 import Link from "next/dist/client/link";
 
-export const OriginalPostButton = (url: string) => {
-
+export const OriginalPostButton = (props: { url: string }) => {
   return (
-      <Link className="h-min rounded-xl bg-[#1A78E6] px-2 py-1 text-white" href={""}>
-        See source
-      </Link>
+    <Link
+      className="h-min rounded-xl bg-[#1A78E6] px-2 py-1 text-white"
+      href={props.url}
+    >
+      See source
+    </Link>
   );
 };
 
-export const MarkAppliedButton = (post: Post) => {
+export const MarkAppliedButton = (props: { post: Post }) => {
   const { user } = useUser();
   const { navigate } = useClerk();
 
-  const ctx = api.useUtils();
+  // const ctx = api.useUtils();
 
   const { mutate, isLoading } = api.user.applied.useMutation({
     onSuccess: () => {
@@ -41,7 +43,7 @@ export const MarkAppliedButton = (post: Post) => {
       await navigate("/sign-in");
       return;
     } else {
-      mutate(post.id);
+      mutate(props.post.id);
     }
   }
 
@@ -55,11 +57,11 @@ export const MarkAppliedButton = (post: Post) => {
   );
 };
 
-export const LikeButton = (post: Post) => {
+export const LikeButton = (props: { post: Post }) => {
   const { user } = useUser();
   const { navigate } = useClerk();
 
-  const ctx = api.useUtils();
+  // const ctx = api.useUtils();
 
   const { mutate, isLoading } = api.user.like.useMutation({
     onSuccess: () => {
@@ -82,7 +84,7 @@ export const LikeButton = (post: Post) => {
       await navigate("/sign-in");
       return;
     } else {
-      mutate(post.id);
+      mutate(props.post.id);
     }
   }
 
@@ -99,36 +101,36 @@ export const LikeButton = (post: Post) => {
   );
 };
 
-export const DislikeButton = (post: Post) => {
-   const { user } = useUser();
-   const { navigate } = useClerk();
+export const DislikeButton = (props: { post: Post }) => {
+  const { user } = useUser();
+  const { navigate } = useClerk();
 
-   const ctx = api.useUtils();
+  // const ctx = api.useUtils();
 
-   const { mutate, isLoading } = api.user.dislike.useMutation({
-     onSuccess: () => {
-       console.log("success!");
-     },
-     onError: (e) => {
-       const errorMessage = e.data?.zodError?.fieldErrors.content;
-       console.log("Request went into onError: ", errorMessage);
-     },
-   });
+  const { mutate, isLoading } = api.user.dislike.useMutation({
+    onSuccess: () => {
+      console.log("success!");
+    },
+    onError: (e) => {
+      const errorMessage = e.data?.zodError?.fieldErrors.content;
+      console.log("Request went into onError: ", errorMessage);
+    },
+  });
 
-   if (isLoading) {
-     return <LoadingSpinner />;
-   }
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
-   async function dislikePost() {
-     console.log("you clicked me user: ", user);
-     if (!user) {
-       // fix this so it goes back to the same page
-       await navigate("/sign-in");
-       return;
-     } else {
-       mutate(post.id);
-     }
-   }
+  async function dislikePost() {
+    console.log("you clicked me user: ", user);
+    if (!user) {
+      // fix this so it goes back to the same page
+      await navigate("/sign-in");
+      return;
+    } else {
+      mutate(props.post.id);
+    }
+  }
 
   return (
     <button onClick={() => dislikePost()}>
@@ -142,4 +144,3 @@ export const DislikeButton = (post: Post) => {
     </button>
   );
 };
-
