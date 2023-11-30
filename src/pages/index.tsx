@@ -1,32 +1,18 @@
 import Head from "next/head";
 import Image from "next/image";
-import { useEffect, useState } from "react";
 import { LocationInputBox } from "~/components/Inputs/LocationInputBox";
 import { RoleInputBox } from "~/components/Inputs/RoleInputBox";
 import JobList from "~/components/JobList";
 import { NavBar } from "~/components/NavBar";
+import useScreenSize from "~/hooks/useScreenSize";
 import { api } from "~/utils/api";
 
 // import { api } from "~/utils/api";
 
 export default function Home() {
-  // const hello = api.post.hello.useQuery({ text: "from tRPC" });
   api.post.getAllPosts.useQuery();
 
- 
-
-  const [screenSize, setScreenSize] = useState<number>();
-
-  useEffect(() => {
-    const handleResize = () => {
-      setScreenSize(window.innerWidth);
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+  const screenSize = useScreenSize()
 
   return (
     <>

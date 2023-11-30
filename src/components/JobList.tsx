@@ -65,7 +65,7 @@ export function JobListing(post: Post) {
         <JobPreview {...post} />
       </div>
       <JobListingModal post={post} />
-      {currentUrl === "/" && screenSize && screenSize > 767 && (
+      {currentUrl !== "/profile" && screenSize && screenSize > 767 && (
         <div className="mr-4 flex items-center gap-4">
           {screenSize && screenSize > 1200 && (
             <>

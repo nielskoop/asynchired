@@ -17,7 +17,7 @@ export const UserJobsTracker = () => {
   //making applied liked and disliked button and that could switch the value of jobs
   return (
     <>
-      <div className="relative mb-8 flex max-h-[396px] flex-col items-center rounded-lg border-2 border-solid border-[#1A78E6] shadow-md">
+      <div className="max-h-[396px] flex-col relative mb-8 flex min-h-[396px] items-center rounded-lg border-2 border-solid border-[#1A78E6] shadow-md">
         <ul className="border-b-solid flex w-full flex-row justify-evenly border-b-2 border-[#1A78E6] py-2 pt-2 text-lg">
           <li>
             <Link

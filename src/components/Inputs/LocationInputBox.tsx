@@ -3,6 +3,7 @@ import { useState, Fragment } from "react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { api } from "~/utils/api";
 import { useFilter } from "~/context/FilterContext";
+import { LoadingSpinner } from "../Loading";
 
 type Location = {
   id: number;
@@ -25,7 +26,7 @@ export function LocationInputBox() {
         ) ?? [];
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <LoadingSpinner/>;
   }
 
   const handleInputBlur = () => {
