@@ -70,10 +70,10 @@ export function JobListing(post: Post) {
           {screenSize && screenSize > 1200 && (
             <>
               <OriginalPostButton url={post.url} />
-              <MarkAppliedButton />
+              <MarkAppliedButton {...post} />
             </>
           )}
-          <DislikeButton />
+          <DislikeButton {...post} />
           <LikeButton {...post} />
         </div>
       )}
