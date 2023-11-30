@@ -2,7 +2,11 @@ import { clerkClient } from "@clerk/nextjs";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
-import { createTRPCRouter, publicProcedure, privateProcedure } from "~/server/api/trpc";
+import {
+  createTRPCRouter,
+  publicProcedure,
+  privateProcedure,
+} from "~/server/api/trpc";
 import { filterUserForClient } from "~/server/helpers/filterUserForClients";
 
 export const userRouter = createTRPCRouter({
@@ -25,22 +29,22 @@ export const userRouter = createTRPCRouter({
     }),
 
   like: privateProcedure.input(z.number()).mutation(async ({ ctx, input }) => {
-    const userId = ctx.userId
+    const userId = ctx.userId;
     // retrieves all information available on front end including email, email id, name, etc.
     const fullUser = userId ? await clerkClient.users.getUser(userId) : null;
 
-    if (fullUser) {
+    if (fullUser?.emailAddresses[0]?.emailAddress) {
       const upsertUser = await ctx.db.user.upsert({
         where: {
-          id: fullUser.primaryEmailAddressId!,
+          id: fullUser.primaryEmailAddressId,
         },
         update: {
           likedPosts: { push: input },
         },
         create: {
-          id: fullUser.primaryEmailAddressId!,
-          name: fullUser.firstName || "",
-          email: fullUser.emailAddresses[0]?.emailAddress!,
+          id: fullUser.primaryEmailAddressId,
+          name: fullUser.firstName ?? "",
+          email: fullUser.emailAddresses[0]?.emailAddress,
           job: "",
           location: "",
           techStack: "",
@@ -53,9 +57,7 @@ export const userRouter = createTRPCRouter({
       });
 
       return upsertUser;
-
     }
-
 
     // console.log('full user log: ', fullUser)
     // // const userLiked = ctx.db.user.findFirst({
@@ -78,9 +80,7 @@ export const userRouter = createTRPCRouter({
 
     // return currUser
   }),
-
 });
-
 
 // const upsertUser = await prisma.user.upsert({
 //   where: {
