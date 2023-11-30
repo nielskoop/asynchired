@@ -1,7 +1,8 @@
 import Image from "next/image";
 import type { Post } from "@prisma/client";
 import { api } from "~/utils/api";
-import { useUser } from "@clerk/nextjs";
+import { useUser, useClerk } from "@clerk/nextjs";
+import { LoadingSpinner } from "./Loading";
 
 export const OriginalPostButton = (props: {url: string}) => {
   return (
@@ -12,44 +13,49 @@ export const OriginalPostButton = (props: {url: string}) => {
 };
 
 export const MarkAppliedButton = () => {
-  return (
+  async function appliedPost() {}
 
-      <button className="h-min rounded-xl bg-[#A500CE] px-2 py-1 text-white">
-        Mark applied
+  return (
+    <button
+      className="h-min rounded-xl bg-[#A500CE] px-2 py-1 text-white"
+      onClick={() => appliedPost()}
+    >
+      Mark applied
     </button>
-  )
+  );
 };
 
 export const LikeButton = (post: Post) => {
-  const {user} = useUser();
-  // const likeMutation = api.user.like.useMutation; I think we can delete?
+  const { user } = useUser();
+  const { navigate } = useClerk();
+  const currentUrl = window.location.href;
 
-  console.log("user log: ", user)
+  const ctx = api.useUtils();
 
-  // if (!user) {
-
-  // }
-  const ctx = api.useUtils()
-
-  const {mutate, isLoading} = api.user.like.useMutation({
+  const { mutate, isLoading } = api.user.like.useMutation({
     onSuccess: () => {
-      console.log("success!")
+      console.log("success!");
     },
     onError: (e) => {
       const errorMessage = e.data?.zodError?.fieldErrors.content;
-      console.log("went into onError: ", errorMessage)
+      console.log("went into onError: ", errorMessage);
     },
   });
 
   if (isLoading) {
-    return <div>Loading...</div>
+    return <LoadingSpinner />;
   }
 
   async function likePost() {
-    console.log("you clicked me");
-    // Now use the hook here if needed
-    mutate(post.id)
-   }
+    console.log("you clicked me user: ", user);
+    if (!user) {
+      // fix this so it goes back to the same page
+      navigate("/sign-in");
+      return;
+    } else {
+      mutate(post.id);
+    }
+  }
 
   return (
     <button onClick={() => likePost()}>
@@ -65,14 +71,16 @@ export const LikeButton = (post: Post) => {
 };
 
 export const DislikeButton = () => {
+  async function dislikePost() { }
+
   return (
-    <button>
+    <button onClick={() => dislikePost()}>
       <Image
         src={"/Dislike button.svg"}
         alt="Disike button"
         height={30}
         width={30}
-        className="min-w-[30px] m-1"
+        className="m-1 min-w-[30px]"
       />
     </button>
   );

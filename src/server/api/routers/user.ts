@@ -29,17 +29,16 @@ export const userRouter = createTRPCRouter({
     // retrieves all information available on front end including email, email id, name, etc.
     const fullUser = userId ? await clerkClient.users.getUser(userId) : null;
 
-    console.log( "THIS IS UR EMAIL:", fullUser?.emailAddresses)
     if (fullUser) {
       const upsertUser = await ctx.db.user.upsert({
         where: {
-          id: fullUser.emailAddresses[0]?.emailAddress,
+          id: fullUser.primaryEmailAddressId!,
         },
         update: {
           likedPosts: { push: input },
         },
         create: {
-          id: fullUser.emailAddresses[0]?.emailAddress!,
+          id: fullUser.primaryEmailAddressId!,
           name: fullUser.firstName || "",
           email: fullUser.emailAddresses[0]?.emailAddress!,
           job: "",
