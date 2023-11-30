@@ -3,17 +3,47 @@ import type { Post } from "@prisma/client";
 import { api } from "~/utils/api";
 import { useUser, useClerk } from "@clerk/nextjs";
 import { LoadingSpinner } from "./Loading";
+import Link from "next/dist/client/link";
 
-export const OriginalPostButton = (props: {url: string}) => {
+export const OriginalPostButton = (url: string) => {
+
   return (
-      <button className="h-min rounded-xl bg-[#1A78E6] px-2 py-1 text-white">
+      <Link className="h-min rounded-xl bg-[#1A78E6] px-2 py-1 text-white" href={""}>
         See source
-      </button>
+      </Link>
   );
 };
 
-export const MarkAppliedButton = () => {
-  async function appliedPost() {}
+export const MarkAppliedButton = (post: Post) => {
+  const { user } = useUser();
+  const { navigate } = useClerk();
+
+  const ctx = api.useUtils();
+
+  const { mutate, isLoading } = api.user.applied.useMutation({
+    onSuccess: () => {
+      console.log("success!");
+    },
+    onError: (e) => {
+      const errorMessage = e.data?.zodError?.fieldErrors.content;
+      console.log("Request went into onError: ", errorMessage);
+    },
+  });
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+
+  async function appliedPost() {
+    console.log("you clicked me user: ", user);
+    if (!user) {
+      // fix this so it goes back to the same page
+      navigate("/sign-in");
+      return;
+    } else {
+      mutate(post.id);
+    }
+  }
 
   return (
     <button
@@ -28,7 +58,6 @@ export const MarkAppliedButton = () => {
 export const LikeButton = (post: Post) => {
   const { user } = useUser();
   const { navigate } = useClerk();
-  const currentUrl = window.location.href;
 
   const ctx = api.useUtils();
 
@@ -38,7 +67,7 @@ export const LikeButton = (post: Post) => {
     },
     onError: (e) => {
       const errorMessage = e.data?.zodError?.fieldErrors.content;
-      console.log("went into onError: ", errorMessage);
+      console.log("Request went into onError: ", errorMessage);
     },
   });
 
@@ -70,8 +99,36 @@ export const LikeButton = (post: Post) => {
   );
 };
 
-export const DislikeButton = () => {
-  async function dislikePost() { }
+export const DislikeButton = (post: Post) => {
+   const { user } = useUser();
+   const { navigate } = useClerk();
+
+   const ctx = api.useUtils();
+
+   const { mutate, isLoading } = api.user.dislike.useMutation({
+     onSuccess: () => {
+       console.log("success!");
+     },
+     onError: (e) => {
+       const errorMessage = e.data?.zodError?.fieldErrors.content;
+       console.log("Request went into onError: ", errorMessage);
+     },
+   });
+
+   if (isLoading) {
+     return <LoadingSpinner />;
+   }
+
+   async function dislikePost() {
+     console.log("you clicked me user: ", user);
+     if (!user) {
+       // fix this so it goes back to the same page
+       navigate("/sign-in");
+       return;
+     } else {
+       mutate(post.id);
+     }
+   }
 
   return (
     <button onClick={() => dislikePost()}>
