@@ -1,3 +1,4 @@
+//src\components\Inputs\RoleInputBox.tsx
 import { useState, Fragment } from "react";
 import { Combobox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
@@ -31,14 +32,6 @@ export function RoleInputBox() {
     setQuery(newValue);
   };
 
-  const handleInputBlur = () => {
-    // If query is empty, reset the selection
-    if (query === "") {
-      setSelectedRole(undefined);
-      setRoleFilter("");
-    }
-  };
-
   const handleRoleChange = (role: Role) => {
     setSelectedRole(role);
     setRoleFilter(role.title);
@@ -53,9 +46,9 @@ export function RoleInputBox() {
               className="w-full border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0"
               displayValue={(role) => (role ? (role as Role).title : "")}
               onChange={handleInputChange}
-              onBlur={handleInputBlur}
               onKeyDown={(event) => {
                 if (event.key === "Enter" && query === "") {
+                  event.preventDefault();
                   setSelectedRole(undefined);
                   setRoleFilter("");
                 }
