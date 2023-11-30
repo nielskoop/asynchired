@@ -1,3 +1,4 @@
+//src\components\Inputs\LocationInputBox.tsx
 import { Combobox, Transition } from "@headlessui/react";
 import { useState, Fragment } from "react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
@@ -11,12 +12,12 @@ type Location = {
 };
 
 export function LocationInputBox() {
-  const [selectedLocation, setSelectedLocation] = useState<
-    Location | undefined
-  >();
   const [query, setQuery] = useState("");
   const { data: locations, isLoading } = api.post.getAllLocations.useQuery("");
   const { setLocationFilter } = useFilter();
+  const [selectedLocation, setSelectedLocation] = useState<
+    Location | undefined
+  >();
 
   const filteredLocations =
     query === ""
@@ -29,20 +30,14 @@ export function LocationInputBox() {
     return <LoadingSpinner/>;
   }
 
-  const handleInputBlur = () => {
-    if (query === "") {
-      setSelectedLocation(undefined);
-      setLocationFilter("");
-    }
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = event.target.value;
+    setQuery(newValue);
   };
 
   const handleLocationChange = (location: Location) => {
     setSelectedLocation(location);
     setLocationFilter(location.location);
-  };
-
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(event.target.value);
   };
 
   return (
@@ -52,13 +47,13 @@ export function LocationInputBox() {
           <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
             <Combobox.Input
               className="w-full border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0"
-              displayValue={(selectedLocation) =>
-                (selectedLocation as Location).location
+              displayValue={(location) =>
+                location ? (location as Location).location : ""
               }
               onChange={handleInputChange}
-              onBlur={handleInputBlur}
               onKeyDown={(event) => {
                 if (event.key === "Enter" && query === "") {
+                  event.preventDefault();
                   setSelectedLocation(undefined);
                   setLocationFilter("");
                 }
@@ -82,7 +77,7 @@ export function LocationInputBox() {
             <Combobox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
               <Combobox.Option
                 key="dynamic-option"
-                value={{ id: -1, title: query }}
+                value={{ id: -1, location: query }}
                 className={({ active }) =>
                   `relative cursor-default select-none py-2 pl-10 pr-4 ${
                     active ? "bg-teal-600 text-white" : "text-gray-900"
@@ -101,44 +96,38 @@ export function LocationInputBox() {
                   </>
                 )}
               </Combobox.Option>
-              {filteredLocations.length === 0 && query !== "" ? (
-                <div className="relative cursor-default select-none px-4 py-2 text-gray-700">
-                  Nothing found.
-                </div>
-              ) : (
-                filteredLocations.map((location) => (
-                  <Combobox.Option
-                    key={location.id}
-                    value={location}
-                    className={({ active }) =>
-                      `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                        active ? "bg-teal-600 text-white" : "text-gray-900"
-                      }`
-                    }
-                  >
-                    {({ selected, active }) => (
-                      <>
+              {filteredLocations.map((location) => (
+                <Combobox.Option
+                  key={location.id}
+                  value={location}
+                  className={({ active }) =>
+                    `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                      active ? "bg-teal-600 text-white" : "text-gray-900"
+                    }`
+                  }
+                >
+                  {({ selected, active }) => (
+                    <>
+                      <span
+                        className={`block truncate ${
+                          selected ? "font-medium" : "font-normal"
+                        }`}
+                      >
+                        {location.location}
+                      </span>
+                      {selected ? (
                         <span
-                          className={`block truncate ${
-                            selected ? "font-medium" : "font-normal"
+                          className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
+                            active ? "text-white" : "text-teal-600"
                           }`}
                         >
-                          {location.location}
+                          <CheckIcon className="h-5 w-5" aria-hidden="true" />
                         </span>
-                        {selected ? (
-                          <span
-                            className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
-                              active ? "text-white" : "text-teal-600"
-                            }`}
-                          >
-                            <CheckIcon className="h-5 w-5" aria-hidden="true" />
-                          </span>
-                        ) : null}
-                      </>
-                    )}
-                  </Combobox.Option>
-                ))
-              )}
+                      ) : null}
+                    </>
+                  )}
+                </Combobox.Option>
+              ))}
             </Combobox.Options>
           </Transition>
         </div>
