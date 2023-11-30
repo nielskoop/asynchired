@@ -24,26 +24,31 @@ export const LikeButton = (post: Post) => {
   const {user} = useUser();
   // const likeMutation = api.user.like.useMutation; I think we can delete?
 
-  // const ctx = api.useUtils()
+  console.log("user log: ", user)
 
-  // const {mutate, isLoading} = api.user.like.useMutation({
-  //   onSuccess: () => {
-  //     console.log("success!")
-  //   },
-  //   onError: (e) => {
-  //     const errorMessage = e.data?.zodError?.fieldErrors.content;
-  //     console.log("went into onError: ", errorMessage)
-  //   },
-  // });
+  // if (!user) {
 
-  // if (isLoading) {
-  //   return <div>Loading...</div>
   // }
+  const ctx = api.useUtils()
+
+  const {mutate, isLoading} = api.user.like.useMutation({
+    onSuccess: () => {
+      console.log("success!")
+    },
+    onError: (e) => {
+      const errorMessage = e.data?.zodError?.fieldErrors.content;
+      console.log("went into onError: ", errorMessage)
+    },
+  });
+
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
 
   async function likePost() {
     console.log("you clicked me");
-    // // Now use the hook here if needed
-    // mutate(post.id)
+    // Now use the hook here if needed
+    mutate(post.id)
    }
 
   return (
