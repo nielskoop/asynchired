@@ -18,7 +18,7 @@ const ProfilePage: NextPage = () => {
       <Head>
         <title>Async Hired Profile</title>
       </Head>
-      <div className="bg-image-mobile md: bg-image-large">
+      <div className="bg-image-large">
         <NavBar />
       </div>
       <div className="flex flex-row flex-wrap items-center justify-center pt-24">
