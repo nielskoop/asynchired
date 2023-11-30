@@ -74,7 +74,7 @@ export function JobListing(post: Post) {
             </>
           )}
           <DislikeButton />
-          <LikeButton />
+          <LikeButton {...post} />
         </div>
       )}
     </div>
@@ -91,8 +91,8 @@ export default function JobList() {
     <>
       {data.map((post) => {
         return (
-          <div className="sm:mx-auto sm:w-4/5">
-            <JobListing {...post} key={post.id} />
+          <div className="sm:mx-auto sm:w-4/5" key={post.id}>
+            <JobListing {...post}  />
           </div>
         );
       })}

@@ -15,7 +15,6 @@ export const JobListingModal: React.FC<{post: Post}> = ({post}) => {
   const [isOpen, setIsOpen] = useModal(post.id);
   const [imageError, setImageError] = useState(false);
 
-  console.log(post);
   return (
     <Dialog
       open={isOpen}
