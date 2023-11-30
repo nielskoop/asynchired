@@ -1,43 +1,55 @@
 import { useUser } from "@clerk/nextjs";
 import Link from "next/link";
-import JobList from "~/components/JobList";
+
+import { JobListing } from "./JobList";
+import { LoadingPage } from "./Loading";
+import { api } from "~/utils/api";
 
 export const UserJobsTracker = () => {
   const { user } = useUser();
+  const userr: number[] = [1, 2, 3, 5, 6, 7, 8];
 
+  const { data, isLoading } = api.post.getAllPosts.useQuery();
+
+  if (isLoading) return <LoadingPage />;
+  if (!data) return <div>Something went wrong!</div>;
+  const jobs = data.filter((job) => userr.includes(job.id));
+  //making applied liked and disliked button and that could switch the value of jobs
   return (
     <>
-      <div className="max-h-[396px] relative mb-8 flex min-h-[400px] min-w-[400px] flex-col items-center rounded-lg border-2 border-solid border-[#1A78E6]">
-        <ul className="border-b-solid flex w-full flex-row justify-center border-b-2 border-[#1A78E6] pt-2 text-lg">
+      <div className="relative mb-8 flex max-h-[396px] flex-col items-center rounded-lg border-2 border-solid border-[#1A78E6] shadow-md">
+        <ul className="border-b-solid flex w-full flex-row justify-evenly border-b-2 border-[#1A78E6] py-2 pt-2 text-lg">
           <li>
             <Link
               href={`/${user?.firstName}/applied`}
-              className="active: px-2 font-semibold"
+              className="flex transform items-center rounded-md border border-blue-700 bg-blue-500 px-4 py-1 font-semibold text-white transition duration-300 ease-in-out hover:scale-105 hover:bg-blue-700"
             >
-              Applied
+              <span className="mr-2">📄</span> Applied
             </Link>
           </li>
-          <li className="text-sm">●</li>
           <li>
             <Link
-              href={`/${user?.firstName}/applied`}
-              className="active: px-2 font-semibold"
+              href={`/${user?.firstName}/linked`}
+              className="flex transform items-center rounded-md border border-blue-700 bg-blue-500 px-4 py-1 font-semibold text-white transition duration-300 ease-in-out hover:scale-105 hover:bg-blue-700"
             >
-              Liked
+              <span className="mr-2">❤️</span> Liked
             </Link>
           </li>
-          <li className="text-sm">●</li>
           <li>
             <Link
-              href={`/${user?.firstName}/applied`}
-              className="active: px-2 font-semibold"
+              href={`/${user?.firstName}/disliked`}
+              className="flex transform items-center rounded-md border border-blue-700 bg-blue-500 px-4 py-1 font-semibold text-white transition duration-300 ease-in-out hover:scale-105 hover:bg-blue-700"
             >
-              Disliked
+              <span className="mr-2">👎</span> Disliked
             </Link>
           </li>
         </ul>
-        <div className="overflow-y-scroll">
-        <JobList />
+        <div className="overflow-y-scroll p-4">
+          {jobs.map((post) => (
+            <div className="mb-4 sm:mx-auto sm:w-4/5" key={post.id}>
+              <JobListing {...post} />
+            </div>
+          ))}
         </div>
       </div>
     </>

@@ -13,6 +13,8 @@ export default function Home() {
   // const hello = api.post.hello.useQuery({ text: "from tRPC" });
   api.post.getAllPosts.useQuery();
 
+ 
+
   const [screenSize, setScreenSize] = useState<number>();
 
   useEffect(() => {

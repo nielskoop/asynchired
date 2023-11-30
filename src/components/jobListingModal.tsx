@@ -10,8 +10,7 @@ import {
 import { useState } from "react";
 import { useModal } from "~/context/modalStore";
 
-export const JobListingModal: React.FC<{post: Post}> = ({post}) => {
-
+export const JobListingModal: React.FC<{ post: Post }> = ({ post }) => {
   const [isOpen, setIsOpen] = useModal(post.id);
   const [imageError, setImageError] = useState(false);
 
@@ -36,11 +35,11 @@ export const JobListingModal: React.FC<{post: Post}> = ({post}) => {
           <div className="flex w-full flex-wrap items-center justify-evenly sm:pl-2 lg:w-auto lg:flex-nowrap">
             <div className="flex flex-wrap items-center gap-1 md:pl-2 lg:flex-nowrap">
               <OriginalPostButton url={post.url} />
-              <MarkAppliedButton />
+              <MarkAppliedButton post={post} />
             </div>
             <div className="flex flex-wrap items-center gap-1 md:pl-2 lg:flex-nowrap">
-              <LikeButton />
-              <DislikeButton />
+              <LikeButton post={post} />
+              <DislikeButton post={post} />
             </div>
           </div>
         </Dialog.Title>
@@ -62,7 +61,7 @@ export const JobListingModal: React.FC<{post: Post}> = ({post}) => {
             />
           )}
 
-          <h2 className="mb-1 font-semibold text-lg">Job Description</h2>
+          <h2 className="mb-1 text-lg font-semibold">Job Description</h2>
           <p>{post?.jobDescription}</p>
         </Dialog.Description>
         <div className="mt-2 flex flex-row justify-between bg-[#1A78E6] px-4 py-1 text-white">

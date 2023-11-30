@@ -1,50 +1,92 @@
 import Image from "next/image";
 import type { Post } from "@prisma/client";
 import { api } from "~/utils/api";
-import { useUser } from "@clerk/nextjs";
+import { useUser, useClerk } from "@clerk/nextjs";
+import { LoadingSpinner } from "./Loading";
+import Link from "next/dist/client/link";
 
-export const OriginalPostButton = (props: {url: string}) => {
+export const OriginalPostButton = (props: { url: string }) => {
   return (
-      <button className="h-min rounded-xl bg-[#1A78E6] px-2 py-1 text-white">
-        See source
-      </button>
+    <Link
+      className="h-min rounded-xl bg-[#1A78E6] px-2 py-1 text-white"
+      href={props.url}
+    >
+      See source
+    </Link>
   );
 };
 
-export const MarkAppliedButton = () => {
-  return (
+export const MarkAppliedButton = (props: { post: Post }) => {
+  const { user } = useUser();
+  const { navigate } = useClerk();
 
-      <button className="h-min rounded-xl bg-[#A500CE] px-2 py-1 text-white">
-        Mark applied
+  // const ctx = api.useUtils();
+
+  const { mutate, isLoading } = api.user.applied.useMutation({
+    onSuccess: () => {
+      console.log("success!");
+    },
+    onError: (e) => {
+      const errorMessage = e.data?.zodError?.fieldErrors.content;
+      console.log("Request went into onError: ", errorMessage);
+    },
+  });
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+
+  async function appliedPost() {
+    console.log("you clicked me user: ", user);
+    if (!user) {
+      // fix this so it goes back to the same page
+      await navigate("/sign-in");
+      return;
+    } else {
+      mutate(props.post.id);
+    }
+  }
+
+  return (
+    <button
+      className="h-min rounded-xl bg-[#A500CE] px-2 py-1 text-white"
+      onClick={() => appliedPost()}
+    >
+      Mark applied
     </button>
-  )
+  );
 };
 
-export const LikeButton = (post: Post) => {
-  const {user} = useUser();
-  // const likeMutation = api.user.like.useMutation; I think we can delete?
+export const LikeButton = (props: { post: Post }) => {
+  const { user } = useUser();
+  const { navigate } = useClerk();
 
-  // const ctx = api.useUtils()
+  // const ctx = api.useUtils();
 
-  // const {mutate, isLoading} = api.user.like.useMutation({
-  //   onSuccess: () => {
-  //     console.log("success!")
-  //   },
-  //   onError: (e) => {
-  //     const errorMessage = e.data?.zodError?.fieldErrors.content;
-  //     console.log("went into onError: ", errorMessage)
-  //   },
-  // });
+  const { mutate, isLoading } = api.user.like.useMutation({
+    onSuccess: () => {
+      console.log("success!");
+    },
+    onError: (e) => {
+      const errorMessage = e.data?.zodError?.fieldErrors.content;
+      console.log("Request went into onError: ", errorMessage);
+    },
+  });
 
-  // if (isLoading) {
-  //   return <div>Loading...</div>
-  // }
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
   async function likePost() {
-    console.log("you clicked me");
-    // // Now use the hook here if needed
-    // mutate(post.id)
-   }
+    console.log("you clicked me user: ", user);
+    if (!user) {
+      // fix this so it goes back to the same page
+      await navigate("/sign-in");
+      return;
+    } else {
+      mutate(props.post.id);
+    }
+  }
 
   return (
     <button onClick={() => likePost()}>
@@ -59,17 +101,46 @@ export const LikeButton = (post: Post) => {
   );
 };
 
-export const DislikeButton = () => {
+export const DislikeButton = (props: { post: Post }) => {
+  const { user } = useUser();
+  const { navigate } = useClerk();
+
+  // const ctx = api.useUtils();
+
+  const { mutate, isLoading } = api.user.dislike.useMutation({
+    onSuccess: () => {
+      console.log("success!");
+    },
+    onError: (e) => {
+      const errorMessage = e.data?.zodError?.fieldErrors.content;
+      console.log("Request went into onError: ", errorMessage);
+    },
+  });
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+
+  async function dislikePost() {
+    console.log("you clicked me user: ", user);
+    if (!user) {
+      // fix this so it goes back to the same page
+      await navigate("/sign-in");
+      return;
+    } else {
+      mutate(props.post.id);
+    }
+  }
+
   return (
-    <button>
+    <button onClick={() => dislikePost()}>
       <Image
         src={"/Dislike button.svg"}
         alt="Disike button"
         height={30}
         width={30}
-        className="min-w-[30px] m-1"
+        className="m-1 min-w-[30px]"
       />
     </button>
   );
 };
-
