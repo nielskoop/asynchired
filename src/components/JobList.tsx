@@ -6,7 +6,7 @@ import { JobListingModal } from "./jobListingModal";
 import { LoadingPage } from "./Loading";
 import { TagIcon } from "./TagIcon";
 import { useModal } from "~/context/modalStore";
-
+import { useFilter } from "~/context/FilterContext";
 import {
   LikeButton,
   DislikeButton,
@@ -82,7 +82,15 @@ export function JobListing(post: Post) {
 }
 
 export default function JobList() {
-  const { data, isLoading } = api.post.getAllPosts.useQuery();
+  const { locationFilter, roleFilter } = useFilter();
+
+  const queryParameters = {
+    location: locationFilter,
+    role: roleFilter,
+  };
+
+  const { data, isLoading } =
+    api.post.getFilteredPosts.useQuery(queryParameters);
 
   if (isLoading) return <LoadingPage />;
   if (!data) return <div>Something went wrong!</div>;
@@ -92,7 +100,7 @@ export default function JobList() {
       {data.map((post) => {
         return (
           <div className="sm:mx-auto sm:w-4/5" key={post.id}>
-            <JobListing {...post}  />
+            <JobListing {...post} />
           </div>
         );
       })}
