@@ -34,22 +34,22 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <div className="bg-image-large flex-col flex h-96 w-full md:h-[450px]">
+        <div className="bg-image-large flex h-96 w-full flex-col md:h-[450px]">
           <NavBar />
           <div className="relative left-1/2 top-1/3 -translate-x-2/4 -translate-y-2/4">
-            <p className="mb-4 text-center text-2xl text-white md:text-4xl">
+            <p className="mb-4 text-center text-3xl text-white md:text-4xl">
               All the dev jobs,
               <span className="font-semibold"> one place</span>
             </p>
-            <div className="flex w-full justify-center">
+            <div className="flex w-full justify-center px-4">
               <form className="flex flex-col items-center justify-center md:flex-row md:gap-4">
-                <div className="flex gap-2">
+                <div className="mb-4 flex flex-col gap-2 md:mb-0 md:flex-row">
                   <RoleInputBox />
                   <LocationInputBox />
                 </div>
                 <button
                   type="submit"
-                  className="w-full rounded-b-md bg-green-700 p-1 font-semibold text-white md:w-max"
+                  className="w-full rounded-md bg-green-700 p-1 font-semibold text-white md:w-max"
                 >
                   {screenSize && screenSize < 768 ? (
                     "Search Jobs"
