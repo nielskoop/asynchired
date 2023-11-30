@@ -41,7 +41,31 @@ export const userRouter = createTRPCRouter({
       return upsertUser;
     }
   }),
+  
+getUserById: privateProcedure
+  .query(async ({ ctx }) => {
+    // You can access input properties like input.userId here
+    const userId = ctx.userId;
+    const fullUser = userId ? await clerkClient.users.getUser(userId) : null;
+    try {
+      // Fetch user data from the database using Prisma
+      const user = await ctx.db.user.findUnique({
+        where: {
+          id: fullUser.primaryEmailAddressId!,
+        },
+        // Add more options if needed
+      });
 
+      if (!user) {
+        throw new Error("User not found");
+      }
+
+      return user;
+    } catch (error) {
+      throw new Error(`Error fetching user: ${error.message}`);
+    }
+  }),
+  
   dislike: privateProcedure
     .input(z.number())
     .mutation(async ({ ctx, input }) => {
