@@ -19,7 +19,7 @@ export const JobListingModal: React.FC<{ post: Post }> = ({ post }) => {
       open={isOpen}
       onClose={() => setIsOpen(false)}
       className={
-        "fixed left-1/2 top-1/2 max-h-screen min-w-full -translate-x-1/2 -translate-y-1/2 rounded-lg border-2 border-solid border-[#1A78E6] bg-white text-black md:max-h-[85%] xl:min-w-fit"
+        "z-20 fixed left-1/2 top-1/2 max-h-screen min-w-full -translate-x-1/2 -translate-y-1/2 rounded-lg border-2 border-solid border-[#1A78E6] bg-white text-black md:max-h-[85%] xl:min-w-fit"
       }
     >
       <Dialog.Panel>
