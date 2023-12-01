@@ -71,24 +71,17 @@ export const HamburgerButton = () => {
   );
 };
 
-export const NavLinks: React.FC = ({ setChildState }) => {
-  const handleApplied = () => {
-      router.push('/profile');
-      setChildState('applied');
-  };
-  const handleLiked = () => {
-      router.push('/profile');
-      setChildState('liked');
-  };
+export const NavLinks: React.FC = () => {
+ 
   return (
     <>
       <Link href={`/profile`} className="rounded-xl bg-white p-2">
           Saved Searches
       </Link>
-      <Link href={`/profile`} className="rounded-xl bg-white p-2" onClick={handleLiked}>
+      <Link href={`/profile`} className="rounded-xl bg-white p-2" >
         Liked Jobs
       </Link>
-      <Link href={`/profile`} className="rounded-xl bg-white p-2" onClick={handleApplied}>
+      <Link href={`/profile`} className="rounded-xl bg-white p-2" >
         Applied Jobs
       </Link>
     </>
