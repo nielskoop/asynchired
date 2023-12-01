@@ -1,9 +1,12 @@
 import Image from "next/image";
-import { SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
+import { SignInButton, SignOutButton, useClerk, useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import useScreenSize from "~/hooks/useScreenSize";
 import { Menu, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
+import { useRouter } from "next/router";
+import { redirect } from "next/navigation";
+
 
 export const HamburgerButton = () => {
   const [hamburgerActive, setHamburgerActive] = useState<boolean>(false);
@@ -72,7 +75,7 @@ export const HamburgerButton = () => {
 };
 
 export const NavLinks: React.FC = () => {
- 
+
   return (
     <>
       <Link href={`/profile`} className="rounded-xl bg-white p-2">
@@ -92,6 +95,21 @@ export const NavBar = () => {
   const { isSignedIn } = useUser();
 
   const screenSize = useScreenSize();
+  const router = useRouter();
+  const { signOut } = useClerk();
+
+
+  const handleSignOutButton = async () => {
+    const currentPage = router.pathname
+    if (currentPage !== "/") {
+        router.push("/")
+        await signOut();
+      }
+      else {
+      await signOut();
+      router.reload()
+    }
+    };
 
   return (
     <nav className="flex items-center justify-between px-8 font-semibold">
@@ -112,7 +130,7 @@ export const NavBar = () => {
           <HamburgerButton />
         ) : (
           <span className="rounded-xl bg-white p-2">
-            {isSignedIn ? <SignOutButton /> : <SignInButton />}
+            {isSignedIn ? <button onClick={handleSignOutButton}>Sign Out</button> : <SignInButton />}
           </span>
         )}
       </div>

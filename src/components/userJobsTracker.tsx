@@ -23,8 +23,8 @@ export const UserJobsTracker: React.FC = () => {
     return <p>User details not found</p>;
   }
 
-  
-  
+
+
   const handleApplied = () => {
     setChildState('applied');
   };
@@ -45,7 +45,7 @@ export const UserJobsTracker: React.FC = () => {
   } else {
     jobs = allPosts.filter((job) => userDetails.dislikedPosts.includes(job.id));
   }
- 
+
   return (
     <>
       <div className="w-[550px] max-h-[396px] min-h-[400px] relative mb-8 flex flex-col rounded-lg border-2 border-solid border-[#1A78E6] shadow-md">
@@ -78,7 +78,7 @@ export const UserJobsTracker: React.FC = () => {
             </button>
           </li>
         </ul>
-        <div className="overflow-y-scroll p-4">
+        <div className="overflow-y-auto p-4">
           {jobs.map((post) => (
             <div className="sm:mx-auto sm:w-4/5 mb-4" key={post.id}>
               <JobListing {...post} />
