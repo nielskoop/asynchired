@@ -8,7 +8,7 @@ import {
   OriginalPostButton,
 } from "./jobListingButtons";
 import { useState } from "react";
-import { useModal } from "~/context/modalStore";
+import { useModal } from "~/context/modalContext";
 
 export const JobListingModal: React.FC<{ post: Post }> = ({ post }) => {
   const [isOpen, setIsOpen] = useModal(post.id);

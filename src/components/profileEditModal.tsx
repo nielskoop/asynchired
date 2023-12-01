@@ -1,7 +1,7 @@
 import { useUser } from "@clerk/nextjs";
 import { Dialog } from "@headlessui/react";
 import Image from "next/image";
-import { useModal } from "~/context/modalStore";
+import { useModal } from "~/context/modalContext";
 
 export const ProfileEditModal: React.FC = () => {
   const [isOpen, setIsOpen] = useModal("editProfile");

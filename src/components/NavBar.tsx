@@ -1,9 +1,11 @@
 import Image from "next/image";
-import { SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
+import { SignInButton, useClerk, useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import useScreenSize from "~/hooks/useScreenSize";
 import { Menu, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useState } from "react";
+import { useButton } from "~/context/buttonContext";
+import { useRouter } from "next/router";
 
 export const HamburgerButton = () => {
   const [hamburgerActive, setHamburgerActive] = useState<boolean>(false);
@@ -72,15 +74,28 @@ export const HamburgerButton = () => {
 };
 
 export const NavLinks: React.FC = () => {
+  const { setActionButton } = useButton();
   return (
     <>
       <Link href={`/profile`} className="rounded-xl bg-white p-2">
         Saved Searches
       </Link>
-      <Link href={`/profile`} className="rounded-xl bg-white p-2">
+      <Link
+        href={`/profile`}
+        className="rounded-xl bg-white p-2"
+        onClick={() => {
+          setActionButton("liked");
+        }}
+      >
         Liked Jobs
       </Link>
-      <Link href={`/profile`} className="rounded-xl bg-white p-2">
+      <Link
+        href={`/profile`}
+        className="rounded-xl bg-white p-2"
+        onClick={() => {
+          setActionButton("applied");
+        }}
+      >
         Applied Jobs
       </Link>
     </>
@@ -108,6 +123,19 @@ export const NavBar = () => {
   }, []);
 
   const screenSize = useScreenSize();
+  const router = useRouter();
+  const { signOut } = useClerk();
+
+  const handleSignOutButton = async () => {
+    const currentPage = router.pathname;
+    if (currentPage !== "/") {
+      await router.push("/");
+      await signOut();
+    } else {
+      await signOut();
+      router.reload();
+    }
+  };
 
   return (
     <div
@@ -133,7 +161,11 @@ export const NavBar = () => {
             <HamburgerButton />
           ) : (
             <span className="rounded-xl bg-white p-2">
-              {isSignedIn ? <SignOutButton /> : <SignInButton />}
+              {isSignedIn ? (
+                <button onClick={handleSignOutButton}>Sign Out</button>
+              ) : (
+                <SignInButton />
+              )}
             </span>
           )}
         </div>
