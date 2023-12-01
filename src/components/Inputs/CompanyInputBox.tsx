@@ -82,7 +82,7 @@ export function CompanyInputBox() {
                   }`
                 }
               >
-                {({ selected, active }) => (
+                {({ selected }) => (
                   <>
                     <span
                       className={`block truncate ${

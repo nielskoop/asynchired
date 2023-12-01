@@ -7,20 +7,33 @@ import JobList from "~/components/JobList";
 import { NavBar } from "~/components/NavBar";
 import useScreenSize from "~/hooks/useScreenSize";
 import { api } from "~/utils/api";
+import { useFilter } from "~/context/FilterContext";
 
 // import { api } from "~/utils/api";
 
+// const tags = [
+//   "Salary Available",
+//   "Liked Jobs",
+//   "Applied Jobs",
+//   "Fully Remote",
+//   "Backend Developer",
+//   "Frontend Developer",
+//   "UI/UX Design",
+// ];
+
 const tags = [
-  "Salary Available",
-  "Liked Jobs",
-  "Applied Jobs",
-  "Fully Remote",
-  "Backend Developer",
-  "Frontend Developer",
-  "UI/UX Design",
+  "Remote",
+  "Product",
+  "Frontend",
+  "Backend",
+  "Software",
+  "Senior",
+  "Staff",
 ];
 
 export function TagWidget() {
+  const { setRoleFilter } = useFilter();
+
   return (
     <div className="bg-slate-200 px-2 py-4">
       <div className="text-xl font-semibold sm:mx-auto sm:w-4/5">
@@ -31,9 +44,12 @@ export function TagWidget() {
           <div className="mt-2 flex flex-row gap-4">
             {tags.map((tag) => {
               return (
-                <div className="whitespace-nowrap rounded-full bg-white px-3 py-1">
+                <button
+                  className="whitespace-nowrap rounded-full bg-white px-3 py-1"
+                  onClick={() => setRoleFilter(tag)}
+                >
                   {tag}
-                </div>
+                </button>
               );
             })}
           </div>
