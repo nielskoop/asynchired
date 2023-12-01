@@ -73,7 +73,7 @@ export const HamburgerButton = () => {
 };
 
 export const NavLinks: React.FC = () => {
-  const { actionButton, setActionButton } = useButton();
+  const { setActionButton } = useButton();
   return (
     <>
       <Link href={`/profile`} className="rounded-xl bg-white p-2">
