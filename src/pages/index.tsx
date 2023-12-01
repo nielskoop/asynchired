@@ -9,10 +9,43 @@ import { api } from "~/utils/api";
 
 // import { api } from "~/utils/api";
 
+const tags = [
+  "Salary Available",
+  "Liked Jobs",
+  "Applied Jobs",
+  "Fully Remote",
+  "Backend Developer",
+  "Frontend Developer",
+  "UI/UX Design",
+];
+
+export function TagWidget() {
+  return (
+    <div className="bg-slate-200 px-2 py-4">
+      <div className="text-xl font-semibold sm:mx-auto sm:w-4/5">
+        Search With Tags:
+      </div>
+      <div className="scrollbar-hide flex overflow-x-scroll sm:px-0">
+        <div className="sm:mx-auto sm:w-4/5">
+          <div className="mt-2 flex flex-row gap-4">
+            {tags.map((tag) => {
+              return (
+                <div className="whitespace-nowrap rounded-full bg-white px-3 py-1">
+                  {tag}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function Home() {
   api.post.getAllPosts.useQuery();
 
-  const screenSize = useScreenSize()
+  const screenSize = useScreenSize();
 
   return (
     <>
@@ -54,7 +87,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="bg-slate-300">Tag Widget</div>
+        <TagWidget />
         <div>
           <JobList />
         </div>
