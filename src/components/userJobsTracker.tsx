@@ -1,6 +1,6 @@
-import { useState } from "react";
 import { JobListing } from "./JobList";
 import { api } from "~/utils/api";
+import { useButton } from "~/context/buttonContext";
 
 export const UserJobsTracker: React.FC = () => {
  const {actionButton, setActionButton } = useButton();
