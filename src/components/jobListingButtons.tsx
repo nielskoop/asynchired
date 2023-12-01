@@ -52,8 +52,10 @@ export const MarkAppliedButton = (props: { post: Post }) => {
       // fix this so it goes back to the same page
       await navigate("/sign-in");
       return;
+    } else if (userDetails?.appliedPosts.includes(props.post.id) && applied) {
+      mutate({ postId: props.post.id, action: "undo" });
     } else {
-      mutate(props.post.id);
+      mutate({ postId: props.post.id, action: "do" });
     }
   }
 
@@ -102,8 +104,10 @@ export const LikeButton = (props: { post: Post }) => {
     if (!user) {
       await navigate("/sign-in");
       return;
-    } else {
-      mutate(props.post.id);
+    } else if (userDetails?.likedPosts.includes(props.post.id) && isLiked) {
+      mutate({ postId: props.post.id, action: 'undo' });
+      } else {
+      mutate({ postId: props.post.id, action: 'do' });
     }
   }
 
@@ -153,8 +157,10 @@ export const DislikeButton = (props: { post: Post }) => {
     if (!user) {
       await navigate("/sign-in");
       return;
+    } else if (userDetails?.dislikedPosts.includes(props.post.id) && isDisliked) {
+      mutate({ postId: props.post.id, action: "undo" });
     } else {
-      mutate(props.post.id);
+      mutate({ postId: props.post.id, action: "do" });
     }
   }
 
