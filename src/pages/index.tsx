@@ -32,7 +32,7 @@ const tags = [
 ];
 
 const hasSalaryTag = ["Has Salary"];
-const noSalaryTag = ["No Salary"];
+// const noSalaryTag = ["No Salary"];
 
 export function TagWidget() {
   const { setRoleFilter, setSalaryFilter } = useFilter();
