@@ -9,6 +9,10 @@ interface FilterContextType {
   setLocationFilter: React.Dispatch<React.SetStateAction<string>>;
   roleFilter: string;
   setRoleFilter: React.Dispatch<React.SetStateAction<string>>;
+  companyFilter: string;
+  setCompanyFilter: React.Dispatch<React.SetStateAction<string>>;
+  salaryFilter: string;
+  setSalaryFilter: React.Dispatch<React.SetStateAction<string>>;
 }
 
 // Create the context with an initial dummy value
@@ -17,6 +21,10 @@ const FilterContext = createContext<FilterContextType>({
   setLocationFilter: () => {},
   roleFilter: "",
   setRoleFilter: () => {},
+  companyFilter: "",
+  setCompanyFilter: () => {},
+  salaryFilter: "",
+  setSalaryFilter: () => {},
 });
 
 export const useFilter = () => useContext(FilterContext);
@@ -29,12 +37,18 @@ interface FilterProviderProps {
 export const FilterProvider: React.FC<FilterProviderProps> = ({ children }) => {
   const [locationFilter, setLocationFilter] = useState("");
   const [roleFilter, setRoleFilter] = useState("");
+  const [companyFilter, setCompanyFilter] = useState("");
+  const [salaryFilter, setSalaryFilter] = useState("");
 
   const value = {
     locationFilter,
     setLocationFilter,
     roleFilter,
     setRoleFilter,
+    companyFilter,
+    setCompanyFilter,
+    salaryFilter,
+    setSalaryFilter,
   };
 
   return (

@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
+import { CompanyInputBox } from "~/components/Inputs/CompanyInputBox";
 import { LocationInputBox } from "~/components/Inputs/LocationInputBox";
 import { RoleInputBox } from "~/components/Inputs/RoleInputBox";
 import JobList from "~/components/JobList";
@@ -65,8 +66,20 @@ export default function Home() {
             <div className="flex w-full justify-center px-4">
               <form className="flex flex-col items-center justify-center md:flex-row md:gap-4">
                 <div className="mb-4 flex flex-col gap-2 md:mb-0 md:flex-row">
-                  <RoleInputBox />
-                  <LocationInputBox />
+                  <div className="flex flex-col">
+                    <span className="mr-2 font-bold text-white">
+                      I'm looking for
+                    </span>
+                    <RoleInputBox />
+                  </div>
+                  <div>
+                    <span className="mr-2 font-bold text-white">In</span>
+                    <LocationInputBox />
+                  </div>
+                  <div>
+                    <span className="mr-2 font-bold text-white">At</span>
+                    <CompanyInputBox />
+                  </div>
                 </div>
                 <button
                   type="submit"

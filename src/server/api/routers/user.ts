@@ -6,40 +6,8 @@ import { createTRPCRouter, privateProcedure } from "~/server/api/trpc";
 // import { filterUserForClient } from "~/server/helpers/filterUserForClients";
 
 export const userRouter = createTRPCRouter({
-  like: privateProcedure.input(z.number()).mutation(async ({ ctx, input }) => {
-    const userId = ctx.userId;
-    // retrieves all information available on front end including email, email id, name, etc.
-    const fullUser = userId ? await clerkClient.users.getUser(userId) : null;
 
-    // currently creating duplicates in the array
-    if (fullUser?.emailAddresses[0]?.emailAddress) {
-      const upsertUser = await ctx.db.user.upsert({
-        where: {
-          id: fullUser.primaryEmailAddressId!,
-        },
-        update: {
-          likedPosts: { push: input },
-        },
-        create: {
-          id: fullUser.primaryEmailAddressId!,
-          name: fullUser.firstName ?? "",
-          email: fullUser.emailAddresses[0]?.emailAddress,
-          job: "",
-          location: "",
-          techStack: "",
-          education: "",
-          profilePicture: fullUser.imageUrl,
-          likedPosts: [input],
-          dislikedPosts: [],
-          appliedPosts: [],
-        },
-      });
-
-      return upsertUser;
-    }
-  }),
-
-  getUserById: privateProcedure.query(async ({ ctx }) => {
+getUserById: privateProcedure.query(async ({ ctx }) => {
     // You can access input properties like input.userId here
     const userId = ctx.userId;
     const fullUser = userId ? await clerkClient.users.getUser(userId) : null;
@@ -60,20 +28,77 @@ export const userRouter = createTRPCRouter({
     }
   }),
 
-  dislike: privateProcedure
-    .input(z.number())
+like: privateProcedure
+    .input(z.object({ postId: z.number(), action: z.string() }))
     .mutation(async ({ ctx, input }) => {
       const userId = ctx.userId;
+      // retrieves all information available on front end including email, email id, name, etc.
       const fullUser = userId ? await clerkClient.users.getUser(userId) : null;
 
-      if (fullUser?.emailAddresses[0]?.emailAddress) {
+      // currently creating duplicates in the array if the user clicks again too fast
+      if (fullUser?.emailAddresses[0]?.emailAddress && input.action === "do") {
         const upsertUser = await ctx.db.user.upsert({
           where: {
             id: fullUser.primaryEmailAddressId!,
           },
           update: {
-            dislikedPosts: { push: input },
+            likedPosts: { push: input.postId },
           },
+
+          create: {
+            id: fullUser.primaryEmailAddressId!,
+            name: fullUser.firstName ?? "",
+            email: fullUser.emailAddresses[0]?.emailAddress,
+            job: "",
+            location: "",
+            techStack: "",
+            education: "",
+            profilePicture: fullUser.imageUrl,
+            likedPosts: [input.postId],
+            dislikedPosts: [],
+            appliedPosts: [],
+          },
+        });
+        return upsertUser;
+      } else {
+        const userInDb = await ctx.db.user.findUnique({
+          where: { id: fullUser!.primaryEmailAddressId! },
+        });
+
+        const updatedLikedPosts = userInDb!.likedPosts.filter(
+          (postId) => postId !== input.postId,
+        );
+
+        const updateUser = await ctx.db.user.update({
+          where: {
+            id: fullUser!.primaryEmailAddressId!,
+          },
+          data: {
+            likedPosts: updatedLikedPosts,
+          },
+        });
+        return updateUser;
+      }
+    }),
+
+
+  dislike: privateProcedure
+    .input(z.object({ postId: z.number(), action: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const userId = ctx.userId;
+      // retrieves all information available on front end including email, email id, name, etc.
+      const fullUser = userId ? await clerkClient.users.getUser(userId) : null;
+
+      // currently creating duplicates in the array
+      if (fullUser?.emailAddresses[0]?.emailAddress && input.action === "do") {
+        const upsertUser = await ctx.db.user.upsert({
+          where: {
+            id: fullUser.primaryEmailAddressId!,
+          },
+          update: {
+            dislikedPosts: { push: input.postId },
+          },
+
           create: {
             id: fullUser.primaryEmailAddressId!,
             name: fullUser.firstName ?? "",
@@ -84,30 +109,49 @@ export const userRouter = createTRPCRouter({
             education: "",
             profilePicture: fullUser.imageUrl,
             likedPosts: [],
-            dislikedPosts: [input],
+            dislikedPosts: [input.postId],
             appliedPosts: [],
           },
         });
-
         return upsertUser;
+      } else {
+        const userInDb = await ctx.db.user.findUnique({
+          where: { id: fullUser!.primaryEmailAddressId! },
+        });
+
+        const updatedDislikedPosts = userInDb!.dislikedPosts.filter(
+          (postId) => postId !== input.postId,
+        );
+
+        const updateUser = await ctx.db.user.update({
+          where: {
+            id: fullUser!.primaryEmailAddressId!,
+          },
+          data: {
+            dislikedPosts: updatedDislikedPosts,
+          },
+        });
+        return updateUser;
       }
     }),
 
   applied: privateProcedure
-    .input(z.number())
+    .input(z.object({ postId: z.number(), action: z.string() }))
     .mutation(async ({ ctx, input }) => {
       const userId = ctx.userId;
       // retrieves all information available on front end including email, email id, name, etc.
       const fullUser = userId ? await clerkClient.users.getUser(userId) : null;
 
-      if (fullUser?.emailAddresses[0]?.emailAddress) {
+      // currently creating duplicates in the array
+      if (fullUser?.emailAddresses[0]?.emailAddress && input.action === "do") {
         const upsertUser = await ctx.db.user.upsert({
           where: {
             id: fullUser.primaryEmailAddressId!,
           },
           update: {
-            appliedPosts: { push: input },
+            appliedPosts: { push: input.postId },
           },
+
           create: {
             id: fullUser.primaryEmailAddressId!,
             name: fullUser.firstName ?? "",
@@ -119,11 +163,28 @@ export const userRouter = createTRPCRouter({
             profilePicture: fullUser.imageUrl,
             likedPosts: [],
             dislikedPosts: [],
-            appliedPosts: [input],
+            appliedPosts: [input.postId],
           },
         });
-
         return upsertUser;
+      } else {
+        const userInDb = await ctx.db.user.findUnique({
+          where: { id: fullUser!.primaryEmailAddressId! },
+        });
+
+        const updatedAppliedPosts = userInDb!.appliedPosts.filter(
+          (postId) => postId !== input.postId,
+        );
+
+        const updateUser = await ctx.db.user.update({
+          where: {
+            id: fullUser!.primaryEmailAddressId!,
+          },
+          data: {
+            appliedPosts: updatedAppliedPosts,
+          },
+        });
+        return updateUser;
       }
     }),
 });
