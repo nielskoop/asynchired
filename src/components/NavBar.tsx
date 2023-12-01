@@ -9,6 +9,21 @@ import { useRouter } from "next/router";
 
 export const HamburgerButton = () => {
   const [hamburgerActive, setHamburgerActive] = useState<boolean>(false);
+  const { isSignedIn } = useUser();
+
+  const router = useRouter();
+  const { signOut } = useClerk();
+
+  const handleSignOutButton = async () => {
+    const currentPage = router.pathname;
+    if (currentPage !== "/") {
+      await router.push("/");
+      await signOut();
+    } else {
+      await signOut();
+      router.reload();
+    }
+  };
 
   return (
     <Menu as={"div"} className={"relative inline-block text-left"}>
@@ -33,7 +48,7 @@ export const HamburgerButton = () => {
         leaveTo="transform opacity-0 scale-95"
       >
         <Menu.Items className="absolute right-0 z-20 mt-2 flex w-48 origin-top-right flex-col divide-y divide-gray-100 rounded-sm bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
-          <div className="flex flex-col px-1 py-1">
+          <div className="flex flex-col px-4 py-2 gap-2">
             <Menu.Item>
               {({ active }) => (
                 <Link
@@ -55,17 +70,27 @@ export const HamburgerButton = () => {
               )}
             </Menu.Item>
           </div>
-          <div className="px-1 py-1 ">
-            <Menu.Item>
-              {({ active }) => (
-                <Link
-                  className={`${active && "text-slate-500"}`}
-                  href="/profile"
-                >
-                  Log In
-                </Link>
-              )}
-            </Menu.Item>
+          <div className="px-4 py-2 text-xl">
+            {isSignedIn ? (
+              <Menu.Item>
+                {({ active }) => (
+                  <button
+                    className={`${active && "text-slate-500"}`}
+                    onClick={handleSignOutButton}
+                  >
+                    Log Out
+                  </button>
+                )}
+              </Menu.Item>
+            ) : (
+              <Menu.Item>
+                {({ active }) => (
+                  <div className={`${active && "text-slate-500"}`}>
+                    <SignInButton />
+                  </div>
+                )}
+              </Menu.Item>
+            )}
           </div>
         </Menu.Items>
       </Transition>
