@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
-import type { ReactNode } from "react";
+import type { Dispatch, ReactNode, SetStateAction } from "react";
 // Define the shape of your context data
 interface ButtonContextType {
     actionButton: string;
