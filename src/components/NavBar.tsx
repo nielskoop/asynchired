@@ -165,7 +165,7 @@ export const NavBar = () => {
   return (
     <div
       className={
-        header ? "bg-image-large fixed w-full transition-all" : "bg-transparent"
+        header ? "bg-image-large fixed w-full transition-all z-10" : "bg-transparent"
       }
     >
       <nav className="flex items-center justify-between px-8 font-semibold">
