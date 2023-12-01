@@ -39,9 +39,9 @@ const handleApplied = () => {
 
 
   let jobs = allPosts.filter((job) => userDetails.likedPosts.includes(job.id));
-  if(childState === 'liked') {
+  if(actionButton === 'liked') {
     jobs = allPosts.filter((job) => userDetails.likedPosts.includes(job.id));
-  } else if (childState === 'applied') {
+  } else if (actionButton === 'applied') {
     jobs = allPosts.filter((job) => userDetails.appliedPosts.includes(job.id));
   } else {
     jobs = allPosts.filter((job) => userDetails.dislikedPosts.includes(job.id));
