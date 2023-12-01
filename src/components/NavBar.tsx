@@ -71,17 +71,25 @@ export const HamburgerButton = () => {
   );
 };
 
-export const NavLinks = () => {
-  // const { user } = useUser();
+export const NavLinks: React.FC = ({ setChildState }) => {
+  const router = useRouter();
+  const handleApplied = () => {
+      router.push('/profile');
+      setChildState('applied');
+  };
+  const handleLiked = () => {
+      router.push('/profile');
+      setChildState('liked');
+  };
   return (
     <>
       <Link href={`/profile`} className="rounded-xl bg-white p-2">
-        Saved Searches
+          Saved Searches
       </Link>
-      <Link href={`/profile`} className="rounded-xl bg-white p-2">
+      <Link href={`/profile`} className="rounded-xl bg-white p-2" onClick={handleLiked}>
         Liked Jobs
       </Link>
-      <Link href={`/profile`} className="rounded-xl bg-white p-2">
+      <Link href={`/profile`} className="rounded-xl bg-white p-2" onClick={handleApplied}>
         Applied Jobs
       </Link>
     </>
