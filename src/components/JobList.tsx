@@ -82,11 +82,12 @@ export function JobListing(post: Post) {
 }
 
 export default function JobList() {
-  const { locationFilter, roleFilter } = useFilter();
+  const { locationFilter, roleFilter, companyFilter } = useFilter();
 
   const queryParameters = {
     location: locationFilter,
     role: roleFilter,
+    company: companyFilter,
   };
 
   const { data, isLoading } =

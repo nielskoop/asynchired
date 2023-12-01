@@ -68,11 +68,40 @@ export const postRouter = createTRPCRouter({
       return uniquePosts;
     }),
 
+  getAllCompanies: publicProcedure
+    .input(z.string())
+    .query(async ({ input, ctx }) => {
+      const posts = await ctx.db.post.findMany({
+        orderBy: [{ datePosted: "desc" }],
+        where: {
+          title: {
+            contains: input,
+          },
+        },
+        select: {
+          id: true,
+          company: true,
+        },
+      });
+
+      const uniqueRoles = new Set();
+      const uniquePosts = posts.filter((post) => {
+        if (!uniqueRoles.has(post.company)) {
+          uniqueRoles.add(post.company);
+          return true;
+        }
+        return false;
+      });
+
+      return uniquePosts;
+    }),
+
   getFilteredPosts: publicProcedure
     .input(
       z.object({
         location: z.string().optional(),
         role: z.string().optional(),
+        company: z.string().optional(),
       }),
     )
     .query(async ({ input, ctx }) => {
@@ -85,6 +114,7 @@ export const postRouter = createTRPCRouter({
           title: {
             contains: input.role,
           },
+          company: { contains: input.company },
         },
       });
 
