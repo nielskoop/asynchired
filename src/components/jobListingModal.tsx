@@ -65,7 +65,7 @@ export const JobListingModal: React.FC<{ post: Post }> = ({ post }) => {
             )}
 
             <h2 className="mb-1 text-lg font-semibold">Job Description</h2>
-            <div className="md:max-h-[400px]">
+            <div className="max-h-screen md:max-h-[400px]">
               <p className="px-3 md:px-4 pb-4">
                 {post?.jobDescription}
               </p>
