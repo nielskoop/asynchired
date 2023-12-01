@@ -110,11 +110,16 @@ export const postRouter = createTRPCRouter({
         where: {
           location: {
             contains: input.location,
+            mode: "insensitive",
           },
           title: {
             contains: input.role,
+            mode: "insensitive",
           },
-          company: { contains: input.company },
+          company: {
+            contains: input.company,
+            mode: "insensitive",
+          },
         },
       });
 
