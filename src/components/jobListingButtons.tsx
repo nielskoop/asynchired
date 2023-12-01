@@ -1,7 +1,7 @@
 import Image from "next/image";
 import type { Post } from "@prisma/client";
 import { api } from "~/utils/api";
-import { useUser, useClerk } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import { LoadingSpinner } from "./Loading";
 import Link from "next/dist/client/link";
 import { useEffect, useState } from "react";

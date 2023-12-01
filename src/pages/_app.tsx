@@ -8,6 +8,7 @@ import { ModalProvider } from "~/context/modalContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { FilterProvider } from "~/context/FilterContext";
 import { Toaster } from "react-hot-toast";
+import { ButtonProvider } from "~/context/buttonContext";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -26,8 +27,10 @@ const MyApp: AppType = ({ Component, pageProps }) => {
           {/* <UserPostInteractionProvider> */}
           <FilterProvider>
             <ModalProvider>
-              <Toaster position="bottom-center" />
-              <Component {...pageProps} />
+              <ButtonProvider>
+                <Toaster position="bottom-center" />
+                <Component {...pageProps} />
+              </ButtonProvider>
             </ModalProvider>
           </FilterProvider>
           {/* </UserPostInteractionProvider> */}
