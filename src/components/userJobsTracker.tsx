@@ -1,10 +1,12 @@
+import { useState } from "react";
 import { JobListing } from "./JobList";
 import { api } from "~/utils/api";
 
-export const UserJobsTracker: React.FC = ({ childState, setChildState }) => {
+export const UserJobsTracker: React.FC = () => {
 
   const { data: allPosts, isLoading: allPostsLoading, error: allPostsError } = api.post.getAllPosts.useQuery();
  const { data: userDetails, isLoading: userDetailsLoading, error: userDetailsError } = api.user.getUserById.useQuery();
+ const [childState, setChildState] = useState<string>('');
   if (allPostsLoading || userDetailsLoading) {
     return <p>Loading...</p>;
   }
