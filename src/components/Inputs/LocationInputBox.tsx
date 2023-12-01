@@ -27,7 +27,7 @@ export function LocationInputBox() {
         ) ?? [];
 
   if (isLoading) {
-    return <LoadingSpinner/>;
+    return <LoadingSpinner />;
   }
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -84,7 +84,7 @@ export function LocationInputBox() {
                   }`
                 }
               >
-                {({ selected, active }) => (
+                {({ selected }) => (
                   <>
                     <span
                       className={`block truncate ${

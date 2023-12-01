@@ -72,8 +72,7 @@ export const HamburgerButton = () => {
 };
 
 export const NavLinks = () => {
-  const { user } = useUser();
-
+  // const { user } = useUser();
   return (
     <>
       <Link href={`/profile`} className="rounded-xl bg-white p-2">
