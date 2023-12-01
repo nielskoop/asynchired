@@ -3,7 +3,7 @@ import { SignInButton, useClerk, useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import useScreenSize from "~/hooks/useScreenSize";
 import { Menu, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useButton } from "~/context/buttonContext";
 import { useRouter } from "next/router";
 
@@ -74,16 +74,28 @@ export const HamburgerButton = () => {
 };
 
 export const NavLinks: React.FC = () => {
- const { setActionButton } = useButton();
+  const { setActionButton } = useButton();
   return (
     <>
       <Link href={`/profile`} className="rounded-xl bg-white p-2">
-          Saved Searches
+        Saved Searches
       </Link>
-      <Link href={`/profile`} className="rounded-xl bg-white p-2" onClick={() => { setActionButton('liked') }}>
+      <Link
+        href={`/profile`}
+        className="rounded-xl bg-white p-2"
+        onClick={() => {
+          setActionButton("liked");
+        }}
+      >
         Liked Jobs
       </Link>
-      <Link href={`/profile`} className="rounded-xl bg-white p-2" onClick={() => { setActionButton('applied') }}>
+      <Link
+        href={`/profile`}
+        className="rounded-xl bg-white p-2"
+        onClick={() => {
+          setActionButton("applied");
+        }}
+      >
         Applied Jobs
       </Link>
     </>
@@ -92,47 +104,72 @@ export const NavLinks: React.FC = () => {
 
 export const NavBar = () => {
   const { isSignedIn } = useUser();
+  const [header, setHeader] = useState<boolean>(false);
+
+  const scrollHeader = () => {
+    if (window.scrollY >= 450) {
+      setHeader(true);
+    } else {
+      setHeader(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", scrollHeader);
+
+    return () => {
+      window.addEventListener("scroll", scrollHeader);
+    };
+  }, []);
 
   const screenSize = useScreenSize();
   const router = useRouter();
   const { signOut } = useClerk();
 
-
   const handleSignOutButton = async () => {
-    const currentPage = router.pathname
+    const currentPage = router.pathname;
     if (currentPage !== "/") {
-        router.push("/")
-        await signOut();
-      }
-      else {
+      await router.push("/");
       await signOut();
-      router.reload()
+    } else {
+      await signOut();
+      router.reload();
     }
-    };
+  };
 
   return (
-    <nav className="flex items-center justify-between px-8 font-semibold">
-      <div className="flex items-center gap-3">
-        <Link href={"/"}>
-          <Image
-            src={"AsyncHiredLogo.svg"}
-            width={130}
-            height={130}
-            alt="Async Hired Logo"
-            className="rounded- py-3"
-          />
-        </Link>
-        {screenSize! > 768 && <NavLinks />}
-      </div>
-      <div>
-        {screenSize! < 768 ? (
-          <HamburgerButton />
-        ) : (
-          <span className="rounded-xl bg-white p-2">
-            {isSignedIn ? <button onClick={handleSignOutButton}>Sign Out</button> : <SignInButton />}
-          </span>
-        )}
-      </div>
-    </nav>
+    <div
+      className={
+        header ? "bg-image-large fixed w-full transition-all" : "bg-transparent"
+      }
+    >
+      <nav className="flex items-center justify-between px-8 font-semibold">
+        <div className="flex items-center gap-3">
+          <Link href={"/"}>
+            <Image
+              src={"AsyncHiredLogo.svg"}
+              width={130}
+              height={130}
+              alt="Async Hired Logo"
+              className="rounded- py-3"
+            />
+          </Link>
+          {screenSize! > 768 && <NavLinks />}
+        </div>
+        <div>
+          {screenSize! < 768 ? (
+            <HamburgerButton />
+          ) : (
+            <span className="rounded-xl bg-white p-2">
+              {isSignedIn ? (
+                <button onClick={handleSignOutButton}>Sign Out</button>
+              ) : (
+                <SignInButton />
+              )}
+            </span>
+          )}
+        </div>
+      </nav>
+    </div>
   );
 };

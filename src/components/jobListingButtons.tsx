@@ -109,14 +109,15 @@ export const LikeButton = (props: { post: Post }) => {
   async function likePost() {
     console.log("you clicked me user: ", user);
     if (!user) {
-toast.error("Log-in to use this feature", {
-  icon: "🔒", // Optional: add an emoji or custom icon
-  style: {
-    borderRadius: "10px",
-    background: "#E61A1A",
-    color: "#fff",
-  },
-});      return;
+      toast.error("Log-in to use this feature", {
+        icon: "🔒", // Optional: add an emoji or custom icon
+        style: {
+          borderRadius: "10px",
+          background: "#E61A1A",
+          color: "#fff",
+        },
+      });
+      return;
     } else if (userDetails?.likedPosts.includes(props.post.id) && isLiked) {
       mutate({ postId: props.post.id, action: "undo" });
     } else {
@@ -166,14 +167,15 @@ export const DislikeButton = (props: { post: Post }) => {
   async function dislikePost() {
     console.log("you clicked me user: ", user);
     if (!user) {
-toast.error("Log-in to use this feature", {
-  icon: "🔒", // Optional: add an emoji or custom icon
-  style: {
-    borderRadius: "10px",
-    background: "#E61A1A",
-    color: "#fff",
-  },
-});      return;
+      toast.error("Log-in to use this feature", {
+        icon: "🔒", // Optional: add an emoji or custom icon
+        style: {
+          borderRadius: "10px",
+          background: "#E61A1A",
+          color: "#fff",
+        },
+      });
+      return;
     } else if (
       userDetails?.dislikedPosts.includes(props.post.id) &&
       isDisliked
