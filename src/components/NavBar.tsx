@@ -72,7 +72,6 @@ export const HamburgerButton = () => {
 };
 
 export const NavLinks: React.FC = ({ setChildState }) => {
-  const router = useRouter();
   const handleApplied = () => {
       router.push('/profile');
       setChildState('applied');
