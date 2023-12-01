@@ -3,7 +3,7 @@ import { SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import useScreenSize from "~/hooks/useScreenSize";
 import { Menu, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 
 export const HamburgerButton = () => {
   const [hamburgerActive, setHamburgerActive] = useState<boolean>(false);
@@ -72,16 +72,15 @@ export const HamburgerButton = () => {
 };
 
 export const NavLinks: React.FC = () => {
- 
   return (
     <>
       <Link href={`/profile`} className="rounded-xl bg-white p-2">
-          Saved Searches
+        Saved Searches
       </Link>
-      <Link href={`/profile`} className="rounded-xl bg-white p-2" >
+      <Link href={`/profile`} className="rounded-xl bg-white p-2">
         Liked Jobs
       </Link>
-      <Link href={`/profile`} className="rounded-xl bg-white p-2" >
+      <Link href={`/profile`} className="rounded-xl bg-white p-2">
         Applied Jobs
       </Link>
     </>
@@ -90,32 +89,55 @@ export const NavLinks: React.FC = () => {
 
 export const NavBar = () => {
   const { isSignedIn } = useUser();
+  const [header, setHeader] = useState<boolean>(false);
+
+  const scrollHeader = () => {
+    if (window.scrollY >= 450) {
+      setHeader(true);
+    } else {
+      setHeader(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", scrollHeader);
+
+    return () => {
+      window.addEventListener("scroll", scrollHeader);
+    };
+  }, []);
 
   const screenSize = useScreenSize();
 
   return (
-    <nav className="flex items-center justify-between px-8 font-semibold">
-      <div className="flex items-center gap-3">
-        <Link href={"/"}>
-          <Image
-            src={"AsyncHiredLogo.svg"}
-            width={130}
-            height={130}
-            alt="Async Hired Logo"
-            className="rounded- py-3"
-          />
-        </Link>
-        {screenSize! > 768 && <NavLinks />}
-      </div>
-      <div>
-        {screenSize! < 768 ? (
-          <HamburgerButton />
-        ) : (
-          <span className="rounded-xl bg-white p-2">
-            {isSignedIn ? <SignOutButton /> : <SignInButton />}
-          </span>
-        )}
-      </div>
-    </nav>
+    <div
+      className={
+        header ? "bg-image-large fixed w-full transition-all" : "bg-transparent"
+      }
+    >
+      <nav className="flex items-center justify-between px-8 font-semibold">
+        <div className="flex items-center gap-3">
+          <Link href={"/"}>
+            <Image
+              src={"AsyncHiredLogo.svg"}
+              width={130}
+              height={130}
+              alt="Async Hired Logo"
+              className="rounded- py-3"
+            />
+          </Link>
+          {screenSize! > 768 && <NavLinks />}
+        </div>
+        <div>
+          {screenSize! < 768 ? (
+            <HamburgerButton />
+          ) : (
+            <span className="rounded-xl bg-white p-2">
+              {isSignedIn ? <SignOutButton /> : <SignInButton />}
+            </span>
+          )}
+        </div>
+      </nav>
+    </div>
   );
 };
