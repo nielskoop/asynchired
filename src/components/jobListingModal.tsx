@@ -38,8 +38,12 @@ export const JobListingModal: React.FC<{ post: Post }> = ({ post }) => {
               <MarkAppliedButton post={post} />
             </div>
             <div className="flex flex-wrap items-center gap-1 md:pl-2 lg:flex-nowrap">
-              <LikeButton post={post} />
-              <DislikeButton post={post} />
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-red-500 transition-all hover:bg-red-700">
+                <DislikeButton post={post} />
+              </div>
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-green-500 transition-all hover:bg-green-700">
+                <LikeButton post={post} />
+              </div>
             </div>
           </div>
         </Dialog.Title>
