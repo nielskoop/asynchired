@@ -17,7 +17,7 @@ export function salaryInputBox() {
   const { setSalaryFilter } = useFilter();
   const [selectedsalary, setSelectedsalary] = useState<Salary | undefined>();
 
-  const filteredsalaries =
+  const filteredSalaries =
     query === ""
       ? salaries ?? []
       : salaries?.filter(
@@ -27,6 +27,10 @@ export function salaryInputBox() {
 
   if (isLoading) {
     return <LoadingSpinner />;
+  }
+
+  if (!filteredSalaries) {
+    return <div>Something went wrong...</div>;
   }
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -83,7 +87,7 @@ export function salaryInputBox() {
                   }`
                 }
               >
-                {({ selected, active }) => (
+                {({ selected }) => (
                   <>
                     <span
                       className={`block truncate ${
@@ -95,7 +99,7 @@ export function salaryInputBox() {
                   </>
                 )}
               </Combobox.Option>
-              {filteredsalaries.map((salary) => (
+              {filteredSalaries.map((salary) => (
                 <Combobox.Option
                   key={salary.id}
                   value={salary}

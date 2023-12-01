@@ -105,16 +105,16 @@ export const LikeButton = (props: { post: Post }) => {
       await navigate("/sign-in");
       return;
     } else if (userDetails?.likedPosts.includes(props.post.id) && isLiked) {
-      mutate({ postId: props.post.id, action: 'undo' });
-      } else {
-      mutate({ postId: props.post.id, action: 'do' });
+      mutate({ postId: props.post.id, action: "undo" });
+    } else {
+      mutate({ postId: props.post.id, action: "do" });
     }
   }
 
   return (
     <button onClick={() => likePost()}>
       <Image
-        src={"/Like button.svg"}
+        src={"/like.svg"}
         alt="Like button"
         height={30}
         width={30}
@@ -157,7 +157,10 @@ export const DislikeButton = (props: { post: Post }) => {
     if (!user) {
       await navigate("/sign-in");
       return;
-    } else if (userDetails?.dislikedPosts.includes(props.post.id) && isDisliked) {
+    } else if (
+      userDetails?.dislikedPosts.includes(props.post.id) &&
+      isDisliked
+    ) {
       mutate({ postId: props.post.id, action: "undo" });
     } else {
       mutate({ postId: props.post.id, action: "do" });
@@ -167,7 +170,7 @@ export const DislikeButton = (props: { post: Post }) => {
   return (
     <button onClick={() => dislikePost()}>
       <Image
-        src={"/Dislike button.svg"}
+        src={"/dislike.svg"}
         alt="Dislike button"
         height={30}
         width={30}

@@ -58,7 +58,7 @@ export function TagWidget() {
 
             <button
               className="whitespace-nowrap rounded-full bg-white px-3 py-1"
-              onClick={() => setSalaryFilter("")}
+              onClick={() => setSalaryFilter("$")}
             >
               {hasSalaryTag}
             </button>
