@@ -99,7 +99,7 @@ export default function Home() {
                 </div>
                 <button
                   type="submit"
-                  className="w-full rounded-md bg-green-700 p-1 font-semibold text-white md:w-max"
+                  className="self-end justify-self-end w-full rounded-md bg-green-700 p-1 font-semibold text-white md:w-max"
                 >
                   {screenSize && screenSize < 768 ? (
                     "Search Jobs"

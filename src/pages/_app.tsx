@@ -7,7 +7,7 @@ import { Inter } from "next/font/google";
 import { ModalProvider } from "~/context/modalContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { FilterProvider } from "~/context/FilterContext";
-import { UserPostInteractionProvider } from "~/context/jobButtonsContext";
+import { Toaster } from "react-hot-toast";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -23,13 +23,14 @@ const MyApp: AppType = ({ Component, pageProps }) => {
       `}</style>
       <QueryClientProvider client={queryClient}>
         <main className={`${inter.variable} font-sans`}>
-          <UserPostInteractionProvider>
+          {/* <UserPostInteractionProvider> */}
           <FilterProvider>
             <ModalProvider>
+              <Toaster position="bottom-center" />
               <Component {...pageProps} />
             </ModalProvider>
           </FilterProvider>
-          </UserPostInteractionProvider>
+          {/* </UserPostInteractionProvider> */}
         </main>
       </QueryClientProvider>
     </ClerkProvider>
