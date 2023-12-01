@@ -19,13 +19,13 @@ export const JobListingModal: React.FC<{ post: Post }> = ({ post }) => {
       open={isOpen}
       onClose={() => setIsOpen(false)}
       className={
-        "fixed left-1/2 top-1/2 max-h-screen min-w-full -translate-x-1/2 -translate-y-1/2 overflow-y-scroll rounded-lg border-2 border-solid border-[#1A78E6] bg-white text-black md:overflow-auto xl:min-w-fit"
+        "fixed left-1/2 top-1/2 max-h-screen min-w-full -translate-x-1/2 -translate-y-1/2 rounded-lg border-2 border-solid border-[#1A78E6] bg-white text-black md:max-h-[85%] xl:min-w-fit"
       }
     >
       <Dialog.Panel>
         <Dialog.Title
           className={
-            "mb-4 flex flex-wrap justify-between border-b-2 border-[#1A78E6] p-2 text-center text-lg font-semibold sm:flex-nowrap"
+            "flex flex-wrap justify-between border-b-2 border-[#1A78E6] p-2 text-center text-lg font-semibold sm:flex-nowrap"
           }
         >
           <div className="pb-1 md:pr-2">
@@ -47,31 +47,32 @@ export const JobListingModal: React.FC<{ post: Post }> = ({ post }) => {
             </div>
           </div>
         </Dialog.Title>
-        <Dialog.Description
-          className={"flex flex-col items-center overflow-auto px-1 md:px-4"}
-        >
-          {post.logo && !imageError && (
-            <img
-              src={post.logo}
-              alt={`${post.company} Logo`}
-              width={50}
-              height={50}
-              className="mb-1"
-              onLoad={() => console.log("Image loaded successfully")}
-              onError={() => {
-                console.log("Error loading image");
-                setImageError(true);
-              }}
-            />
-          )}
+        <div className="overflow-y-scroll">
+          <Dialog.Description className={"flex flex-col items-center py-2"}>
+            {post.logo && !imageError && (
+              <img
+                src={post.logo}
+                alt={`${post.company} Logo`}
+                width={50}
+                height={50}
+                className="mb-1"
+                onLoad={() => console.log("Image loaded successfully")}
+                onError={() => {
+                  console.log("Error loading image");
+                  setImageError(true);
+                }}
+              />
+            )}
 
-          <h2 className="mb-1 text-lg font-semibold">Job Description</h2>
-          <p>{post?.jobDescription}</p>
-        </Dialog.Description>
-        <div className="mt-2 flex flex-row justify-between bg-[#1A78E6] px-4 py-1 text-white">
-          <button className="hover:underline" onClick={() => setIsOpen(false)}>
-            Update
-          </button>
+            <h2 className="mb-1 text-lg font-semibold">Job Description</h2>
+            <div className="md:max-h-[400px]">
+              <p className="px-3 md:px-4 pb-4">
+                {post?.jobDescription}
+              </p>
+            </div>
+          </Dialog.Description>
+        </div>
+        <div className="absolute bottom-0 right-0 mb-[-2px] w-full rounded-b-lg bg-[#1A78E6] px-4 py-1 text-right text-white md:static md:mb-0">
           <button className="hover:underline" onClick={() => setIsOpen(false)}>
             Cancel
           </button>

@@ -10,8 +10,10 @@ import toast from "react-hot-toast";
 export const OriginalPostButton = (props: { url: string }) => {
   return (
     <Link
-      className="h-min rounded-xl bg-[#1A78E6] px-2 py-1 text-white"
+      className="h-min rounded-xl bg-[#1A78E6] px-2 py-1 text-white focus-visible:outline-none"
       href={props.url}
+      target="_blank"
+      rel="noopener noreferrer"
     >
       See source
     </Link>
