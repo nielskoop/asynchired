@@ -71,17 +71,17 @@ export const HamburgerButton = () => {
   );
 };
 
-export const NavLinks = () => {
-  // const { user } = useUser();
+export const NavLinks: React.FC = () => {
+ 
   return (
     <>
       <Link href={`/profile`} className="rounded-xl bg-white p-2">
-        Saved Searches
+          Saved Searches
       </Link>
-      <Link href={`/profile`} className="rounded-xl bg-white p-2">
+      <Link href={`/profile`} className="rounded-xl bg-white p-2" >
         Liked Jobs
       </Link>
-      <Link href={`/profile`} className="rounded-xl bg-white p-2">
+      <Link href={`/profile`} className="rounded-xl bg-white p-2" >
         Applied Jobs
       </Link>
     </>

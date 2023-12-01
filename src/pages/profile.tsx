@@ -6,9 +6,11 @@ import { UserInfo } from "~/components/userInfo";
 import { UserJobsTracker } from "~/components/userJobsTracker";
 import { LoadingPage } from "~/components/Loading";
 
+
 const ProfilePage: NextPage = () => {
   const { user } = useUser();
 
+  
   if (!user) {
     return <LoadingPage/>;
   }
@@ -31,5 +33,4 @@ const ProfilePage: NextPage = () => {
     </>
   );
 };
-
 export default ProfilePage;

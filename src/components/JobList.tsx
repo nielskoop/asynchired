@@ -73,8 +73,12 @@ export function JobListing(post: Post) {
               <MarkAppliedButton post={post} />
             </>
           )}
-          <DislikeButton post={post} />
-          <LikeButton post={post} />
+          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-red-500 transition-all hover:bg-red-700">
+            <DislikeButton post={post} />
+          </div>
+          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-green-500 transition-all hover:bg-green-700">
+            <LikeButton post={post} />
+          </div>
         </div>
       )}
     </div>
