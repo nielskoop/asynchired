@@ -1,12 +1,14 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 // src/context/FilterContext.tsx
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, { createContext, useContext, useState } from "react";
+import type { ReactNode } from "react";
 
 // Define the shape of your context data
 interface FilterContextType {
   locationFilter: string;
-  setLocationFilter: (location: string) => void;
+  setLocationFilter: React.Dispatch<React.SetStateAction<string>>;
   roleFilter: string;
-  setRoleFilter: (role: string) => void;
+  setRoleFilter: React.Dispatch<React.SetStateAction<string>>;
 }
 
 // Create the context with an initial dummy value

@@ -4,7 +4,7 @@ import { Combobox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { api } from "~/utils/api"; // Import your api utility
 import { useFilter } from "~/context/FilterContext";
-import { LoadingSpinner } from "../Loading";
+// import { LoadingSpinner } from "../Loading";
 
 type Role = {
   id: number;
@@ -79,7 +79,7 @@ export function RoleInputBox() {
                   }`
                 }
               >
-                {({ selected, active }) => (
+                {({ selected }) => (
                   <>
                     <span
                       className={`block truncate ${
