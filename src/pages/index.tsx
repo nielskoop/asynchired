@@ -74,8 +74,8 @@ export default function Home() {
       <main>
         <div className="bg-image-large flex h-[30rem] w-full flex-col md:h-[450px]">
           <NavBar />
-          <div className="relative left-1/2 top-[40%] -translate-x-2/4 -translate-y-2/4 md:top-1/3">
-            <p className="mb-4 text-center text-3xl text-white md:text-4xl">
+          <div className="relative left-1/2 top-[40%] -translate-x-2/4 -translate-y-2/4 md:top-1/3 bg-gray-600 bg-opacity-70 pb-4 pt-1 px-2 md:px-4 max-w-fit rounded-lg">
+            <p className="mb-4 text-center text-2xl text-white md:text-4xl">
               All the dev jobs,
               <span className="font-semibold"> one place</span>
             </p>
