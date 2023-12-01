@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { JobListingModal } from "./jobListingModal";
 import { LoadingPage } from "./Loading";
 import { TagIcon } from "./TagIcon";
-import { useModal } from "~/context/modalStore";
+import { useModal } from "~/context/modalContext";
 import { useFilter } from "~/context/FilterContext";
 import {
   LikeButton,

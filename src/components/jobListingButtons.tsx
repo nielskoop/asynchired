@@ -5,6 +5,7 @@ import { useUser, useClerk } from "@clerk/nextjs";
 import { LoadingSpinner } from "./Loading";
 import Link from "next/dist/client/link";
 import { useEffect, useState } from "react";
+import { useUserPostInteraction } from "~/context/jobButtonsContext";
 
 export const OriginalPostButton = (props: { url: string }) => {
   return (
