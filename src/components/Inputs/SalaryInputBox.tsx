@@ -13,19 +13,25 @@ type Salary = {
 
 export function salaryInputBox() {
   const [query, setQuery] = useState("");
-  const { data: salaries, isLoading } = api.post.getAllsalaries.useQuery("");
+  const { data: salaries, isLoading } = api.post.getAllSalaries.useQuery("");
   const { setSalaryFilter } = useFilter();
-  const [selectedsalary, setSelectedsalary] = useState<salary | undefined>();
+  const [selectedsalary, setSelectedsalary] = useState<Salary | undefined>();
 
-  const filteredsalaries =
-    query === ""
-      ? salaries ?? []
-      : salaries?.filter((salary) =>
-          salary.salary.toLowerCase().includes(query.toLowerCase()),
-        ) ?? [];
+  const filteredSalaries = salaries;
+
+  // const filteredsalaries: Salary[] =
+  //   query === ""
+  //     ? salaries ?? []
+  //     : salaries?.filter((salary: Salary) =>
+  //         salary.salary.toLowerCase().includes(query.toLowerCase()),
+  //       ) ?? [];
 
   if (isLoading) {
     return <LoadingSpinner />;
+  }
+
+  if (!filteredSalaries) {
+    return <div>Something went wrong...</div>;
   }
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,7 +41,7 @@ export function salaryInputBox() {
 
   const handlesalaryChange = (salary: Salary) => {
     setSelectedsalary(salary);
-    setsalaryFilter(salary.salary);
+    setSalaryFilter(salary.salary);
   };
 
   return (
@@ -53,7 +59,7 @@ export function salaryInputBox() {
                 if (event.key === "Enter" && query === "") {
                   event.preventDefault();
                   setSelectedsalary(undefined);
-                  setsalaryFilter("");
+                  setSalaryFilter("");
                 }
               }}
             />
@@ -82,7 +88,7 @@ export function salaryInputBox() {
                   }`
                 }
               >
-                {({ selected, active }) => (
+                {({ selected }) => (
                   <>
                     <span
                       className={`block truncate ${
@@ -94,7 +100,7 @@ export function salaryInputBox() {
                   </>
                 )}
               </Combobox.Option>
-              {filteredsalaries.map((salary) => (
+              {filteredSalaries.map((salary) => (
                 <Combobox.Option
                   key={salary.id}
                   value={salary}
