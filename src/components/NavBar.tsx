@@ -4,6 +4,7 @@ import Link from "next/link";
 import useScreenSize from "~/hooks/useScreenSize";
 import { Menu, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
+import { useButton } from "~/context/buttonContext";
 
 export const HamburgerButton = () => {
   const [hamburgerActive, setHamburgerActive] = useState<boolean>(false);
@@ -72,16 +73,16 @@ export const HamburgerButton = () => {
 };
 
 export const NavLinks: React.FC = () => {
- 
+  const { actionButton, setActionButton } = useButton();
   return (
     <>
       <Link href={`/profile`} className="rounded-xl bg-white p-2">
           Saved Searches
       </Link>
-      <Link href={`/profile`} className="rounded-xl bg-white p-2" >
+      <Link href={`/profile`} className="rounded-xl bg-white p-2" onClick={() => { setActionButton('liked') }}>
         Liked Jobs
       </Link>
-      <Link href={`/profile`} className="rounded-xl bg-white p-2" >
+      <Link href={`/profile`} className="rounded-xl bg-white p-2" onClick={() => { setActionButton('applied') }}>
         Applied Jobs
       </Link>
     </>
