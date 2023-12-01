@@ -48,7 +48,7 @@ export const UserJobsTracker: React.FC = () => {
  
   return (
     <>
-      <div className="w-[800px] max-h-[396px] relative mb-8 flex flex-col rounded-lg border-2 border-solid border-[#1A78E6] shadow-md">
+      <div className="w-[800px] max-h-[396px] min-h-[400px] relative mb-8 flex flex-col rounded-lg border-2 border-solid border-[#1A78E6] shadow-md">
         <ul className="border-b-solid flex flex-row justify-evenly border-b-2 py-2 border-[#1A78E6] pt-2 text-lg">
           <li>
             <button
