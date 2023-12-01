@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState, ReactNode, Dispatch, SetStateAction } from 'react';
+import React, { createContext, useContext, useState } from "react";
+import type { ReactNode } from "react";
 // Define the shape of your context data
 interface ButtonContextType {
     actionButton: string;
@@ -8,7 +9,9 @@ interface ButtonContextType {
 // Create the context with an initial dummy value
 const ButtonContext = createContext<ButtonContextType>({
     actionButton: '',
-    setActionButton: () => {}
+    setActionButton: (value: SetStateAction<string>) => {
+      console.log(value);
+    }
 });
 
 export const useButton = () => useContext(ButtonContext);
