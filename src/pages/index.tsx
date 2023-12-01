@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
+import { CompanyInputBox } from "~/components/Inputs/CompanyInputBox";
 import { LocationInputBox } from "~/components/Inputs/LocationInputBox";
 import { RoleInputBox } from "~/components/Inputs/RoleInputBox";
 import JobList from "~/components/JobList";
@@ -12,7 +13,7 @@ import { api } from "~/utils/api";
 export default function Home() {
   api.post.getAllPosts.useQuery();
 
-  const screenSize = useScreenSize()
+  const screenSize = useScreenSize();
 
   return (
     <>
@@ -34,6 +35,7 @@ export default function Home() {
                 <div className="mb-4 flex flex-col gap-2 md:mb-0 md:flex-row">
                   <RoleInputBox />
                   <LocationInputBox />
+                  <CompanyInputBox />
                 </div>
                 <button
                   type="submit"
