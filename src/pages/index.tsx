@@ -119,7 +119,7 @@ export default function Home() {
         </div>
         <TagWidget />
         <div>
-          <JobList />
+            <JobList />
         </div>
         <ScrollToTopButton />
       </main>

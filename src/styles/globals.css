@@ -12,6 +12,106 @@ body {
   background-position: 50% 15%;
 }
 
+/* @keyframes reflectionWave {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.reflection-wave {
+  background: linear-gradient(
+    to right,
+    #f0f0f0 30%,
+    #e0e0e0 50%,
+    #f0f0f0 100%
+  );
+  background-size: 200% 100%;
+  animation: reflectionWave 2s linear infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.pulse-animation {
+  animation: pulse 1.5s ease-in-out infinite;
+} */
+
+/* @keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes reflectionWave {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.pulse-animation {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.reflection-wave {
+  background: linear-gradient(
+    to right,
+    #e0e0e0 0%,
+    #f0f0f0 50%,
+    #e0e0e0 100%
+  );
+  background-size: 200% 100%;
+  animation: reflectionWave 2s linear infinite;
+} */
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7; /* Adjusted for a more noticeable pulsing effect */
+  }
+}
+
+@keyframes reflectionWave {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.pulse-animation {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.reflection-wave {
+  background: linear-gradient(
+    to right,
+    #d0d0d0 0%, /* Even darker shade */
+    #e0e0e0 50%, /* Slightly lighter shade for the reflection */
+    #d0d0d0 100% /* Even darker shade */
+  );
+  background-size: 200% 100%;
+  animation: reflectionWave 2s linear infinite;
+}
+
+
 .hamburger {
   margin-left: 2%;
   cursor: pointer;

@@ -13,6 +13,8 @@ import {
   OriginalPostButton,
   MarkAppliedButton,
 } from "./jobListingButtons";
+import { JobListSkeleton } from "~/components/jobListSkeleton";
+
 
 export function JobPreview(post: Post) {
   return (
@@ -100,7 +102,7 @@ export default function JobList() {
     api.post.getFilteredPosts.useQuery(queryParameters);
 
   // TODO: FIX issue where someone opening the site for the first time (maybe only in prod?) fails to load this and goes to "something went wrong"
-  if (isLoading) return <LoadingPage />;
+  if (isLoading) return <JobListSkeleton />;
   if (!data) return <div>Something went wrong!</div>;
 
   return (
