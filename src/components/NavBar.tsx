@@ -128,7 +128,7 @@ export const NavLinks: React.FC = () => {
 };
 
 export const NavBar = () => {
-  const { isSignedIn } = useUser();
+  const { isSignedIn, isLoaded } = useUser();
   const [header, setHeader] = useState<boolean>(false);
 
   const scrollHeader = () => {
@@ -185,13 +185,13 @@ export const NavBar = () => {
           {screenSize! < 768 ? (
             <HamburgerButton />
           ) : (
-            <span className="rounded-xl bg-white p-2">
-              {isSignedIn ? (
+            <div className="rounded-xl bg-white p-2 w-[68.22px] h-[40px]">
+              { isSignedIn ? (
                 <button onClick={handleSignOutButton}>Sign Out</button>
               ) : (
                 <SignInButton />
               )}
-            </span>
+            </div>
           )}
         </div>
       </nav>

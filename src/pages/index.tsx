@@ -75,7 +75,7 @@ export default function Home() {
       <main>
         <div className="bg-image-large flex h-[30rem] w-full flex-col md:h-[450px]">
           <NavBar />
-          <div className="relative left-1/2 top-[40%] max-w-fit -translate-x-2/4 -translate-y-2/4 rounded-lg bg-gray-600 bg-opacity-70 px-2 pb-4 pt-1 md:top-1/3 md:px-4">
+          <div className="relative left-1/2 top-[40%] max-w-fit -translate-x-2/4 -translate-y-2/4 rounded-lg bg-gray-600 bg-opacity-70 px-2 pb-4 pt-1 md:top-1/3 md:px-4 mr-2">
             <p className="mb-4 text-center text-2xl text-white md:text-4xl">
               All the dev jobs,
               <span className="font-semibold"> one place</span>
@@ -89,13 +89,15 @@ export default function Home() {
                     </span>
                     <RoleInputBox />
                   </div>
-                  <div>
+                  <div className="flex grow flex-col">
                     <span className="mr-2 font-bold text-white">In</span>
                     <LocationInputBox />
                   </div>
                   <div>
                     <span className="mr-2 font-bold text-white">At</span>
+                    <div className="flex grow">
                     <CompanyInputBox />
+                    </div>
                   </div>
                 </div>
                 <button
