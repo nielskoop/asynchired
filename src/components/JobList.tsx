@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { JobListingModal } from "./jobListingModal";
 import { LoadingPage } from "./Loading";
 import { TagIcon } from "./TagIcon";
-import { useModal } from "~/context/modalStore";
+import { useModal } from "~/context/modalContext";
 import { useFilter } from "~/context/FilterContext";
 import {
   LikeButton,
@@ -99,6 +99,7 @@ export default function JobList() {
   const { data, isLoading } =
     api.post.getFilteredPosts.useQuery(queryParameters);
 
+  // TODO: FIX issue where someone opening the site for the first time (maybe only in prod?) fails to load this and goes to "something went wrong"
   if (isLoading) return <LoadingPage />;
   if (!data) return <div>Something went wrong!</div>;
 

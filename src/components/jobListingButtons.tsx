@@ -1,16 +1,19 @@
 import Image from "next/image";
 import type { Post } from "@prisma/client";
 import { api } from "~/utils/api";
-import { useUser, useClerk } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import { LoadingSpinner } from "./Loading";
 import Link from "next/dist/client/link";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 export const OriginalPostButton = (props: { url: string }) => {
   return (
     <Link
-      className="h-min rounded-xl bg-[#1A78E6] px-2 py-1 text-white"
+      className="h-min rounded-xl bg-[#1A78E6] px-2 py-1 text-white focus-visible:outline-none"
       href={props.url}
+      target="_blank"
+      rel="noopener noreferrer"
     >
       See source
     </Link>
@@ -19,7 +22,6 @@ export const OriginalPostButton = (props: { url: string }) => {
 
 export const MarkAppliedButton = (props: { post: Post }) => {
   const { user } = useUser();
-  const { navigate } = useClerk();
 
   // const ctx = api.useUtils();
   const { data: userDetails } = api.user.getUserById.useQuery();
@@ -50,7 +52,14 @@ export const MarkAppliedButton = (props: { post: Post }) => {
     console.log("you clicked me user: ", user);
     if (!user) {
       // fix this so it goes back to the same page
-      await navigate("/sign-in");
+      toast.error("Log-in to use this feature", {
+        icon: "🔒", // Optional: add an emoji or custom icon
+        style: {
+          borderRadius: "10px",
+          background: "#E61A1A",
+          color: "#fff",
+        },
+      });
       return;
     } else if (userDetails?.appliedPosts.includes(props.post.id) && applied) {
       mutate({ postId: props.post.id, action: "undo" });
@@ -73,8 +82,6 @@ export const MarkAppliedButton = (props: { post: Post }) => {
 
 export const LikeButton = (props: { post: Post }) => {
   const { user } = useUser();
-  const { navigate } = useClerk();
-
   const { data: userDetails } = api.user.getUserById.useQuery();
   const [isLiked, setIsLiked] = useState(false);
 
@@ -102,7 +109,14 @@ export const LikeButton = (props: { post: Post }) => {
   async function likePost() {
     console.log("you clicked me user: ", user);
     if (!user) {
-      await navigate("/sign-in");
+      toast.error("Log-in to use this feature", {
+        icon: "🔒", // Optional: add an emoji or custom icon
+        style: {
+          borderRadius: "10px",
+          background: "#E61A1A",
+          color: "#fff",
+        },
+      });
       return;
     } else if (userDetails?.likedPosts.includes(props.post.id) && isLiked) {
       mutate({ postId: props.post.id, action: "undo" });
@@ -126,8 +140,6 @@ export const LikeButton = (props: { post: Post }) => {
 
 export const DislikeButton = (props: { post: Post }) => {
   const { user } = useUser();
-  const { navigate } = useClerk();
-
   const { data: userDetails } = api.user.getUserById.useQuery();
   const [isDisliked, setIsDisliked] = useState(false);
 
@@ -155,7 +167,14 @@ export const DislikeButton = (props: { post: Post }) => {
   async function dislikePost() {
     console.log("you clicked me user: ", user);
     if (!user) {
-      await navigate("/sign-in");
+      toast.error("Log-in to use this feature", {
+        icon: "🔒", // Optional: add an emoji or custom icon
+        style: {
+          borderRadius: "10px",
+          background: "#E61A1A",
+          color: "#fff",
+        },
+      });
       return;
     } else if (
       userDetails?.dislikedPosts.includes(props.post.id) &&

@@ -8,6 +8,7 @@ import { NavBar } from "~/components/NavBar";
 import useScreenSize from "~/hooks/useScreenSize";
 import { api } from "~/utils/api";
 import { useFilter } from "~/context/FilterContext";
+import ScrollToTopButton from "~/components/scrollToTopButton";
 
 // import { api } from "~/utils/api";
 
@@ -91,8 +92,8 @@ export default function Home() {
       <main>
         <div className="bg-image-large flex h-[30rem] w-full flex-col md:h-[450px]">
           <NavBar />
-          <div className="relative left-1/2 top-[40%] -translate-x-2/4 -translate-y-2/4 md:top-1/3">
-            <p className="mb-4 text-center text-3xl text-white md:text-4xl">
+          <div className="relative left-1/2 top-[40%] max-w-fit -translate-x-2/4 -translate-y-2/4 rounded-lg bg-gray-600 bg-opacity-70 px-2 pb-4 pt-1 md:top-1/3 md:px-4">
+            <p className="mb-4 text-center text-2xl text-white md:text-4xl">
               All the dev jobs,
               <span className="font-semibold"> one place</span>
             </p>
@@ -116,7 +117,7 @@ export default function Home() {
                 </div>
                 <button
                   type="submit"
-                  className="flex-end w-full rounded-md bg-green-700 p-1 font-semibold text-white md:w-max"
+                  className="w-full self-end justify-self-end rounded-md bg-green-700 p-1 font-semibold text-white md:w-max"
                 >
                   {screenSize && screenSize < 768 ? (
                     "Search Jobs"
@@ -137,6 +138,7 @@ export default function Home() {
         <div>
           <JobList />
         </div>
+        <ScrollToTopButton />
       </main>
     </>
   );

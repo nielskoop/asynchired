@@ -4,9 +4,11 @@ import { api } from "~/utils/api";
 import "~/styles/globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Inter } from "next/font/google";
-import { ModalProvider } from "~/context/modalStore";
+import { ModalProvider } from "~/context/modalContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { FilterProvider } from "~/context/FilterContext";
+import { Toaster } from "react-hot-toast";
+import { ButtonProvider } from "~/context/buttonContext";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -22,11 +24,16 @@ const MyApp: AppType = ({ Component, pageProps }) => {
       `}</style>
       <QueryClientProvider client={queryClient}>
         <main className={`${inter.variable} font-sans`}>
+          {/* <UserPostInteractionProvider> */}
           <FilterProvider>
             <ModalProvider>
-              <Component {...pageProps} />
+              <ButtonProvider>
+                <Toaster position="bottom-center" />
+                <Component {...pageProps} />
+              </ButtonProvider>
             </ModalProvider>
           </FilterProvider>
+          {/* </UserPostInteractionProvider> */}
         </main>
       </QueryClientProvider>
     </ClerkProvider>

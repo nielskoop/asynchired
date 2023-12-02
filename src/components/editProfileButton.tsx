@@ -1,5 +1,5 @@
 import { ProfileEditModal } from "./profileEditModal";
-import { useModal } from "~/context/modalStore";
+import { useModal } from "~/context/modalContext";
 
 export const EditProfileButton = () => {
   const [isOpen, setIsOpen] = useModal('editProfile');

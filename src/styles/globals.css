@@ -9,7 +9,7 @@ body {
 .bg-image-large {
   background-image: url("/world_wide_web_blue_globe.png");
   background-size: cover;
-  background-position: 0% 15%;
+  background-position: 50% 15%;
 }
 
 .hamburger {
