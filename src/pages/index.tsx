@@ -32,8 +32,11 @@ const tags = [
   "Staff",
 ];
 
+const hasSalaryTag = ["Has Salary"];
+// const noSalaryTag = ["No Salary"];
+
 export function TagWidget() {
-  const { setRoleFilter } = useFilter();
+  const { setRoleFilter, setSalaryFilter } = useFilter();
 
   return (
     <div className="bg-slate-200 px-2 py-4">
@@ -53,6 +56,20 @@ export function TagWidget() {
                 </button>
               );
             })}
+
+            <button
+              className="whitespace-nowrap rounded-full bg-white px-3 py-1"
+              onClick={() => setSalaryFilter("$")}
+            >
+              {hasSalaryTag}
+            </button>
+            {/* //TODO: Add no salary filter */}
+            {/* <button
+              className="whitespace-nowrap rounded-full bg-white px-3 py-1"
+              onClick={() => setSalaryFilter("NO_SALARY")}
+            >
+              {noSalaryTag}
+            </button> */}
           </div>
         </div>
       </div>

@@ -17,14 +17,13 @@ export function salaryInputBox() {
   const { setSalaryFilter } = useFilter();
   const [selectedsalary, setSelectedsalary] = useState<Salary | undefined>();
 
-  const filteredSalaries = salaries;
-
-  // const filteredsalaries: Salary[] =
-  //   query === ""
-  //     ? salaries ?? []
-  //     : salaries?.filter((salary: Salary) =>
-  //         salary.salary.toLowerCase().includes(query.toLowerCase()),
-  //       ) ?? [];
+  const filteredSalaries =
+    query === ""
+      ? salaries ?? []
+      : salaries?.filter(
+          (salary) =>
+            salary.salary?.toLowerCase().includes(query.toLowerCase()),
+        ) ?? [];
 
   if (isLoading) {
     return <LoadingSpinner />;

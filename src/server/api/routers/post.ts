@@ -130,7 +130,7 @@ export const postRouter = createTRPCRouter({
         location: z.string().optional(),
         role: z.string().optional(),
         company: z.string().optional(),
-        salary: z.string().optional(),
+        salary: z.string().nullable().optional(),
       }),
     )
     .query(async ({ input, ctx }) => {
@@ -149,10 +149,19 @@ export const postRouter = createTRPCRouter({
             contains: input.company,
             mode: "insensitive",
           },
-          salary: {
-            contains: input.salary,
-            mode: "insensitive",
-          },
+
+          ...(input.salary !== undefined &&
+          input.salary !== null &&
+          input.salary !== "NO_SALARY"
+            ? {
+                salary: {
+                  contains: input.salary,
+                  mode: "insensitive",
+                },
+              }
+            : input.salary === "NO_SALARY"
+              ? { salary: { equals: null } } // Checking for null (which includes undefined)
+              : {}),
         },
       });
       return posts;
