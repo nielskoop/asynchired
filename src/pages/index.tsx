@@ -49,7 +49,7 @@ export function TagWidget() {
             {tags.map((tag) => {
               return (
                 <button
-                  className="whitespace-nowrap rounded-full bg-white px-3 py-1"
+                  className="whitespace-nowrap rounded-full bg-white px-3 py-1 shadow-md"
                   onClick={() => setRoleFilter(tag)}
                 >
                   {tag}
@@ -58,7 +58,7 @@ export function TagWidget() {
             })}
 
             <button
-              className="whitespace-nowrap rounded-full bg-white px-3 py-1"
+              className="whitespace-nowrap rounded-full bg-white px-3 py-1 shadow-md"
               onClick={() => setSalaryFilter("$")}
             >
               {hasSalaryTag}

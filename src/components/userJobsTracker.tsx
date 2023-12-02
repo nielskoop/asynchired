@@ -1,13 +1,14 @@
 import { JobListing } from "./JobList";
 import { api } from "~/utils/api";
 import { useButton } from "~/context/buttonContext";
+import { UserJobsTrackerSkeleton } from "./userJobsTrackerSkeleton";
 
 export const UserJobsTracker: React.FC = () => {
  const {actionButton, setActionButton } = useButton();
  const { data: allPosts, isLoading: allPostsLoading, error: allPostsError } = api.post.getAllPosts.useQuery();
  const { data: userDetails, isLoading: userDetailsLoading, error: userDetailsError } = api.user.getUserById.useQuery();
   if (allPostsLoading || userDetailsLoading) {
-    return <p>Loading...</p>;
+    return <UserJobsTrackerSkeleton/>;
   }
   if (allPostsError) {
     return <p>Error loading all posts: {allPostsError.message}</p>;
@@ -22,7 +23,7 @@ export const UserJobsTracker: React.FC = () => {
     return <p>User details not found</p>;
   }
 
- 
+
 
 const handleApplied = () => {
     setActionButton('applied');
@@ -49,7 +50,7 @@ const handleApplied = () => {
 
   return (
     <>
-      <div className="w-[550px] h-[400px] relative mb-8 flex flex-col rounded-lg border-2 border-solid border-[#1A78E6] shadow-md">
+      <div className="w-[550px] h-[400px] relative mb-8 flex flex-col rounded-lg border-2 border-solid border-[#1A78E6] shadow-lg">
         <ul className="border-b-solid flex flex-row justify-evenly border-b-2 py-2 border-[#1A78E6] pt-2 text-lg">
           <li>
             <button

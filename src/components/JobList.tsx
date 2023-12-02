@@ -62,7 +62,7 @@ export function JobListing(post: Post) {
   const screenSize = useScreenSize();
 
   return (
-    <div className="flex justify-between border-b border-slate-300 p-3 sm:mt-3 sm:rounded-2xl sm:border-x sm:border-t">
+    <div className="flex justify-between border-b border-slate-300 p-3 shadow-md sm:mt-3 sm:rounded-2xl sm:border-x sm:border-t">
       <div className="cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
         <JobPreview {...post} />
       </div>

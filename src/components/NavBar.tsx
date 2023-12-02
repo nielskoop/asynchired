@@ -102,7 +102,10 @@ export const NavLinks: React.FC = () => {
   const { setActionButton } = useButton();
   return (
     <>
-      <Link href={`/profile`} className="rounded-xl bg-white p-2">
+      <Link
+        href={`/profile`}
+        className="rounded-xl bg-white p-2"
+      >
         Saved Searches
       </Link>
       <Link
@@ -165,7 +168,9 @@ export const NavBar = () => {
   return (
     <div
       className={
-        header ? "bg-image-large fixed w-full transition-all z-10" : "bg-transparent"
+        header
+          ? "bg-image-large fixed z-10 w-full transition-all"
+          : "bg-transparent"
       }
     >
       <nav className="flex items-center justify-between px-8 font-semibold">
@@ -185,8 +190,8 @@ export const NavBar = () => {
           {screenSize! < 768 ? (
             <HamburgerButton />
           ) : (
-            <div className="text-center rounded-xl bg-white p-2 min-w-[82.5px] h-[40px]">
-              { isSignedIn ? (
+            <div className="h-[40px] min-w-[82.5px] rounded-xl bg-white p-2 text-center">
+              {isSignedIn ? (
                 <button onClick={handleSignOutButton}>Sign Out</button>
               ) : (
                 <SignInButton />
