@@ -1,7 +1,6 @@
 import Image from "next/image";
 import {
   SignInButton,
-  useClerk,
   useUser,
   SignUpButton,
   SignOutButton,
@@ -11,25 +10,10 @@ import useScreenSize from "~/hooks/useScreenSize";
 import { Menu, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useState } from "react";
 import { useButton } from "~/context/buttonContext";
-import { useRouter } from "next/router";
 
 export const HamburgerButton = () => {
   const [hamburgerActive, setHamburgerActive] = useState<boolean>(false);
   const { isSignedIn } = useUser();
-
-  const router = useRouter();
-  const { signOut } = useClerk();
-
-  const handleSignOutButton = async () => {
-    const currentPage = router.pathname;
-    if (currentPage !== "/") {
-      await router.push("/");
-      await signOut();
-    } else {
-      await signOut();
-      router.reload();
-    }
-  };
 
   return (
     <Menu as={"div"} className={"relative inline-block text-left"}>
@@ -79,7 +63,7 @@ export const HamburgerButton = () => {
           <div className="px-4 py-2 text-xl">
             {isSignedIn ? (
               <Menu.Item>
-                {({ active }) => (
+                {() => (
                   <div className=" bg-white ">
                     <SignOutButton />
                   </div>
@@ -131,7 +115,7 @@ export const NavLinks: React.FC = () => {
 };
 
 export const NavBar = () => {
-  const { isSignedIn, isLoaded } = useUser();
+  const { isSignedIn } = useUser();
   const [header, setHeader] = useState<boolean>(false);
 
   const scrollHeader = () => {
@@ -151,8 +135,6 @@ export const NavBar = () => {
   }, []);
 
   const screenSize = useScreenSize();
-  const router = useRouter();
-  const { signOut } = useClerk();
 
   return (
     <div
@@ -179,7 +161,7 @@ export const NavBar = () => {
           {screenSize! < 768 ? (
             <HamburgerButton />
           ) : (
-            <div className="h-[40px] min-w-[82.5px] rounded-xl bg-white p-2 text-center">
+            <div className="h-[40px] min-w-[82.5px]  text-center">
               {isSignedIn ? (
                 <div className="rounded-xl bg-white p-2">
                   <SignOutButton />
