@@ -5,12 +5,13 @@ import { useUser } from "@clerk/nextjs";
 import { UserInfo } from "~/components/userInfo";
 import { UserJobsTracker } from "~/components/userJobsTracker";
 import { LoadingPage } from "~/components/Loading";
+import SavedSearches from "~/components/savedSearches";
 
 
 const ProfilePage: NextPage = () => {
   const { user } = useUser();
 
-  
+
   if (!user) {
     return <LoadingPage/>;
   }
@@ -27,9 +28,7 @@ const ProfilePage: NextPage = () => {
         <UserInfo />
         <UserJobsTracker />
       </div>
-      <div className="p-4 text-center text-2xl font-bold">
-        <h2>Your Saved Searches</h2>
-      </div>
+      <SavedSearches/>
     </>
   );
 };

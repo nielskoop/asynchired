@@ -177,6 +177,11 @@ export function TagWidget() {
 export default function Home() {
   const screenSize = useScreenSize();
   const [isWidgetOpen, setIsWidgetOpen] = useState(true);
+
+  const handleSaveSearch = () => {
+    
+  }
+
   return (
     <>
       <Head>
@@ -224,6 +229,23 @@ export default function Home() {
                       height={36}
                       width={36}
                       alt="search button"
+                    />
+                  )}
+                </button>
+
+                <button
+                  type="button"
+                  className="mt-2 w-full self-end justify-self-end rounded-md bg-[#1A78E6] p-1 font-semibold text-white md:w-max"
+                  onClick={handleSaveSearch}
+                >
+                  {screenSize && screenSize < 768 ? (
+                    "Save Search"
+                  ) : (
+                    <Image
+                      src={"save.svg"}
+                      height={36}
+                      width={36}
+                      alt="save search button"
                     />
                   )}
                 </button>
