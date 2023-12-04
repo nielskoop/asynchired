@@ -39,3 +39,16 @@ model User {
     dislikedPosts   Int[]
     appliedPosts    Int[]
 }
+
+model Search {
+    id          Int      @id @default(autoincrement())
+    userId      String
+    name       String
+    title       String?
+    location    String?
+    company     String?
+    jobDescription  String?
+    salary      String?
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+}

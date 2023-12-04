@@ -7,13 +7,11 @@ import { RoleInputBox } from "~/components/Inputs/RoleInputBox";
 import JobList from "~/components/jobLists/JobList";
 import { NavBar } from "~/components/NavBar";
 import useScreenSize from "~/hooks/useScreenSize";
-import { api } from "~/utils/api";
 import { useFilter } from "~/context/FilterContext";
 import ScrollToTopButton from "~/components/scrollToTopButton";
 import { useAuth } from "@clerk/nextjs";
-import { set } from "zod";
-
-// import { api } from "~/utils/api";
+import { api } from "~/utils/api";
+import { E } from "@upstash/redis/zmscore-b6b93f14";
 
 const roleTags = [
   "Product",
@@ -88,7 +86,7 @@ export function TagWidget() {
     selectedTags[category] === tag;
 
   return (
-    <div className="flex flex-col overflow-auto  bg-slate-200 px-2 py-4">
+    <div className="min-w-screen flex flex-col overflow-auto bg-slate-200 px-2 py-4">
       <div className="text-xl font-semibold sm:mx-auto sm:w-4/5">
         Search With Tags:
       </div>
@@ -176,11 +174,24 @@ export function TagWidget() {
 
 export default function Home() {
   const screenSize = useScreenSize();
+  const { roleFilter, locationFilter, companyFilter } = useFilter();
   const [isWidgetOpen, setIsWidgetOpen] = useState(true);
+  const { userId } = useAuth();
+  const mutation = api.user.saveSearch.useMutation();
 
-  const handleSaveSearch = () => {
-    
-  }
+  const handlePostSearch = (e: React.MouseEvent) => {
+    e.preventDefault();
+
+    if (!userId) return;
+
+    mutation.mutate({
+      searchName: "Test Search Name",
+      userId,
+      title: roleFilter,
+      location: locationFilter,
+      company: companyFilter,
+    });
+  };
 
   return (
     <>
@@ -236,7 +247,9 @@ export default function Home() {
                 <button
                   type="button"
                   className="mt-2 w-full self-end justify-self-end rounded-md bg-[#1A78E6] p-1 font-semibold text-white md:w-max"
-                  onClick={handleSaveSearch}
+                  onClick={(e) => {
+                    handlePostSearch(e);
+                  }}
                 >
                   {screenSize && screenSize < 768 ? (
                     "Save Search"
@@ -253,17 +266,18 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="flex">
+        <div className=" flex justify-center bg-slate-200  p-2">
           <button
-            className="max-h- rounded bg-blue-500 p-2 text-white"
+            className="flex max-w-lg self-center justify-self-end rounded bg-blue-500 p-2 text-white"
             onClick={() => setIsWidgetOpen(!isWidgetOpen)}
           >
             {isWidgetOpen ? "Minimize Tags" : "Open Tags"}
           </button>
-
+        </div>
+        <div className="flex">
           <div
             className={`transition-all duration-500 ease-in-out ${
-              isWidgetOpen ? " min-w-[100%] opacity-100" : "max-h-0 opacity-0"
+              isWidgetOpen ? "min-w-full opacity-100" : "max-h-0 opacity-0"
             }`}
           >
             <TagWidget />
