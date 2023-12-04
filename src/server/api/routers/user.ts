@@ -36,6 +36,41 @@ export const userRouter = createTRPCRouter({
     return likedJobs;
   }),
 
+  updateProfile: privateProcedure
+  .input(z.object({ job: z.string(), location: z.string(), techStack: z.string(), education: z.string(), userId: z.string() }))
+  .mutation(async ({ ctx, input }) => {
+    const userId = input.userId;
+      if (userId) {
+        const updateUser = await ctx.db.user.update({
+          where: {
+            id: userId,
+          },
+          data: {
+            job: input.job,
+            location: input.location,
+            techStack: input.techStack,
+            education: input.education
+          },
+        });
+        return updateUser;
+    }
+  }),
+
+  getProfile: privateProcedure.input(z.string()).query(async ({ ctx, input }) => {
+    const user = await ctx.db.user.findUnique({
+      where: {
+        id: input,
+      },
+      select: {
+        job: true,
+        location: true,
+        techStack: true,
+        education: true
+      }
+    });
+    return user;
+  }),
+
   like: privateProcedure
     .input(z.object({ postId: z.number(), userId: z.string() }))
     .mutation(async ({ ctx, input }) => {
