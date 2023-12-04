@@ -1,7 +1,6 @@
 import Image from "next/image";
 import {
   SignInButton,
-  useClerk,
   useUser,
   SignUpButton,
   SignOutButton,
@@ -11,29 +10,17 @@ import useScreenSize from "~/hooks/useScreenSize";
 import { Menu, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useState } from "react";
 import { useButton } from "~/context/buttonContext";
-import { useRouter } from "next/router";
+import { useClickAway } from "@uidotdev/usehooks";
 
 export const HamburgerButton = () => {
   const [hamburgerActive, setHamburgerActive] = useState<boolean>(false);
   const { isSignedIn } = useUser();
-
-  const router = useRouter();
-  const { signOut } = useClerk();
-
-  const handleSignOutButton = async () => {
-    const currentPage = router.pathname;
-    if (currentPage !== "/") {
-      await router.push("/");
-      await signOut();
-    } else {
-      await signOut();
-      router.reload();
-    }
-  };
+  const ref = useClickAway<HTMLButtonElement>(() => setHamburgerActive(false));
 
   return (
     <Menu as={"div"} className={"relative inline-block text-left"}>
       <Menu.Button
+        ref={ref}
         onClick={() => setHamburgerActive(!hamburgerActive)}
         className={"hamburgerButton flex items-center"}
       >
@@ -53,8 +40,8 @@ export const HamburgerButton = () => {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="absolute right-0 z-20 mt-2 flex w-48 origin-top-right flex-col divide-y divide-gray-100 rounded-sm bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
-          <div className="flex flex-col gap-2 px-4 py-2">
+        <Menu.Items className="absolute right-0 z-20 mt-2 flex w-48 origin-top-right flex-col divide-y divide-gray-100 rounded-xl bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
+          <div className="flex flex-col gap-2 px-4 py-4">
             <Menu.Item>
               {({ active }) => (
                 <Link
@@ -75,24 +62,57 @@ export const HamburgerButton = () => {
                 </Link>
               )}
             </Menu.Item>
+            <Menu.Item>
+              {({ active }) => (
+                <Link
+                  className={`${active && "text-slate-500"}`}
+                  href="/profile"
+                >
+                  Applied Jobs
+                </Link>
+              )}
+            </Menu.Item>
           </div>
           <div className="px-4 py-2 text-xl">
             {isSignedIn ? (
-              <Menu.Item>
-                {({ active }) => (
-                  <div className=" bg-white ">
-                    <SignOutButton />
-                  </div>
-                )}
-              </Menu.Item>
+              <div className="flex flex-col gap-2 py-2 text-center">
+                <Menu.Item>
+                  {({ active }) => (
+                    <div
+                      className={`rounded-2xl bg-slate-200 px-2 py-1 ${
+                        active && "text-slate-500"
+                      }`}
+                    >
+                      <SignOutButton />
+                    </div>
+                  )}
+                </Menu.Item>
+              </div>
             ) : (
-              <Menu.Item>
-                {({ active }) => (
-                  <div className={`${active && "text-slate-500"}`}>
-                    <SignUpButton />
-                  </div>
-                )}
-              </Menu.Item>
+              <div className="flex flex-col gap-2 py-2 text-center">
+                <Menu.Item>
+                  {({ active }) => (
+                    <div
+                      className={`rounded-2xl bg-slate-200 px-2 py-1 ${
+                        active && "text-slate-500"
+                      }`}
+                    >
+                      <SignInButton />
+                    </div>
+                  )}
+                </Menu.Item>
+                <Menu.Item>
+                  {({ active }) => (
+                    <div
+                      className={`rounded-2xl bg-slate-200 px-2 py-1 ${
+                        active && "text-slate-500"
+                      }`}
+                    >
+                      <SignUpButton />
+                    </div>
+                  )}
+                </Menu.Item>
+              </div>
             )}
           </div>
         </Menu.Items>
@@ -131,7 +151,7 @@ export const NavLinks: React.FC = () => {
 };
 
 export const NavBar = () => {
-  const { isSignedIn, isLoaded } = useUser();
+  const { isSignedIn } = useUser();
   const [header, setHeader] = useState<boolean>(false);
 
   const scrollHeader = () => {
@@ -151,8 +171,6 @@ export const NavBar = () => {
   }, []);
 
   const screenSize = useScreenSize();
-  const router = useRouter();
-  const { signOut } = useClerk();
 
   return (
     <div

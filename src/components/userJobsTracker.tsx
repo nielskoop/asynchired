@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import LikedJobsList from "./jobLists/LikedJobsList";
 import DislikedJobsList from "./jobLists/DislikedJobsList";
 import AppliedJobsList from "./jobLists/AppliedJobsList";
-import { UserJobsTrackerSkeleton } from "./userJobsTrackerSkeleton";
+// import { UserJobsTrackerSkeleton } from "./userJobsTrackerSkeleton";
 
 export const UserJobsTracker: React.FC = () => {
   // State to keep track of the currently selected list
