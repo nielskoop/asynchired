@@ -27,7 +27,7 @@ export const MarkAppliedButton = (props: { post: Post }) => {
 
   // const ctx = api.useUtils();
   const { data: userDetails, isLoading: applyLoading } =
-    api.user.getUser.useQuery(userId, { refetch: true });
+    api.user.getUser.useQuery(userId);
 
   const [applied, setApplied] = useState(false);
 
@@ -41,7 +41,7 @@ export const MarkAppliedButton = (props: { post: Post }) => {
     onSuccess: () => {
       console.log("success!");
       setApplied(!applied);
-      api.user.getUser.useQuery(userId, { refetch: true });
+      api.user.getUser.useQuery(userId);
     },
     onError: (e) => {
       const errorMessage = e.data?.zodError?.fieldErrors.content;
@@ -54,7 +54,7 @@ export const MarkAppliedButton = (props: { post: Post }) => {
       onSuccess: () => {
         console.log("success!");
         setApplied(!applied);
-        api.user.getUser.useQuery(userId, { refetch: true });
+        api.user.getUser.useQuery(userId);
       },
       onError: (e) => {
         const errorMessage = e.data?.zodError?.fieldErrors.content;
@@ -100,7 +100,7 @@ export const MarkAppliedButton = (props: { post: Post }) => {
 export const LikeButton = (props: { post: Post }) => {
   const { userId } = useAuth();
   const { data: userDetails, isLoading: likeLoading } =
-    api.user.getUser.useQuery(userId, { refetch: true });
+    api.user.getUser.useQuery(userId);
 
   const [isLiked, setIsLiked] = useState(false);
 
@@ -114,7 +114,7 @@ export const LikeButton = (props: { post: Post }) => {
     onSuccess: () => {
       console.log("success!");
       setIsLiked(!isLiked);
-      api.user.getUser.useQuery(userId, { refetch: true });
+      api.user.getUser.useQuery(userId);
     },
     onError: (e) => {
       const errorMessage = e.data?.zodError?.fieldErrors.content;
@@ -127,7 +127,7 @@ export const LikeButton = (props: { post: Post }) => {
       onSuccess: () => {
         console.log("success!");
         setIsLiked(!isLiked);
-        api.user.getUser.useQuery(userId, { refetch: true });
+        api.user.getUser.useQuery(userId);
       },
       onError: (e) => {
         const errorMessage = e.data?.zodError?.fieldErrors.content;
@@ -173,7 +173,7 @@ export const LikeButton = (props: { post: Post }) => {
 export const DislikeButton = (props: { post: Post }) => {
   const { userId } = useAuth();
   const { data: userDetails, isLoading: dislikeLoading } =
-    api.user.getUser.useQuery(userId, { refetch: true });
+    api.user.getUser.useQuery(userId);
   const [isDisliked, setIsDisliked] = useState(false);
 
   useEffect(() => {
@@ -186,7 +186,7 @@ export const DislikeButton = (props: { post: Post }) => {
     onSuccess: () => {
       console.log("success!");
       setIsDisliked(!isDisliked);
-      api.user.getUser.useQuery(userId, { refetch: true });
+      api.user.getUser.useQuery(userId);
     },
     onError: (e) => {
       const errorMessage = e.data?.zodError?.fieldErrors.content;
@@ -199,7 +199,7 @@ export const DislikeButton = (props: { post: Post }) => {
       onSuccess: () => {
         console.log("success!");
         setIsDisliked(!isDisliked);
-        api.user.getUser.useQuery(userId, { refetch: true });
+        api.user.getUser.useQuery(userId);
       },
       onError: (e) => {
         const errorMessage = e.data?.zodError?.fieldErrors.content;

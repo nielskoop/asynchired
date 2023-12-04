@@ -197,7 +197,7 @@ export const NavBar = () => {
           {screenSize! < 768 ? (
             <HamburgerButton />
           ) : (
-            <div className="h-[40px] min-w-[82.5px] rounded-xl bg-white p-2 text-center">
+            <div className="h-[40px] min-w-[82.5px]  text-center">
               {isSignedIn ? (
                 <div className="rounded-xl bg-white p-2">
                   <SignOutButton />

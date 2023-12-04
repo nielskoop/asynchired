@@ -7,13 +7,8 @@ import { RoleInputBox } from "~/components/Inputs/RoleInputBox";
 import JobList from "~/components/jobLists/JobList";
 import { NavBar } from "~/components/NavBar";
 import useScreenSize from "~/hooks/useScreenSize";
-import { api } from "~/utils/api";
 import { useFilter } from "~/context/FilterContext";
 import ScrollToTopButton from "~/components/scrollToTopButton";
-import { useAuth } from "@clerk/nextjs";
-import { set } from "zod";
-
-// import { api } from "~/utils/api";
 
 const roleTags = [
   "Product",
