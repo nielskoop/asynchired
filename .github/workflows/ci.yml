@@ -9,7 +9,9 @@ on:
       - main
 
 env:
-  DATABASE_URL: "https://fake.com"
+  DATABASE_URL: postgres://postgres:A5incH1red@codeworks-thesis-asynchired.czsyoams2vef.eu-west-1.rds.amazonaws.com:5432/initial_db
+  NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: pk_test_c2hhcnAtdHVya2V5LTEyLmNsZXJrLmFjY291bnRzLmRldiQ
+  CLERK_SECRET_KEY: sk_test_JlIO4hDwWD7PpluNZ4cPfEKzx2c3N6ngtmDHlejpS0
 
 jobs:
   build:
