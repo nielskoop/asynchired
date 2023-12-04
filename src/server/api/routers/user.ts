@@ -6,14 +6,23 @@ import { createTRPCRouter, privateProcedure } from "~/server/api/trpc";
 
 export const userRouter = createTRPCRouter({
   // USER
-  getUser: privateProcedure.input(z.string()).query(async ({ ctx, input }) => {
-    const user = await ctx.db.user.findUnique({
-      where: {
-        id: input,
-      },
-    });
-    return user;
-  }),
+  getUser: privateProcedure
+    .input(z.string().nullable().optional())
+    .query(async ({ ctx, input }) => {
+      if (input === null) {
+        // Handle the case when input is null
+        // Return null or handle it as per your application's logic
+        return null;
+      }
+
+      const user = await ctx.db.user.findUnique({
+        where: {
+          id: input, // Now input is either string or undefined
+        },
+      });
+
+      return user;
+    }),
 
   // LIKES
   getLikes: privateProcedure.input(z.string()).query(async ({ ctx, input }) => {
