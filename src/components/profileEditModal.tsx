@@ -11,7 +11,6 @@ export const ProfileEditModal: React.FC = () => {
 
   return (
     <>
-      {isOpen && <Overlay />}
       <Dialog
         open={isOpen}
         onClose={() => setIsOpen(false)}

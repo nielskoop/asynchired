@@ -13,7 +13,7 @@ interface ModalContextValue {
   ) => void;
 }
 
-const ModalContext = createContext<ModalContextValue | undefined>(undefined);
+export const ModalContext = createContext<ModalContextValue | undefined>(undefined);
 
 export const ModalProvider: React.FC<ModalContextProps> = ({ children }) => {
   const [modals, setModals] = useState<Record<string, boolean>>({});
@@ -46,7 +46,7 @@ export const useModal = (
 ): [boolean, React.Dispatch<React.SetStateAction<boolean>>] => {
   const context = useContext(ModalContext);
   if (!context) {
-    throw new Error("useModal must be used within a ModalProvider");
+    throw new Error("Modal provider not found");
   }
 
   const { modals, setModal } = context;

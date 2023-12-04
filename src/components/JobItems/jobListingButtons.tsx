@@ -65,9 +65,8 @@ export const MarkAppliedButton = (props: { post: Post }) => {
   async function appliedPost() {
     console.log("you clicked me user: ", userId);
     if (!userId) {
-      // fix this so it goes back to the same page
       toast.error("Log-in to use this feature", {
-        icon: "🔒", // Optional: add an emoji or custom icon
+        icon: "🔒",
         style: {
           borderRadius: "10px",
           background: "#E61A1A",

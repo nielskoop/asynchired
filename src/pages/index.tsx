@@ -12,6 +12,9 @@ import ScrollToTopButton from "~/components/scrollToTopButton";
 import { useAuth } from "@clerk/nextjs";
 import { api } from "~/utils/api";
 import { E } from "@upstash/redis/zmscore-b6b93f14";
+import { useModal } from "~/context/modalContext";
+import { SaveSearcNameModal } from "~/components/saveSearchNameModal";
+import toast from "react-hot-toast";
 
 const roleTags = [
   "Product",
@@ -177,20 +180,35 @@ export default function Home() {
   const { roleFilter, locationFilter, companyFilter } = useFilter();
   const [isWidgetOpen, setIsWidgetOpen] = useState(true);
   const { userId } = useAuth();
+  const [isOpen, setIsOpen] = useModal("saveSearchName");
+
   const mutation = api.user.saveSearch.useMutation();
 
-  const handlePostSearch = (e: React.MouseEvent) => {
+  const handleSaveSearch = (e: React.MouseEvent, searchName: string) => {
     e.preventDefault();
 
-    if (!userId) return;
+    if (searchName === "") {
+    toast.error("Name required", {
+      icon: "📝",
+      style: {
+        borderRadius: "10px",
+        background: "#E61A1A",
+        color: "#fff",
+      },
+    });      return
+    } else {
+      setIsOpen(false);
 
-    mutation.mutate({
-      searchName: "Test Search Name",
-      userId,
-      title: roleFilter,
-      location: locationFilter,
-      company: companyFilter,
-    });
+      if (!userId) return;
+
+      mutation.mutate({
+        searchName,
+        userId,
+        title: roleFilter,
+        location: locationFilter,
+        company: companyFilter,
+      });
+    }
   };
 
   return (
@@ -247,9 +265,7 @@ export default function Home() {
                 <button
                   type="button"
                   className="mt-2 w-full self-end justify-self-end rounded-md bg-[#1A78E6] p-1 font-semibold text-white md:w-max"
-                  onClick={(e) => {
-                    handlePostSearch(e);
-                  }}
+                  onClick={() => setIsOpen(!isOpen)}
                 >
                   {screenSize && screenSize < 768 ? (
                     "Save Search"
@@ -262,6 +278,7 @@ export default function Home() {
                     />
                   )}
                 </button>
+                <SaveSearcNameModal handleSaveSearch={handleSaveSearch} />
               </form>
             </div>
           </div>

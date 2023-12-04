@@ -21,16 +21,10 @@ export const JobListingModal: React.FC<{ post: Post }> = ({ post }) => {
       <Dialog
         open={isOpen}
         onClose={() => setIsOpen(false)}
-        className={
-          "fixed left-1/2 top-1/2 z-30 max-h-screen min-w-full -translate-x-1/2 -translate-y-1/2 rounded-lg border-2 border-solid border-[#1A78E6] bg-white text-black md:max-h-[85%] xl:min-w-fit"
-        }
+        className="fixed left-1/2 top-1/2 z-30 max-h-screen min-w-full -translate-x-1/2 -translate-y-1/2 rounded-lg border-2 border-solid border-[#1A78E6] bg-white text-black md:max-h-[85%] xl:min-w-fit"
       >
         <Dialog.Panel>
-          <Dialog.Title
-            className={
-              "flex flex-wrap justify-between border-b-2 border-[#1A78E6] p-2 text-center text-lg font-semibold sm:flex-nowrap"
-            }
-          >
+          <Dialog.Title className="flex flex-wrap justify-between border-b-2 border-[#1A78E6] p-2 text-center text-lg font-semibold sm:flex-nowrap">
             <div className="pb-1 md:pr-2">
               <JobPreview {...post} />
             </div>
@@ -51,7 +45,7 @@ export const JobListingModal: React.FC<{ post: Post }> = ({ post }) => {
             </div>
           </Dialog.Title>
           <div className="overflow-y-scroll">
-            <Dialog.Description className={"flex flex-col items-center py-2"}>
+            <Dialog.Description className="flex flex-col items-center py-2">
               {post.logo && !imageError && (
                 <img
                   src={post.logo}
@@ -73,7 +67,7 @@ export const JobListingModal: React.FC<{ post: Post }> = ({ post }) => {
               </div>
             </Dialog.Description>
           </div>
-          <div className="absolute bottom-0 right-0 mb-[-2px] w-full rounded-b-lg bg-[#1A78E6] px-4 py-1 text-right text-white md:static md:mb-0">
+          <div className="absolute bottom-0 right-0 mb-[-2px] w-full rounded-b-md bg-[#1A78E6] px-4 py-1 text-right text-white md:static md:mb-0">
             <button
               className="hover:underline"
               onClick={() => setIsOpen(false)}

@@ -9,10 +9,12 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { FilterProvider } from "~/context/FilterContext";
 import { Toaster } from "react-hot-toast";
 import { ButtonProvider } from "~/context/buttonContext";
+import { GlobalOverlay } from "~/components/globalOverlay";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 const queryClient = new QueryClient();
+const activeModals = ["saveSearchName", "editProfile"];
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
@@ -27,8 +29,10 @@ const MyApp: AppType = ({ Component, pageProps }) => {
           {/* <UserPostInteractionProvider> */}
           <FilterProvider>
             <ModalProvider>
+                <GlobalOverlay activeModals={activeModals} />
               <ButtonProvider>
                 <Toaster position="bottom-center" />
+
                 <Component {...pageProps} />
               </ButtonProvider>
             </ModalProvider>
