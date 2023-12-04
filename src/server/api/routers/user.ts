@@ -72,7 +72,7 @@ export const userRouter = createTRPCRouter({
           select: { likedPosts: true },
         });
 
-        if (user && user?.likedPosts) {
+        if (user?.likedPosts) {
           // Remove the postId from the likedPosts array
           const updatedLikedPosts = user?.likedPosts.filter(
             (postId) => postId !== input.postId,
@@ -140,7 +140,7 @@ export const userRouter = createTRPCRouter({
           select: { dislikedPosts: true },
         });
 
-        if (user && user?.dislikedPosts) {
+        if (user?.dislikedPosts) {
           const updatedDislikedPosts = user?.dislikedPosts.filter(
             (postId) => postId !== input.postId,
           );
@@ -206,7 +206,7 @@ export const userRouter = createTRPCRouter({
           select: { appliedPosts: true },
         });
 
-        if (user && user?.appliedPosts) {
+        if (user?.appliedPosts) {
           const updatedAppliedPosts = user?.appliedPosts.filter(
             (postId) => postId !== input.postId,
           );
