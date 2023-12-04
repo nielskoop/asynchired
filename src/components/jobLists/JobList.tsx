@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { api } from "~/utils/api";
 import { JobListSkeleton } from "../jobListSkeleton";
 import { useFilter } from "~/context/FilterContext";
@@ -21,8 +21,16 @@ export default function JobList() {
     description: descriptionFilter,
   };
 
-  const { data, isLoading } =
-    api.post.getFilteredPosts.useQuery(queryParameters);
+  const { data, isLoading, fetchNextPage, isFetchingNextPage } =
+    api.post.getFilteredPosts.useInfiniteQuery(
+      {
+        limit: 5,
+        ...queryParameters,
+      },
+      {
+        getNextPageParam: (lastPage) => lastPage.nextCursor,
+      },
+    );
 
   // TODO: FIX issue where someone opening the site for the first time (maybe only in prod?) fails to load this and goes to "something went wrong"
   if (isLoading) return <JobListSkeleton />;
@@ -30,13 +38,22 @@ export default function JobList() {
 
   return (
     <>
-      {data.map((post) => {
-        return (
-          <div className="sm:mx-auto sm:w-4/5" key={post.id}>
-            <JobListing {...post} />
-          </div>
-        );
+      {data?.pages.map((page, i) => {
+        <div key={i}>
+          {page.posts.map((post) => (
+            <div className="sm:mx-auto sm:w-4/5" key={post.id}>
+              <JobListing {...post} />
+            </div>
+          ))}
+        </div>;
       })}
+      <button onClick={() => fetchNextPage()} disabled={isFetchingNextPage}>
+        {isFetchingNextPage
+          ? "Loading more ..."
+          : (data?.pages.length ?? 0) < 3
+            ? "Load more"
+            : "Nothing more to load"}
+      </button>
     </>
   );
 }
