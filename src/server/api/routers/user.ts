@@ -3,188 +3,214 @@ import { clerkClient } from "@clerk/nextjs";
 import { z } from "zod";
 
 import { createTRPCRouter, privateProcedure } from "~/server/api/trpc";
-// import { filterUserForClient } from "~/server/helpers/filterUserForClients";
 
 export const userRouter = createTRPCRouter({
-
-getUserById: privateProcedure.query(async ({ ctx }) => {
-    // You can access input properties like input.userId here
-    const userId = ctx.userId;
-    const fullUser = userId ? await clerkClient.users.getUser(userId) : null;
-    // Fetch user data from the database using Prisma
-    if (fullUser?.primaryEmailAddressId) {
-      const user = await ctx.db.user.findUnique({
-        where: {
-          id: fullUser?.primaryEmailAddressId,
-        },
-        // Add more options if needed
-      });
-
-      if (!user) {
-        throw new Error("User not found");
-      }
-
-      return user;
-    }
+  // USER
+  getUser: privateProcedure.input(z.string()).query(async ({ ctx, input }) => {
+    const user = await ctx.db.user.findUnique({
+      where: {
+        id: input,
+      },
+    });
+    return user;
   }),
 
-like: privateProcedure
-    .input(z.object({ postId: z.number(), action: z.string() }))
-    .mutation(async ({ ctx, input }) => {
-      const userId = ctx.userId;
-      // retrieves all information available on front end including email, email id, name, etc.
-      const fullUser = userId ? await clerkClient.users.getUser(userId) : null;
+  // LIKES
+  getLikes: privateProcedure.input(z.string()).query(async ({ ctx, input }) => {
+    const userLikes = await ctx.db.user.findUnique({
+      where: {
+        id: input,
+      },
+      select: {
+        id: true,
+        likedPosts: true,
+      },
+    });
+    const likedJobs = await ctx.db.post.findMany({
+      where: {
+        id: {
+          in: userLikes?.likedPosts,
+        },
+      },
+    });
+    return likedJobs;
+  }),
 
-      // currently creating duplicates in the array if the user clicks again too fast
-      if (fullUser?.emailAddresses[0]?.emailAddress && input.action === "do") {
-        const upsertUser = await ctx.db.user.upsert({
+  like: privateProcedure
+    .input(z.object({ postId: z.number(), userId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const userId = input.userId;
+
+      if (userId) {
+        const updateUser = await ctx.db.user.update({
           where: {
-            id: fullUser.primaryEmailAddressId!,
+            id: userId,
           },
-          update: {
+          data: {
             likedPosts: { push: input.postId },
           },
-
-          create: {
-            id: fullUser.primaryEmailAddressId!,
-            name: fullUser.firstName ?? "",
-            email: fullUser.emailAddresses[0]?.emailAddress,
-            job: "",
-            location: "",
-            techStack: "",
-            education: "",
-            profilePicture: fullUser.imageUrl,
-            likedPosts: [input.postId],
-            dislikedPosts: [],
-            appliedPosts: [],
-          },
-        });
-        return upsertUser;
-      } else {
-        const userInDb = await ctx.db.user.findUnique({
-          where: { id: fullUser!.primaryEmailAddressId! },
-        });
-
-        const updatedLikedPosts = userInDb!.likedPosts.filter(
-          (postId) => postId !== input.postId,
-        );
-
-        const updateUser = await ctx.db.user.update({
-          where: {
-            id: fullUser!.primaryEmailAddressId!,
-          },
-          data: {
-            likedPosts: updatedLikedPosts,
-          },
         });
         return updateUser;
       }
     }),
+  unLike: privateProcedure
+    .input(z.object({ postId: z.number(), userId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const userId = input.userId;
 
+      if (userId) {
+        // Fetch the current user's likedPosts
+        const user = await ctx.db.user.findUnique({
+          where: { id: userId },
+          select: { likedPosts: true },
+        });
+
+        if (user && user.likedPosts) {
+          // Remove the postId from the likedPosts array
+          const updatedLikedPosts = user.likedPosts.filter(
+            (postId) => postId !== input.postId,
+          );
+
+          // Update the user record with the new array
+          const updateUser = await ctx.db.user.update({
+            where: { id: userId },
+            data: { likedPosts: updatedLikedPosts },
+          });
+
+          return updateUser;
+        }
+      }
+    }),
+
+  // DISLIKES
+  getDisikes: privateProcedure
+    .input(z.string())
+    .query(async ({ ctx, input }) => {
+      const userDislikes = await ctx.db.user.findUnique({
+        where: {
+          id: input,
+        },
+        select: {
+          id: true,
+          dislikedPosts: true,
+        },
+      });
+      const DislikedJobs = await ctx.db.post.findMany({
+        where: {
+          id: {
+            in: userDislikes?.dislikedPosts,
+          },
+        },
+      });
+      return DislikedJobs;
+    }),
 
   dislike: privateProcedure
-    .input(z.object({ postId: z.number(), action: z.string() }))
+    .input(z.object({ postId: z.number(), userId: z.string() }))
     .mutation(async ({ ctx, input }) => {
-      const userId = ctx.userId;
-      // retrieves all information available on front end including email, email id, name, etc.
-      const fullUser = userId ? await clerkClient.users.getUser(userId) : null;
+      const userId = input.userId;
 
-      // currently creating duplicates in the array
-      if (fullUser?.emailAddresses[0]?.emailAddress && input.action === "do") {
-        const upsertUser = await ctx.db.user.upsert({
-          where: {
-            id: fullUser.primaryEmailAddressId!,
-          },
-          update: {
-            dislikedPosts: { push: input.postId },
-          },
-
-          create: {
-            id: fullUser.primaryEmailAddressId!,
-            name: fullUser.firstName ?? "",
-            email: fullUser.emailAddresses[0]?.emailAddress,
-            job: "",
-            location: "",
-            techStack: "",
-            education: "",
-            profilePicture: fullUser.imageUrl,
-            likedPosts: [],
-            dislikedPosts: [input.postId],
-            appliedPosts: [],
-          },
-        });
-        return upsertUser;
-      } else {
-        const userInDb = await ctx.db.user.findUnique({
-          where: { id: fullUser!.primaryEmailAddressId! },
-        });
-
-        const updatedDislikedPosts = userInDb!.dislikedPosts.filter(
-          (postId) => postId !== input.postId,
-        );
-
+      if (userId) {
         const updateUser = await ctx.db.user.update({
           where: {
-            id: fullUser!.primaryEmailAddressId!,
+            id: userId,
           },
           data: {
-            dislikedPosts: updatedDislikedPosts,
+            dislikedPosts: { push: input.postId },
           },
         });
         return updateUser;
       }
     }),
-
-  applied: privateProcedure
-    .input(z.object({ postId: z.number(), action: z.string() }))
+  unDislike: privateProcedure
+    .input(z.object({ postId: z.number(), userId: z.string() }))
     .mutation(async ({ ctx, input }) => {
-      const userId = ctx.userId;
-      // retrieves all information available on front end including email, email id, name, etc.
-      const fullUser = userId ? await clerkClient.users.getUser(userId) : null;
+      const userId = input.userId;
 
-      // currently creating duplicates in the array
-      if (fullUser?.emailAddresses[0]?.emailAddress && input.action === "do") {
-        const upsertUser = await ctx.db.user.upsert({
-          where: {
-            id: fullUser.primaryEmailAddressId!,
-          },
-          update: {
-            appliedPosts: { push: input.postId },
-          },
-
-          create: {
-            id: fullUser.primaryEmailAddressId!,
-            name: fullUser.firstName ?? "",
-            email: fullUser.emailAddresses[0]?.emailAddress,
-            job: "",
-            location: "",
-            techStack: "",
-            education: "",
-            profilePicture: fullUser.imageUrl,
-            likedPosts: [],
-            dislikedPosts: [],
-            appliedPosts: [input.postId],
-          },
-        });
-        return upsertUser;
-      } else {
-        const userInDb = await ctx.db.user.findUnique({
-          where: { id: fullUser!.primaryEmailAddressId! },
+      if (userId) {
+        const user = await ctx.db.user.findUnique({
+          where: { id: userId },
+          select: { dislikedPosts: true },
         });
 
-        const updatedAppliedPosts = userInDb!.appliedPosts.filter(
-          (postId) => postId !== input.postId,
-        );
+        if (user && user.dislikedPosts) {
+          const updatedDislikedPosts = user.dislikedPosts.filter(
+            (postId) => postId !== input.postId,
+          );
 
+          const updateUser = await ctx.db.user.update({
+            where: { id: userId },
+            data: { dislikedPosts: updatedDislikedPosts },
+          });
+
+          return updateUser;
+        }
+      }
+    }),
+
+  // APPLIES
+  getApplied: privateProcedure
+    .input(z.string())
+    .query(async ({ ctx, input }) => {
+      const userApplied = await ctx.db.user.findUnique({
+        where: {
+          id: input,
+        },
+        select: {
+          id: true,
+          appliedPosts: true,
+        },
+      });
+      const appliedJobs = await ctx.db.post.findMany({
+        where: {
+          id: {
+            in: userApplied?.appliedPosts,
+          },
+        },
+      });
+      return appliedJobs;
+    }),
+
+  apply: privateProcedure
+    .input(z.object({ postId: z.number(), userId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const userId = input.userId;
+
+      if (userId) {
         const updateUser = await ctx.db.user.update({
           where: {
-            id: fullUser!.primaryEmailAddressId!,
+            id: userId,
           },
           data: {
-            appliedPosts: updatedAppliedPosts,
+            appliedPosts: { push: input.postId },
           },
         });
         return updateUser;
+      }
+    }),
+  unApply: privateProcedure
+    .input(z.object({ postId: z.number(), userId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const userId = input.userId;
+
+      if (userId) {
+        const user = await ctx.db.user.findUnique({
+          where: { id: userId },
+          select: { appliedPosts: true },
+        });
+
+        if (user && user.appliedPosts) {
+          const updatedAppliedPosts = user.appliedPosts.filter(
+            (postId) => postId !== input.postId,
+          );
+
+          const updateUser = await ctx.db.user.update({
+            where: { id: userId },
+            data: { appliedPosts: updatedAppliedPosts },
+          });
+
+          return updateUser;
+        }
       }
     }),
 });

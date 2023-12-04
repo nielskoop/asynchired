@@ -49,7 +49,7 @@ import { getAuth } from "@clerk/nextjs/server";
 export const createTRPCContext = (opts: CreateNextContextOptions) => {
   const { req } = opts;
   const sesh = getAuth(req);
-  console.log('sesh log: ', sesh)
+
   const userId = sesh.userId;
 
   return {

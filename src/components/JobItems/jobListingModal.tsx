@@ -1,6 +1,6 @@
 import { Dialog } from "@headlessui/react";
 import type { Post } from "@prisma/client";
-import { JobPreview } from "./JobList";
+import { JobPreview } from "./JobPreview";
 import {
   DislikeButton,
   LikeButton,
@@ -9,7 +9,7 @@ import {
 } from "./jobListingButtons";
 import { useState } from "react";
 import { useModal } from "~/context/modalContext";
-import { Overlay } from "./overlay";
+import { Overlay } from "../overlay";
 
 export const JobListingModal: React.FC<{ post: Post }> = ({ post }) => {
   const [isOpen, setIsOpen] = useModal(post.id);

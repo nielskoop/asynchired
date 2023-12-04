@@ -1,68 +1,165 @@
 import Head from "next/head";
 import Image from "next/image";
+import { useState } from "react";
 import { CompanyInputBox } from "~/components/Inputs/CompanyInputBox";
 import { LocationInputBox } from "~/components/Inputs/LocationInputBox";
 import { RoleInputBox } from "~/components/Inputs/RoleInputBox";
-import JobList from "~/components/JobList";
+import JobList from "~/components/jobLists/JobList";
 import { NavBar } from "~/components/NavBar";
 import useScreenSize from "~/hooks/useScreenSize";
 import { api } from "~/utils/api";
 import { useFilter } from "~/context/FilterContext";
 import ScrollToTopButton from "~/components/scrollToTopButton";
+import { useAuth } from "@clerk/nextjs";
+import { set } from "zod";
 
 // import { api } from "~/utils/api";
 
-// const tags = [
-//   "Salary Available",
-//   "Liked Jobs",
-//   "Applied Jobs",
-//   "Fully Remote",
-//   "Backend Developer",
-//   "Frontend Developer",
-//   "UI/UX Design",
-// ];
-
-const tags = [
-  "Remote",
+const roleTags = [
   "Product",
   "Frontend",
   "Backend",
   "Software",
   "Senior",
   "Staff",
+  "Lead",
+  "Remote",
+];
+const locationTags = ["Remote", "Germany", "EU", "United States"];
+const salaryTags = ["$"];
+const descriptionTags = [
+  "Javascript",
+  "Typescript",
+  "React",
+  "Node",
+  "GraphQL",
+  "AWS",
+  "Cybersecurity",
 ];
 
-const hasSalaryTag = ["Has Salary"];
 // const noSalaryTag = ["No Salary"];
 
 export function TagWidget() {
-  const { setRoleFilter, setSalaryFilter } = useFilter();
+  const {
+    setRoleFilter,
+    setSalaryFilter,
+    setLocationFilter,
+    setDescriptionFilter,
+  } = useFilter();
+  const [selectedTags, setSelectedTags] = useState({
+    role: "",
+    location: "",
+    salary: "",
+    description: "",
+  });
+
+  type TagCategory = "role" | "location" | "salary" | "description";
+
+  const toggleTagSelection = (tag: string, category: TagCategory) => {
+    const newSelectedTags = { ...selectedTags };
+
+    if (newSelectedTags[category] === tag) {
+      newSelectedTags[category] = ""; // Deselect the tag
+    } else {
+      newSelectedTags[category] = tag; // Select the tag
+    }
+
+    setSelectedTags(newSelectedTags);
+
+    // Update the appropriate filter
+    switch (category) {
+      case "role":
+        setRoleFilter(newSelectedTags.role);
+        break;
+      case "location":
+        setLocationFilter(newSelectedTags.location);
+        break;
+      case "salary":
+        setSalaryFilter(newSelectedTags.salary);
+        break;
+      case "description":
+        setDescriptionFilter(newSelectedTags.description);
+      default:
+        break;
+    }
+  };
+
+  const isTagSelected = (tag: string, category: TagCategory) =>
+    selectedTags[category] === tag;
 
   return (
-    <div className="bg-slate-200 px-2 py-4">
+    <div className="flex flex-col overflow-auto  bg-slate-200 px-2 py-4">
       <div className="text-xl font-semibold sm:mx-auto sm:w-4/5">
         Search With Tags:
       </div>
-      <div className="scrollbar-hide flex overflow-x-scroll sm:px-0">
+      <div className="mt-2 max-h-[150px] overflow-y-auto">
         <div className="sm:mx-auto sm:w-4/5">
-          <div className="mt-2 flex flex-row gap-4">
-            {tags.map((tag) => {
-              return (
+          <div className="mt-2 flex flex-col gap-2">
+            <div>
+              <p>Role:</p>
+              {roleTags.map((tag) => (
                 <button
-                  className="whitespace-nowrap rounded-full bg-white px-3 py-1"
-                  onClick={() => setRoleFilter(tag)}
+                  key={tag}
+                  className={`mx-1 my-1 whitespace-nowrap rounded-full px-3 py-1 ${
+                    isTagSelected(tag, "role")
+                      ? "bg-blue-500 text-white"
+                      : "bg-white"
+                  }`}
+                  onClick={() => toggleTagSelection(tag, "role")}
                 >
                   {tag}
                 </button>
-              );
-            })}
+              ))}
+            </div>
+            <div>
+              <p>Salary:</p>
+              {salaryTags.map((tag) => (
+                <button
+                  key={tag}
+                  className={`mx-1 my-1 whitespace-nowrap rounded-full px-3 py-1 ${
+                    isTagSelected(tag, "salary")
+                      ? "bg-blue-500 text-white"
+                      : "bg-white"
+                  }`}
+                  onClick={() => toggleTagSelection(tag, "salary")}
+                >
+                  {tag}
+                </button>
+              ))}
+            </div>
+            <div className="">
+              <p>Location:</p>
 
-            <button
-              className="whitespace-nowrap rounded-full bg-white px-3 py-1"
-              onClick={() => setSalaryFilter("$")}
-            >
-              {hasSalaryTag}
-            </button>
+              {locationTags.map((tag) => (
+                <button
+                  key={tag}
+                  className={`mx-1 my-1 whitespace-nowrap rounded-full px-3 py-1 ${
+                    isTagSelected(tag, "location")
+                      ? "bg-blue-500 text-white"
+                      : "bg-white"
+                  }`}
+                  onClick={() => toggleTagSelection(tag, "location")}
+                >
+                  {tag}
+                </button>
+              ))}
+            </div>
+            <div>
+              <div>Description:</div>
+              {descriptionTags.map((tag) => (
+                <button
+                  key={tag}
+                  className={`mx-1 my-1 whitespace-nowrap rounded-full px-3 py-1 ${
+                    isTagSelected(tag, "description")
+                      ? "bg-blue-500 text-white"
+                      : "bg-white"
+                  }`}
+                  onClick={() => toggleTagSelection(tag, "description")}
+                >
+                  {tag}
+                </button>
+              ))}
+            </div>
             {/* //TODO: Add no salary filter */}
             {/* <button
               className="whitespace-nowrap rounded-full bg-white px-3 py-1"
@@ -78,10 +175,8 @@ export function TagWidget() {
 }
 
 export default function Home() {
-  api.post.getAllPosts.useQuery();
-
   const screenSize = useScreenSize();
-
+  const [isWidgetOpen, setIsWidgetOpen] = useState(true);
   return (
     <>
       <Head>
@@ -134,7 +229,23 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <TagWidget />
+        <div className="flex">
+          <button
+            className="max-h- rounded bg-blue-500 p-2 text-white"
+            onClick={() => setIsWidgetOpen(!isWidgetOpen)}
+          >
+            {isWidgetOpen ? "Minimize Tags" : "Open Tags"}
+          </button>
+
+          <div
+            className={`transition-all duration-500 ease-in-out ${
+              isWidgetOpen ? " min-w-[100%] opacity-100" : "max-h-0 opacity-0"
+            }`}
+          >
+            <TagWidget />
+          </div>
+        </div>
+
         <div>
           <JobList />
         </div>

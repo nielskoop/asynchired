@@ -1,5 +1,11 @@
 import Image from "next/image";
-import { SignInButton, useClerk, useUser } from "@clerk/nextjs";
+import {
+  SignInButton,
+  useClerk,
+  useUser,
+  SignUpButton,
+  SignOutButton,
+} from "@clerk/nextjs";
 import Link from "next/link";
 import useScreenSize from "~/hooks/useScreenSize";
 import { Menu, Transition } from "@headlessui/react";
@@ -48,7 +54,7 @@ export const HamburgerButton = () => {
         leaveTo="transform opacity-0 scale-95"
       >
         <Menu.Items className="absolute right-0 z-20 mt-2 flex w-48 origin-top-right flex-col divide-y divide-gray-100 rounded-sm bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
-          <div className="flex flex-col px-4 py-2 gap-2">
+          <div className="flex flex-col gap-2 px-4 py-2">
             <Menu.Item>
               {({ active }) => (
                 <Link
@@ -74,19 +80,16 @@ export const HamburgerButton = () => {
             {isSignedIn ? (
               <Menu.Item>
                 {({ active }) => (
-                  <button
-                    className={`${active && "text-slate-500"}`}
-                    onClick={handleSignOutButton}
-                  >
-                    Log Out
-                  </button>
+                  <div className=" bg-white ">
+                    <SignOutButton />
+                  </div>
                 )}
               </Menu.Item>
             ) : (
               <Menu.Item>
                 {({ active }) => (
                   <div className={`${active && "text-slate-500"}`}>
-                    <SignInButton />
+                    <SignUpButton />
                   </div>
                 )}
               </Menu.Item>
@@ -151,21 +154,12 @@ export const NavBar = () => {
   const router = useRouter();
   const { signOut } = useClerk();
 
-  const handleSignOutButton = async () => {
-    const currentPage = router.pathname;
-    if (currentPage !== "/") {
-      await router.push("/");
-      await signOut();
-    } else {
-      await signOut();
-      router.reload();
-    }
-  };
-
   return (
     <div
       className={
-        header ? "bg-image-large fixed w-full transition-all z-10" : "bg-transparent"
+        header
+          ? "bg-image-large fixed z-10 w-full transition-all"
+          : "bg-transparent"
       }
     >
       <nav className="flex items-center justify-between px-8 font-semibold">
@@ -185,13 +179,22 @@ export const NavBar = () => {
           {screenSize! < 768 ? (
             <HamburgerButton />
           ) : (
-            <span className="rounded-xl bg-white p-2">
+            <div>
               {isSignedIn ? (
-                <button onClick={handleSignOutButton}>Sign Out</button>
+                <div className="rounded-xl bg-white p-2">
+                  <SignOutButton />
+                </div>
               ) : (
-                <SignInButton />
+                <div className="flex gap-2">
+                  <div className="rounded-xl bg-white p-2">
+                    <SignInButton />
+                  </div>
+                  <div className="rounded-xl bg-white p-2">
+                    <SignUpButton />
+                  </div>
+                </div>
               )}
-            </span>
+            </div>
           )}
         </div>
       </nav>

@@ -2,8 +2,10 @@ import { authMiddleware } from "@clerk/nextjs";
 
 export default authMiddleware({
   publicRoutes: [
-    "/",
-    "/api/trpc/post.getAllRoles,post.getAllLocations,post.getAllCompanies,post.getFilteredPosts,post.getAllPosts",
+    "/api/trpc/post.getAllPosts,post.getAllRoles,post.getAllLocations,post.getAllCompanies",
+    "/api/trpc/post.getFilteredPosts",
+    "/api/trpc/post.getAllPosts",
+    "/api/trpc/post.getAllRoles,post.getAllLocations,post.getAllCompanies,post.getFilteredPosts",
   ],
 });
 

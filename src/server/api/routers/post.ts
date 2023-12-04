@@ -131,10 +131,12 @@ export const postRouter = createTRPCRouter({
         role: z.string().optional(),
         company: z.string().optional(),
         salary: z.string().nullable().optional(),
+        description: z.string().optional(),
       }),
     )
     .query(async ({ input, ctx }) => {
       const posts = await ctx.db.post.findMany({
+        take: 20,
         orderBy: [{ datePosted: "desc" }],
         where: {
           location: {
@@ -162,6 +164,10 @@ export const postRouter = createTRPCRouter({
             : input.salary === "NO_SALARY"
               ? { salary: { equals: null } } // Checking for null (which includes undefined)
               : {}),
+          jobDescription: {
+            contains: input.description,
+            mode: "insensitive",
+          },
         },
       });
       return posts;

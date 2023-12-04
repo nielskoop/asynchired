@@ -1,10 +1,10 @@
 import Image from "next/image";
 import type { Post } from "@prisma/client";
 import { api } from "~/utils/api";
-import { useUser } from "@clerk/nextjs";
-import { LoadingSpinner } from "./Loading";
+import { useAuth } from "@clerk/nextjs";
+import { LoadingSpinner } from "../Loading";
 import Link from "next/dist/client/link";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 export const OriginalPostButton = (props: { url: string }) => {
@@ -20,11 +20,15 @@ export const OriginalPostButton = (props: { url: string }) => {
   );
 };
 
+// APPLY BUTTON
+
 export const MarkAppliedButton = (props: { post: Post }) => {
-  const { user } = useUser();
+  const { userId } = useAuth();
 
   // const ctx = api.useUtils();
-  const { data: userDetails } = api.user.getUserById.useQuery();
+  const { data: userDetails, isLoading: applyLoading } =
+    api.user.getUser.useQuery(userId, { refetch: true });
+
   const [applied, setApplied] = useState(false);
 
   useEffect(() => {
@@ -33,10 +37,11 @@ export const MarkAppliedButton = (props: { post: Post }) => {
     }
   }, [userDetails, props.post.id]);
 
-  const { mutate, isLoading } = api.user.applied.useMutation({
+  const { mutate: apply } = api.user.apply.useMutation({
     onSuccess: () => {
       console.log("success!");
       setApplied(!applied);
+      api.user.getUser.useQuery(userId, { refetch: true });
     },
     onError: (e) => {
       const errorMessage = e.data?.zodError?.fieldErrors.content;
@@ -44,13 +49,22 @@ export const MarkAppliedButton = (props: { post: Post }) => {
     },
   });
 
-  if (isLoading) {
-    return <LoadingSpinner />;
-  }
+  const { mutate: unApply, isLoading: unApplyLoading } =
+    api.user.unApply.useMutation({
+      onSuccess: () => {
+        console.log("success!");
+        setApplied(!applied);
+        api.user.getUser.useQuery(userId, { refetch: true });
+      },
+      onError: (e) => {
+        const errorMessage = e.data?.zodError?.fieldErrors.content;
+        console.log("Request went into onError: ", errorMessage);
+      },
+    });
 
   async function appliedPost() {
-    console.log("you clicked me user: ", user);
-    if (!user) {
+    console.log("you clicked me user: ", userId);
+    if (!userId) {
       // fix this so it goes back to the same page
       toast.error("Log-in to use this feature", {
         icon: "🔒", // Optional: add an emoji or custom icon
@@ -62,12 +76,14 @@ export const MarkAppliedButton = (props: { post: Post }) => {
       });
       return;
     } else if (userDetails?.appliedPosts.includes(props.post.id) && applied) {
-      mutate({ postId: props.post.id, action: "undo" });
+      unApply({ postId: props.post.id, userId: userId });
     } else {
-      mutate({ postId: props.post.id, action: "do" });
+      apply({ postId: props.post.id, userId: userId });
     }
   }
-
+  if (applyLoading || unApplyLoading) {
+    return <LoadingSpinner />;
+  }
   return (
     <button
       className={`h-min rounded-xl px-2 py-1 text-white ${
@@ -80,9 +96,12 @@ export const MarkAppliedButton = (props: { post: Post }) => {
   );
 };
 
+// LIKE BUTTON
 export const LikeButton = (props: { post: Post }) => {
-  const { user } = useUser();
-  const { data: userDetails } = api.user.getUserById.useQuery();
+  const { userId } = useAuth();
+  const { data: userDetails, isLoading: likeLoading } =
+    api.user.getUser.useQuery(userId, { refetch: true });
+
   const [isLiked, setIsLiked] = useState(false);
 
   useEffect(() => {
@@ -91,10 +110,11 @@ export const LikeButton = (props: { post: Post }) => {
     }
   }, [userDetails, props.post.id]);
 
-  const { mutate, isLoading } = api.user.like.useMutation({
+  const { mutate: like } = api.user.like.useMutation({
     onSuccess: () => {
       console.log("success!");
       setIsLiked(!isLiked);
+      api.user.getUser.useQuery(userId, { refetch: true });
     },
     onError: (e) => {
       const errorMessage = e.data?.zodError?.fieldErrors.content;
@@ -102,13 +122,22 @@ export const LikeButton = (props: { post: Post }) => {
     },
   });
 
-  if (isLoading) {
-    return <LoadingSpinner />;
-  }
+  const { mutate: unLike, isLoading: unLikeLoading } =
+    api.user.unLike.useMutation({
+      onSuccess: () => {
+        console.log("success!");
+        setIsLiked(!isLiked);
+        api.user.getUser.useQuery(userId, { refetch: true });
+      },
+      onError: (e) => {
+        const errorMessage = e.data?.zodError?.fieldErrors.content;
+        console.log("Request went into onError: ", errorMessage);
+      },
+    });
 
   async function likePost() {
-    console.log("you clicked me user: ", user);
-    if (!user) {
+    console.log("you clicked me user: ", userId);
+    if (!userId) {
       toast.error("Log-in to use this feature", {
         icon: "🔒", // Optional: add an emoji or custom icon
         style: {
@@ -119,12 +148,14 @@ export const LikeButton = (props: { post: Post }) => {
       });
       return;
     } else if (userDetails?.likedPosts.includes(props.post.id) && isLiked) {
-      mutate({ postId: props.post.id, action: "undo" });
+      unLike({ postId: props.post.id, userId: userId });
     } else {
-      mutate({ postId: props.post.id, action: "do" });
+      like({ postId: props.post.id, userId: userId });
     }
   }
-
+  if (likeLoading || unLikeLoading) {
+    return <LoadingSpinner />;
+  }
   return (
     <button onClick={() => likePost()}>
       <Image
@@ -138,21 +169,24 @@ export const LikeButton = (props: { post: Post }) => {
   );
 };
 
+// DISLIKE BUTTON
 export const DislikeButton = (props: { post: Post }) => {
-  const { user } = useUser();
-  const { data: userDetails } = api.user.getUserById.useQuery();
+  const { userId } = useAuth();
+  const { data: userDetails, isLoading: dislikeLoading } =
+    api.user.getUser.useQuery(userId, { refetch: true });
   const [isDisliked, setIsDisliked] = useState(false);
 
   useEffect(() => {
     if (userDetails) {
-      setIsDisliked(userDetails?.dislikedPosts.includes(props.post.id));
+      setIsDisliked(userDetails.dislikedPosts.includes(props.post.id));
     }
   }, [userDetails, props.post.id]);
 
-  const { mutate, isLoading } = api.user.dislike.useMutation({
+  const { mutate: dislike } = api.user.dislike.useMutation({
     onSuccess: () => {
       console.log("success!");
       setIsDisliked(!isDisliked);
+      api.user.getUser.useQuery(userId, { refetch: true });
     },
     onError: (e) => {
       const errorMessage = e.data?.zodError?.fieldErrors.content;
@@ -160,13 +194,22 @@ export const DislikeButton = (props: { post: Post }) => {
     },
   });
 
-  if (isLoading) {
-    return <LoadingSpinner />;
-  }
+  const { mutate: unDislike, isLoading: unDislikeLoading } =
+    api.user.unDislike.useMutation({
+      onSuccess: () => {
+        console.log("success!");
+        setIsDisliked(!isDisliked);
+        api.user.getUser.useQuery(userId, { refetch: true });
+      },
+      onError: (e) => {
+        const errorMessage = e.data?.zodError?.fieldErrors.content;
+        console.log("Request went into onError: ", errorMessage);
+      },
+    });
 
   async function dislikePost() {
-    console.log("you clicked me user: ", user);
-    if (!user) {
+    console.log("you clicked me user: ", userId);
+    if (!userId) {
       toast.error("Log-in to use this feature", {
         icon: "🔒", // Optional: add an emoji or custom icon
         style: {
@@ -180,12 +223,14 @@ export const DislikeButton = (props: { post: Post }) => {
       userDetails?.dislikedPosts.includes(props.post.id) &&
       isDisliked
     ) {
-      mutate({ postId: props.post.id, action: "undo" });
+      unDislike({ postId: props.post.id, userId: userId });
     } else {
-      mutate({ postId: props.post.id, action: "do" });
+      dislike({ postId: props.post.id, userId: userId });
     }
   }
-
+  if (dislikeLoading || unDislikeLoading) {
+    return <LoadingSpinner />;
+  }
   return (
     <button onClick={() => dislikePost()}>
       <Image

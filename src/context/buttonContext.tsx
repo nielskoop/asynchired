@@ -2,16 +2,16 @@ import React, { createContext, useContext, useState } from "react";
 import type { Dispatch, ReactNode, SetStateAction } from "react";
 // Define the shape of your context data
 interface ButtonContextType {
-    actionButton: string;
-    setActionButton: Dispatch<SetStateAction<string>>;
+  actionButton: string;
+  setActionButton: Dispatch<SetStateAction<string>>;
 }
 
 // Create the context with an initial dummy value
 const ButtonContext = createContext<ButtonContextType>({
-    actionButton: '',
-    setActionButton: (value: SetStateAction<string>) => {
-      console.log(value);
-    }
+  actionButton: "",
+  setActionButton: (value: SetStateAction<string>) => {
+    console.log(value);
+  },
 });
 
 export const useButton = () => useContext(ButtonContext);
@@ -26,7 +26,7 @@ export const ButtonProvider: React.FC<ButtonProviderProps> = ({ children }) => {
 
   const value = {
     actionButton,
-    setActionButton
+    setActionButton,
   };
 
   return (
