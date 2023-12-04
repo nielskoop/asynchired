@@ -5,6 +5,7 @@ import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { api } from "~/utils/api";
 import { useFilter } from "~/context/FilterContext";
 import { LoadingSpinner } from "../Loading";
+import { InputSkeleton } from "../InputSkeleton";
 
 type Location = {
   id: number;
@@ -27,7 +28,7 @@ export function LocationInputBox() {
         ) ?? [];
 
   if (isLoading) {
-    return <LoadingSpinner />;
+    return <InputSkeleton />;
   }
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {

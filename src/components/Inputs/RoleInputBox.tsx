@@ -4,6 +4,7 @@ import { Combobox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { api } from "~/utils/api"; // Import your api utility
 import { useFilter } from "~/context/FilterContext";
+import { InputSkeleton } from "../InputSkeleton";
 // import { LoadingSpinner } from "../Loading";
 
 type Role = {
@@ -25,7 +26,7 @@ export function RoleInputBox() {
         ) ?? [];
 
   if (isLoading) {
-    return <div></div>;
+    return <InputSkeleton/>;
   }
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {

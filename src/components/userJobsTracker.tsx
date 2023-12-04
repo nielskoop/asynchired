@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import LikedJobsList from "./jobLists/LikedJobsList";
 import DislikedJobsList from "./jobLists/DislikedJobsList";
 import AppliedJobsList from "./jobLists/AppliedJobsList";
+import { UserJobsTrackerSkeleton } from "./userJobsTrackerSkeleton";
 
 export const UserJobsTracker: React.FC = () => {
   // State to keep track of the currently selected list
@@ -9,7 +10,7 @@ export const UserJobsTracker: React.FC = () => {
 
   return (
     <>
-      <div className="relative mb-8 flex h-[400px] w-[550px] flex-col rounded-lg border-2 border-solid border-[#1A78E6] shadow-md">
+      <div className="relative mb-8 flex h-[400px] w-[550px] flex-col rounded-lg border-2 border-solid border-[#1A78E6] shadow-lg">
         <ul className="border-b-solid flex flex-row justify-evenly border-b-2 border-[#1A78E6] py-2 pt-2 text-lg">
           <li>
             <button

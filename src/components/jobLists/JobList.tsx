@@ -1,6 +1,6 @@
 import React from "react";
 import { api } from "~/utils/api";
-import { LoadingPage } from "../Loading";
+import { JobListSkeleton } from "../jobListSkeleton";
 import { useFilter } from "~/context/FilterContext";
 import { JobListing } from "../JobItems/JobListing";
 
@@ -25,7 +25,7 @@ export default function JobList() {
     api.post.getFilteredPosts.useQuery(queryParameters);
 
   // TODO: FIX issue where someone opening the site for the first time (maybe only in prod?) fails to load this and goes to "something went wrong"
-  if (isLoading) return <LoadingPage />;
+  if (isLoading) return <JobListSkeleton />;
   if (!data) return <div>Something went wrong!</div>;
 
   return (

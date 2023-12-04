@@ -1,6 +1,6 @@
 import React from "react";
 import { api } from "~/utils/api";
-import { LoadingPage } from "../Loading";
+import { JobListSkeleton } from "../jobListSkeleton";
 import { useAuth } from "@clerk/nextjs";
 import { JobListing } from "../JobItems/JobListing";
 
@@ -13,7 +13,7 @@ export default function LikedJobsList() {
     : { data: null, isLoading: false };
 
   // Handle loading state
-  if (isLoading) return <LoadingPage />;
+  if (isLoading) return <JobListSkeleton />;
 
   // Handling case where userId is null or undefined
   if (!userId) return <div>Please log in to view liked jobs.</div>;

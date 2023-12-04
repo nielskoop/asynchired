@@ -4,7 +4,7 @@ import { api } from "~/utils/api";
 import { useAuth } from "@clerk/nextjs";
 import { LoadingSpinner } from "../Loading";
 import Link from "next/dist/client/link";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 export const OriginalPostButton = (props: { url: string }) => {

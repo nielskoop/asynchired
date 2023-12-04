@@ -8,7 +8,7 @@ export const UserInfo = () => {
 
   return (
     <>
-      <div className="relative mx-8 mb-8 flex min-h-[400px] min-w-[400px] flex-col items-center rounded-lg border-2 border-solid border-[#1A78E6] px-8 ">
+      <div className="relative mx-8 mb-8 flex min-h-[400px] min-w-[400px] flex-col items-center rounded-lg border-2 border-solid border-[#1A78E6] px-8 shadow-lg">
         <Image
           src={user!.imageUrl}
           alt={`Profile picture`}

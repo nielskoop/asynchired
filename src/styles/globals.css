@@ -12,6 +12,20 @@ body {
   background-position: 50% 15%;
 }
 
+@keyframes reflectionWave {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+.reflection-wave {
+  background: linear-gradient(to right, #d0d0d0 0%, #e0e0e0 50%, #d0d0d0 100%);
+  background-size: 200% 100%;
+  animation: reflectionWave 2s linear infinite;
+}
+
 .hamburger {
   margin-left: 2%;
   cursor: pointer;
