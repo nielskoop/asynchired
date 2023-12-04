@@ -1,4 +1,4 @@
-name: Node.js CI
+name: Tests for production
 
 on:
   push:
@@ -10,19 +10,25 @@ on:
 
 env:
   DATABASE_URL: "https://fake.com"
+  NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{secrets.CLERK_PUBLISHABLE_KEY}}
+  CLERK_SECRET_KEY: ${{secrets.CLERK_SECRET_KEY}}
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        node: [16, 18, 20]
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Use Node.js ${{matrix.node}}
         uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: ${{matrix.node}}
 
       - name: Install dependencies
         run: npm install
