@@ -3,8 +3,16 @@ import { useUser } from "@clerk/nextjs";
 import { TagIcon } from "./TagIcon";
 import { EditProfileButton } from "./editProfileButton";
 
+import Image from "next/image";
+import { useUser } from "@clerk/nextjs";
+import { TagIcon } from "./TagIcon";
+import { EditProfileButton } from "./editProfileButton";
+import { useProfile } from "~/context/profileContext";
+
 export const UserInfo = () => {
   const { user } = useUser();
+  const { profileDetails } = useProfile();
+
 
   return (
     <>
@@ -19,22 +27,22 @@ export const UserInfo = () => {
         <h1 className="mt-[30%] pb-4 text-2xl font-bold">{user?.fullName}</h1>
         <ul className="pb-4">
           <li>
-            <TagIcon className="gap-2" text="Unemployed" type="company" />
+            <TagIcon className="gap-2" text={profileDetails.job} type="company" />
           </li>
           <li>
-            <TagIcon className="gap-2" text="Alicante, Spain" type="location" />
+            <TagIcon className="gap-2" text={profileDetails.location} type="location" />
           </li>
           <li>
             <TagIcon
               className="gap-2"
-              text="React, Next.js, Node.js, Angular, Figma"
+              text={profileDetails.techStack}
               type="tech"
             />
           </li>
           <li>
             <TagIcon
               className="gap-2"
-              text="Proud bootcamper"
+              text={profileDetails.education}
               type="education"
             />
           </li>
@@ -44,3 +52,4 @@ export const UserInfo = () => {
     </>
   );
 };
+
