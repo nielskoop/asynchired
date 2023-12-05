@@ -134,6 +134,7 @@ export const postRouter = createTRPCRouter({
         company: z.string().optional(),
         salary: z.string().nullable().optional(),
         description: z.string().optional(),
+        datePosted: z.date().optional(),
       }),
     )
     .query(async ({ input, ctx }) => {
@@ -171,6 +172,10 @@ export const postRouter = createTRPCRouter({
           jobDescription: {
             contains: input.description,
             mode: "insensitive",
+          },
+
+          datePosted: {
+            gte: input.datePosted,
           },
         },
       });
