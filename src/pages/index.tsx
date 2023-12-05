@@ -11,7 +11,7 @@ import { useFilter } from "~/context/FilterContext";
 import ScrollToTopButton from "~/components/scrollToTopButton";
 import { useAuth } from "@clerk/nextjs";
 import { api } from "~/utils/api";
-import { E } from "@upstash/redis/zmscore-b6b93f14";
+import { DateInputBox } from "~/components/Inputs/DateInputBox";
 import { useModal } from "~/context/modalContext";
 import { SaveSearcNameModal } from "~/components/saveSearchNameModal";
 import toast from "react-hot-toast";
@@ -232,8 +232,17 @@ export default function Home() {
         <meta name="description" content="All developer jobs in one place" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
-        <div className="bg-image-large flex h-[30rem] w-full flex-col md:h-[450px]">
+      <main className="pb-6">
+        <div className="flex h-[30rem] w-full flex-col md:h-[450px]">
+          <div className="absolute -z-10 h-[30rem] w-full md:h-[450px]">
+            <Image
+              src={"/hero-bg-2.png"}
+              layout="fill"
+              alt="Hero Section Background"
+              priority={true}
+              style={{ objectFit: "cover", objectPosition: "50% 10%" }}
+            />
+          </div>
           <NavBar />
           <div className="my-1 relative left-1/2 top-[40%] mr-2 max-w-fit -translate-x-2/4 -translate-y-2/4 rounded-lg bg-gray-600 bg-opacity-70 px-2 pb-4 pt-1 md:top-1/3 md:px-4">
             <p className="mb-4 text-center text-2xl text-white md:text-4xl">
@@ -300,6 +309,18 @@ export default function Home() {
                     </button>
                     <SaveSearcNameModal handleSaveSearch={handleSaveSearch} />
                   </form>)}
+            </div>
+
+            <div>
+              <div className="flex justify-center">
+                <DateInputBox />
+              </div>
+            </div>
+
+            <div>
+              <div className="flex justify-center">
+                <DateInputBox />
+              </div>
             </div>
           </div>
         </div>
