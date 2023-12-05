@@ -36,7 +36,7 @@ export function DateInputBox() {
             <RadioGroup.Option
               value={option.value}
               className={({ active, checked }) =>
-                `max-h-6 p-2 py-4 ${
+                `max-h-6 p-2 py-6 sm:py-2 ${
                   active ? "ring-2 ring-blue-300 ring-offset-2" : ""
                 }
      ${checked ? "bg-blue-500 text-white" : "bg-white"}
@@ -47,7 +47,7 @@ export function DateInputBox() {
                 <div className="flex w-full items-center justify-between">
                   <RadioGroup.Label
                     as="p"
-                    className={`font-sm ${
+                    className={`sm:text-md py-2 text-sm ${
                       checked ? "text-white" : "text-gray-900"
                     }`}
                   >
