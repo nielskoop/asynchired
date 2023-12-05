@@ -42,8 +42,6 @@ export const ProfileEditModal: React.FC = () => {
       userId});
   }
   const handleClick = async() => {
-    console.log(profileData)
-    console.log(profileDetails)
     updateProfile(profileDetails);
     setEditMode({
       job: false,
