@@ -1,14 +1,20 @@
 import { TagIcon } from "../TagIcon";
 import type { Post } from "@prisma/client";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+
+dayjs.extend(relativeTime);
 
 export function JobPreview(post: Post) {
   return (
     <>
       <div className="mb-2">
         <span className="font-bold">{post.title}</span>
-        <span className="ml-2 text-xs font-light text-slate-500">
-          6 days ago
-        </span>
+        {post.datePosted && (
+          <span className="ml-2 text-xs font-light text-slate-500">
+            {dayjs(post.datePosted).fromNow()}
+          </span>
+        )}
       </div>
       <div className="flex flex-wrap">
         {post.company && (
