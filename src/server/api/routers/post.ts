@@ -127,6 +127,8 @@ export const postRouter = createTRPCRouter({
   getFilteredPosts: publicProcedure
     .input(
       z.object({
+        limit: z.number(),
+        cursor: z.number().nullish(),
         location: z.string().optional(),
         role: z.string().optional(),
         company: z.string().optional(),
@@ -135,8 +137,10 @@ export const postRouter = createTRPCRouter({
       }),
     )
     .query(async ({ input, ctx }) => {
+      const { limit, cursor } = input;
       const posts = await ctx.db.post.findMany({
-        take: 20,
+        take: limit + 1,
+        cursor: cursor ? { id: cursor } : undefined,
         orderBy: [{ datePosted: "desc" }],
         where: {
           location: {
@@ -170,6 +174,13 @@ export const postRouter = createTRPCRouter({
           },
         },
       });
-      return posts;
+
+      let nextCursor: typeof cursor | undefined = undefined;
+      if (posts.length > limit) {
+        const nextPost = posts.pop();
+        nextCursor = nextPost?.id;
+      }
+
+      return { posts, nextCursor };
     }),
 });
