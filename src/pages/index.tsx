@@ -11,6 +11,7 @@ import { useFilter } from "~/context/FilterContext";
 import ScrollToTopButton from "~/components/scrollToTopButton";
 import { useAuth } from "@clerk/nextjs";
 import { api } from "~/utils/api";
+import { DateInputBox } from "~/components/Inputs/DateInputBox";
 
 const roleTags = [
   "Product",
@@ -251,8 +252,15 @@ export default function Home() {
                 </button>
               </form>
             </div>
+
+            <div>
+              <div className="flex justify-center">
+                <DateInputBox />
+              </div>
+            </div>
           </div>
         </div>
+        <div></div>
         <div className=" flex justify-center bg-slate-200  p-2">
           <button
             className="flex max-w-lg self-center justify-self-end rounded bg-blue-500 p-2 text-white"

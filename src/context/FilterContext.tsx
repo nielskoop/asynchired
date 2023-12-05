@@ -15,6 +15,8 @@ interface FilterContextType {
   setSalaryFilter: React.Dispatch<React.SetStateAction<string | undefined>>;
   descriptionFilter: string;
   setDescriptionFilter: React.Dispatch<React.SetStateAction<string>>;
+  dateFilter: Date | undefined;
+  setDateFilter: React.Dispatch<React.SetStateAction<Date | undefined>>;
 }
 
 // Create the context with an initial dummy value
@@ -29,6 +31,8 @@ const FilterContext = createContext<FilterContextType>({
   setSalaryFilter: () => {},
   descriptionFilter: "",
   setDescriptionFilter: () => {},
+  dateFilter: undefined,
+  setDateFilter: () => {},
 });
 
 export const useFilter = () => useContext(FilterContext);
@@ -44,6 +48,7 @@ export const FilterProvider: React.FC<FilterProviderProps> = ({ children }) => {
   const [companyFilter, setCompanyFilter] = useState("");
   const [salaryFilter, setSalaryFilter] = useState<string | undefined>("");
   const [descriptionFilter, setDescriptionFilter] = useState("");
+  const [dateFilter, setDateFilter] = useState<Date | undefined>(undefined);
 
   const value = {
     locationFilter,
@@ -56,6 +61,8 @@ export const FilterProvider: React.FC<FilterProviderProps> = ({ children }) => {
     setSalaryFilter,
     descriptionFilter,
     setDescriptionFilter,
+    dateFilter,
+    setDateFilter,
   };
 
   return (

@@ -12,6 +12,7 @@ export default function JobList() {
     companyFilter,
     salaryFilter,
     descriptionFilter,
+    dateFilter,
   } = useFilter();
 
   const queryParameters = {
@@ -20,6 +21,7 @@ export default function JobList() {
     company: companyFilter,
     salary: salaryFilter,
     description: descriptionFilter,
+    datePosted: dateFilter,
   };
 
   const postQuery = api.post.getFilteredPosts.useInfiniteQuery(
@@ -73,7 +75,9 @@ export default function JobList() {
       ))}
 
       {!postQuery.hasNextPage && (
-        <div className="text-slate-500 pt-6 text-center">No more jobs to load!</div>
+        <div className="pt-6 text-center text-slate-500">
+          No more jobs to load!
+        </div>
       )}
     </>
   );
