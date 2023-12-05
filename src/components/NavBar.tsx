@@ -15,6 +15,7 @@ import { useClickAway } from "@uidotdev/usehooks";
 export const HamburgerButton = () => {
   const [hamburgerActive, setHamburgerActive] = useState<boolean>(false);
   const { isSignedIn } = useUser();
+  const { setSelectedList } = useButton();
   const ref = useClickAway<HTMLButtonElement>(() => setHamburgerActive(false));
 
   return (
@@ -58,7 +59,9 @@ export const HamburgerButton = () => {
                   className={`${active && "text-slate-500"}`}
                   href="/profile"
                 >
-                  Liked Jobs
+                  <button onClick={() => setSelectedList("liked")}>
+                    Liked Jobs
+                  </button>
                 </Link>
               )}
             </Menu.Item>
@@ -68,7 +71,9 @@ export const HamburgerButton = () => {
                   className={`${active && "text-slate-500"}`}
                   href="/profile"
                 >
-                  Applied Jobs
+                  <button onClick={() => setSelectedList("applied")}>
+                    Applied Jobs
+                  </button>
                 </Link>
               )}
             </Menu.Item>
@@ -122,7 +127,7 @@ export const HamburgerButton = () => {
 };
 
 export const NavLinks: React.FC = () => {
-  const { setActionButton } = useButton();
+  const { setSelectedList } = useButton();
   return (
     <>
       <Link href={`/profile`} className="rounded-xl bg-white p-2">
@@ -132,7 +137,7 @@ export const NavLinks: React.FC = () => {
         href={`/profile`}
         className="rounded-xl bg-white p-2"
         onClick={() => {
-          setActionButton("liked");
+          setSelectedList("liked");
         }}
       >
         Liked Jobs
@@ -141,7 +146,7 @@ export const NavLinks: React.FC = () => {
         href={`/profile`}
         className="rounded-xl bg-white p-2"
         onClick={() => {
-          setActionButton("applied");
+          setSelectedList("applied");
         }}
       >
         Applied Jobs
