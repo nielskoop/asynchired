@@ -7,61 +7,53 @@ import { CheckIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import toast from "react-hot-toast";
 import { useAuth } from "@clerk/nextjs";
 
-type Search = {
-  id: number;
-  userId: string | null | undefined;
-  name: String;
-  title?: string;
-  location?: string;
-  company?: string;
-  jobDescription?: string;
-  salary?: string;
-  createdAt?: string;
-  updatedAt?: string;
-};
-
 export function SaveSearchSelect() {
   const { userId } = useAuth();
-  const defaultSearch = {id: 0, userId, name: "Select a saved search" };
-
-  const [selectedSearch, setSelectedSearch] = useState<
-    Search
-  >(
-    defaultSearch
-  );
-
+  const defaultSearch = {id: -1, userId, name: "Select a saved search" };
 
   const { data: searches, isLoading } = api.search.getSearches.useQuery();
-  const filters = useFilter();
+  const {
+    selectedSearch,
+    setSelectedSearch,
+    setLocationFilter,
+    setRoleFilter,
+    setCompanyFilter,
+    setDescriptionFilter,
+    setIsInputDisabled
+  } = useFilter();
 
   useEffect(() => {
     if (selectedSearch.name !== "Select a saved search") {
-      filters.setLocationFilter(selectedSearch.location ?? "");
-      filters.setRoleFilter(selectedSearch.title ?? "");
-      filters.setCompanyFilter(selectedSearch.company ?? "");
-      filters.setDescriptionFilter(selectedSearch.jobDescription ?? "");
+      setLocationFilter(selectedSearch.location ?? "");
+      setRoleFilter(selectedSearch.title ?? "");
+      setCompanyFilter(selectedSearch.company ?? "");
+      setDescriptionFilter(selectedSearch.jobDescription ?? "");
     }
-  }, [selectedSearch, filters]);
+  }, [selectedSearch]);
 
-   useEffect(() => {
-     const isDisabled = selectedSearch.name !== "Select a saved search";
-     filters.setIsInputDisabled(isDisabled);
+  useEffect(() => {
+    const isDisabled = selectedSearch.name !== "Select a saved search";
+    setIsInputDisabled(isDisabled);
 
-     if (isDisabled) {
-     }
-   }, [selectedSearch, filters.setIsInputDisabled]);
+    if (isDisabled) {
+    }
+  }, [selectedSearch, setIsInputDisabled]);
 
   const resetSelectedSearch = (e: React.MouseEvent) => {
     e.stopPropagation();
     setSelectedSearch(defaultSearch);
-    filters.setLocationFilter("");
-    filters.setRoleFilter("");
-    filters.setCompanyFilter("");
-    filters.setDescriptionFilter("");
+    setLocationFilter("");
+    setRoleFilter("");
+    setCompanyFilter("");
+    setDescriptionFilter("");
   };
 
   if (isLoading) {
-    return <div className="w-max flex justify-center"><InputSkeleton/></div> ;
+    return (
+      <div className="flex w-max justify-center">
+        <InputSkeleton />
+      </div>
+    );
   }
 
   const handleListboxClick = (e: React.MouseEvent) => {

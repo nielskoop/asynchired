@@ -29,7 +29,10 @@ const ProfilePage: NextPage = () => {
         <UserJobsTracker />
       </div>
       <div className="flex flex-col items-center justify-center">
-      <SavedSearches/>
+        <div className="p-4 text-center text-2xl font-bold">
+          <h2>Your Saved Searches</h2>
+        </div>
+        <SavedSearches />
       </div>
     </>
   );

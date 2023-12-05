@@ -1,4 +1,4 @@
-import { useState, Fragment } from "react";
+import { useState, Fragment, useEffect } from "react";
 import { Combobox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { api } from "~/utils/api"; // Import your api utility
@@ -14,8 +14,15 @@ type Role = {
 export function RoleInputBox() {
   const [query, setQuery] = useState("");
   const { data: roles, isLoading } = api.post.getAllRoles.useQuery("");
-  const { setRoleFilter } = useFilter();
+  const { setRoleFilter, roleFilter, selectedSearch } = useFilter();
   const [selectedRole, setSelectedRole] = useState<Role | undefined>();
+
+  useEffect(() => {
+    if (roleFilter !== "" && selectedSearch.id !== -1) {
+      setSelectedRole({ id: selectedSearch.id, title: selectedSearch.title! });
+      setRoleFilter(selectedSearch.title!)
+    }
+  }, [roleFilter, selectedSearch]);
 
   const filteredRoles =
     query === ""
@@ -37,6 +44,7 @@ export function RoleInputBox() {
     setSelectedRole(role);
     setRoleFilter(role.title);
   };
+
 
   return (
     <div>

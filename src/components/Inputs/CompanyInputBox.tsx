@@ -1,5 +1,5 @@
 import { Combobox, Transition } from "@headlessui/react";
-import { useState, Fragment } from "react";
+import { useState, Fragment, useEffect } from "react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { api } from "~/utils/api";
 import { useFilter } from "~/context/FilterContext";
@@ -13,8 +13,15 @@ type Company = {
 export function CompanyInputBox() {
   const [query, setQuery] = useState("");
   const { data: companies, isLoading } = api.post.getAllCompanies.useQuery("");
-  const { setCompanyFilter } = useFilter();
+  const { setCompanyFilter, selectedSearch } = useFilter();
   const [selectedCompany, setSelectedCompany] = useState<Company | undefined>();
+
+//  useEffect(() => {
+//    if (roleFilter !== "" && selectedSearch.id !== -1) {
+//      setSelectedRole({ id: selectedSearch.id, title: selectedSearch.title! });
+//      setRoleFilter(selectedSearch.title!);
+//    }
+//  }, [roleFilter]);
 
   const filteredcompanies =
     query === ""

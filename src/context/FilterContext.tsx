@@ -2,6 +2,19 @@
 import React, { createContext, useContext, useState } from "react";
 import type { ReactNode } from "react";
 
+export type Search = {
+  id: number;
+  userId: string | null | undefined;
+  name: String;
+  title?: string | null | undefined;
+  location?: string;
+  company?: string;
+  jobDescription?: string;
+  salary?: string;
+  createdAt?: string;
+  updatedAt?: string;
+};
+
 interface FilterContextType {
   locationFilter: string;
   setLocationFilter: React.Dispatch<React.SetStateAction<string>>;
@@ -17,6 +30,8 @@ interface FilterContextType {
   setDateFilter: React.Dispatch<React.SetStateAction<Date | undefined>>;
   isInputDisabled: boolean;
   setIsInputDisabled: React.Dispatch<React.SetStateAction<boolean>>;
+  selectedSearch: Search;
+  setSelectedSearch: React.Dispatch<React.SetStateAction<Search>>;
 }
 
 // Create the context with an initial dummy value
@@ -35,6 +50,8 @@ const FilterContext = createContext<FilterContextType>({
   setDateFilter: () => {},
   isInputDisabled: false,
   setIsInputDisabled: () => {},
+  selectedSearch: { id: -1, userId: null, name: "Select a saved search" },
+  setSelectedSearch: () => {},
 });
 
 export const useFilter = () => useContext(FilterContext);
@@ -52,7 +69,14 @@ export const FilterProvider: React.FC<FilterProviderProps> = ({ children }) => {
   const [descriptionFilter, setDescriptionFilter] = useState("");
   const [dateFilter, setDateFilter] = useState<Date | undefined>(undefined);
   const [isInputDisabled, setIsInputDisabled] = useState(false);
-
+  const [selectedSearch, setSelectedSearch] = useState<Search>({
+    id: -1,
+    userId: null,
+    name: "Select a saved search",
+    title: "",
+    location: "",
+    company: "",
+  });
 
   const value = {
     locationFilter,
@@ -69,6 +93,8 @@ export const FilterProvider: React.FC<FilterProviderProps> = ({ children }) => {
     setDateFilter,
     isInputDisabled,
     setIsInputDisabled,
+    selectedSearch,
+    setSelectedSearch,
   };
 
   return (

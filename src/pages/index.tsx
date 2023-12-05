@@ -186,8 +186,6 @@ export default function Home() {
 
   const mutation = api.search.saveSearch.useMutation();
   const queryClient = useQueryClient();
-  const { isInputDisabled } = useFilter()
-
 
  const handleSaveSearch = (e: React.MouseEvent, searchName: string) => {
    e.preventDefault();
@@ -217,7 +215,7 @@ export default function Home() {
        },
        {
          onSuccess: () => {
-           queryClient.invalidateQueries("searches");
+           queryClient.invalidateQueries(["searches"]);
          },
        },
      );
@@ -244,71 +242,68 @@ export default function Home() {
             />
           </div>
           <NavBar />
-          <div className="my-1 relative left-1/2 top-[40%] mr-2 max-w-fit -translate-x-2/4 -translate-y-2/4 rounded-lg bg-gray-600 bg-opacity-70 px-2 pb-4 pt-1 md:top-1/3 md:px-4">
+          <div className="relative left-1/2 top-[40%] my-1 mr-2 max-w-fit -translate-x-2/4 -translate-y-2/4 rounded-lg bg-gray-600 bg-opacity-70 px-2 pb-4 pt-1 md:top-1/3 md:px-4">
             <p className="mb-4 text-center text-2xl text-white md:text-4xl">
               All the dev jobs,
               <span className="font-semibold"> one place</span>
             </p>
-            <div className="mb-4 w-full px-4 text-center text-white md:text-left flex justify-center">
+            <div className="mb-4 flex w-full justify-center px-4 text-center text-white md:text-left">
               <SaveSearchSelect />
             </div>
             <div className="flex w-full justify-center px-4">
-              {
-                isInputDisabled ? <h1 className="text-white">Unapply saved search to start a new one</h1> :
-
-                  (<form className="flex flex-col items-center justify-center md:flex-row md:gap-4">
-                    <div className="mb-4 flex flex-col gap-2 md:mb-0 md:flex-row">
-                      <div className="flex flex-col">
-                        <span className="mr-2 font-bold text-white">
-                          I'm looking for
-                        </span>
-                        <RoleInputBox />
-                      </div>
-                      <div className="flex grow flex-col">
-                        <span className="mr-2 font-bold text-white">In</span>
-                        <LocationInputBox />
-                      </div>
-                      <div>
-                        <span className="mr-2 font-bold text-white">At</span>
-                        <div className="flex grow">
-                          <CompanyInputBox />
-                        </div>
-                      </div>
+              <form className="flex flex-col items-center justify-center md:flex-row md:gap-4">
+                <div className="mb-4 flex flex-col gap-2 md:mb-0 md:flex-row">
+                  <div className="flex flex-col">
+                    <span className="mr-2 font-bold text-white">
+                      I'm looking for
+                    </span>
+                    <RoleInputBox />
+                  </div>
+                  <div className="flex grow flex-col">
+                    <span className="mr-2 font-bold text-white">In</span>
+                    <LocationInputBox />
+                  </div>
+                  <div>
+                    <span className="mr-2 font-bold text-white">At</span>
+                    <div className="flex grow">
+                      <CompanyInputBox />
                     </div>
-                    <button
-                      type="submit"
-                      className="w-full self-end justify-self-end rounded-md bg-[#00A907] p-1 font-semibold text-white hover:bg-green-700  md:w-max"
-                    >
-                      {screenSize && screenSize < 768 ? (
-                        "Search Jobs"
-                      ) : (
-                        <Image
-                          src={"find.svg"}
-                          height={36}
-                          width={36}
-                          alt="search button"
-                        />
-                      )}
-                    </button>
+                  </div>
+                </div>
+                <button
+                  type="submit"
+                  className="w-full self-end justify-self-end rounded-md bg-[#00A907] p-1 font-semibold text-white hover:bg-green-700  md:w-max"
+                >
+                  {screenSize && screenSize < 768 ? (
+                    "Search Jobs"
+                  ) : (
+                    <Image
+                      src={"find.svg"}
+                      height={36}
+                      width={36}
+                      alt="search button"
+                    />
+                  )}
+                </button>
 
-                    <button
-                      type="button"
-                      className="mt-2 w-full self-end justify-self-end rounded-md bg-[#1A78E6] p-1 font-semibold text-white hover:bg-blue-600  md:w-max"
-                      onClick={() => setIsOpen(!isOpen)}
-                    >
-                      {screenSize && screenSize < 768 ? (
-                        "Save Search"
-                      ) : (
-                        <Image
-                          src={"save.svg"}
-                          height={36}
-                          width={36}
-                          alt="save search button"
-                        />
-                      )}
-                    </button>
-                    <SaveSearcNameModal handleSaveSearch={handleSaveSearch} />
-                  </form>)}
+                <button
+                  type="button"
+                  className="mt-2 w-full self-end justify-self-end rounded-md bg-[#1A78E6] p-1 font-semibold text-white hover:bg-blue-600  md:w-max"
+                  onClick={() => setIsOpen(!isOpen)}
+                >
+                  {screenSize && screenSize < 768 ? (
+                    "Save Search"
+                  ) : (
+                    <Image
+                      src={"save.svg"}
+                      height={36}
+                      width={36}
+                      alt="save search button"
+                    />
+                  )}
+                </button>
+                <SaveSearcNameModal handleSaveSearch={handleSaveSearch} />
+              </form>
             </div>
             <div>
               <div className="flex justify-center">
@@ -317,30 +312,27 @@ export default function Home() {
             </div>
           </div>
         </div>
-        {
-          isInputDisabled ? <div></div> : (
 
-        <div className=" flex justify-center bg-slate-200  p-2">
-          <button
-            className="flex max-w-lg self-center justify-self-end rounded bg-blue-500 p-2 text-white hover:bg-blue-600"
-            onClick={() => setIsWidgetOpen(!isWidgetOpen)}
-          >
-            {isWidgetOpen ? "Minimize Tags" : "Open Tags"}
-          </button>
-        </div>
-          )}
-         {
-           isInputDisabled ? <div></div> : (
-             <div className="flex">
-          <div
-            className={`transition-all duration-500 ease-in-out ${
-              isWidgetOpen ? "min-w-full opacity-100" : "max-h-0 opacity-0"
-            }`}
+          <div className=" flex justify-center bg-slate-200  p-2">
+            <button
+              className="flex max-w-lg self-center justify-self-end rounded bg-blue-500 p-2 text-white hover:bg-blue-600"
+              onClick={() => setIsWidgetOpen(!isWidgetOpen)}
             >
-            <TagWidget />
+              {isWidgetOpen ? "Minimize Tags" : "Open Tags"}
+            </button>
           </div>
-        </div>
-              )}
+
+
+          <div className="flex">
+            <div
+              className={`transition-all duration-500 ease-in-out ${
+                isWidgetOpen ? "min-w-full opacity-100" : "max-h-0 opacity-0"
+              }`}
+            >
+              <TagWidget />
+            </div>
+          </div>
+
         <div>
           <JobList />
         </div>
