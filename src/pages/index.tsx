@@ -173,7 +173,6 @@ export function TagWidget() {
 }
 
 export default function Home() {
-  const screenSize = useScreenSize();
   const { roleFilter, locationFilter, companyFilter } = useFilter();
   const [isWidgetOpen, setIsWidgetOpen] = useState(true);
   const { userId } = useAuth();
