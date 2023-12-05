@@ -27,7 +27,6 @@ const SavedSearches: React.FC = () => {
 
   const screenSize = useScreenSize();
 
-  // Conditionally fetching data only if userId is available
   const { data: userSearches, isLoading, refetch } = api.search.getSearches.useQuery()
 
   const filters = useFilter();
@@ -44,6 +43,10 @@ const SavedSearches: React.FC = () => {
 
   function handleSelectSearch(search: Search) {
     setSelectedSearch(search);
+    setRoleFilter(selectedSearch.title!);
+    setLocationFilter(selectedSearch.location!);
+    setCompanyFilter(selectedSearch.company!);
+
   }
 
   function delSearch(selectedSearch: Search) {
@@ -58,10 +61,7 @@ const SavedSearches: React.FC = () => {
               color: "#fff",
             },
           });
-
           setSelectedSearch(defaultSearch);
-
-
         },
         onError: () => {
           toast.error("Error deleting search", {
@@ -75,6 +75,8 @@ const SavedSearches: React.FC = () => {
       });
     }
   }
+
+  function editSearch(selectedSearch: Search) {}
 
   return (
     <>
@@ -108,7 +110,11 @@ const SavedSearches: React.FC = () => {
           >
             <h1 className="text-xl">{selectedSearch.name}</h1>
             <div className="flex w-fit flex-col items-end justify-center">
-              <button>
+              <button
+                onClick={() => {
+                  editSearch(selectedSearch);
+                }}
+              >
                 <Image
                   src={"/111-write white.svg"}
                   alt="Edit"

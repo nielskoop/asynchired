@@ -16,7 +16,6 @@ import { useModal } from "~/context/modalContext";
 import { SaveSearcNameModal } from "~/components/saveSearchNameModal";
 import toast from "react-hot-toast";
 import { SaveSearchSelect } from "~/components/Inputs/SaveSearchSelect";
-import { useQueryClient } from "@tanstack/react-query";
 
 const roleTags = [
   "Product",
@@ -185,7 +184,11 @@ export default function Home() {
   const [isOpen, setIsOpen] = useModal("saveSearchName");
 
   const mutation = api.search.saveSearch.useMutation();
-  const queryClient = useQueryClient();
+  const {
+    data: searches,
+    isLoading,
+    refetch,
+  } = api.search.getSearches.useQuery();
 
  const handleSaveSearch = (e: React.MouseEvent, searchName: string) => {
    e.preventDefault();
@@ -215,7 +218,7 @@ export default function Home() {
        },
        {
          onSuccess: () => {
-           queryClient.invalidateQueries(["searches"]);
+           refetch();
          },
        },
      );

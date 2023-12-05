@@ -13,15 +13,15 @@ type Company = {
 export function CompanyInputBox() {
   const [query, setQuery] = useState("");
   const { data: companies, isLoading } = api.post.getAllCompanies.useQuery("");
-  const { setCompanyFilter, selectedSearch } = useFilter();
+  const { setCompanyFilter, selectedSearch, companyFilter } = useFilter();
   const [selectedCompany, setSelectedCompany] = useState<Company | undefined>();
 
-//  useEffect(() => {
-//    if (roleFilter !== "" && selectedSearch.id !== -1) {
-//      setSelectedRole({ id: selectedSearch.id, title: selectedSearch.title! });
-//      setRoleFilter(selectedSearch.title!);
-//    }
-//  }, [roleFilter]);
+  useEffect(() => {
+    if (companyFilter !== "" && selectedSearch.id !== -1) {
+      setSelectedCompany({ id: selectedSearch.id, company: selectedSearch.company! });
+      setCompanyFilter(selectedSearch.company!);
+    }
+  }, [companyFilter, selectedSearch]);
 
   const filteredcompanies =
     query === ""

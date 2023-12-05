@@ -11,7 +11,7 @@ export function SaveSearchSelect() {
   const { userId } = useAuth();
   const defaultSearch = {id: -1, userId, name: "Select a saved search" };
 
-  const { data: searches, isLoading } = api.search.getSearches.useQuery();
+  const { data: searches, isLoading, refetch } = api.search.getSearches.useQuery();
   const {
     selectedSearch,
     setSelectedSearch,

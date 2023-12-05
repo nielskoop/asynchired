@@ -1,5 +1,5 @@
 import { Combobox, Transition } from "@headlessui/react";
-import { useState, Fragment } from "react";
+import { useState, Fragment, useEffect } from "react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { api } from "~/utils/api";
 import { useFilter } from "~/context/FilterContext";
@@ -13,10 +13,20 @@ type Location = {
 export function LocationInputBox() {
   const [query, setQuery] = useState("");
   const { data: locations, isLoading } = api.post.getAllLocations.useQuery("");
-  const { setLocationFilter } = useFilter();
+  const { setLocationFilter, locationFilter, selectedSearch } = useFilter();
   const [selectedLocation, setSelectedLocation] = useState<
     Location | undefined
-  >();
+    >();
+
+    useEffect(() => {
+      if (locationFilter !== "" && selectedSearch.id !== -1) {
+        setSelectedLocation({
+          id: selectedSearch.id,
+          location: selectedSearch.location!,
+        });
+        setLocationFilter(selectedSearch.location!);
+      }
+    }, [locationFilter, selectedSearch]);
 
   const filteredLocations =
     query === ""

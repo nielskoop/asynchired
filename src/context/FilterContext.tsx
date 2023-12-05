@@ -7,10 +7,10 @@ export type Search = {
   userId: string | null | undefined;
   name: String;
   title?: string | null | undefined;
-  location?: string;
-  company?: string;
-  jobDescription?: string;
-  salary?: string;
+  location?: string | null;
+  company?: string | null;
+  jobDescription?: string | null;
+  salary?: string | null;
   createdAt?: string;
   updatedAt?: string;
 };
