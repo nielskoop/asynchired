@@ -6,29 +6,30 @@ import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import toast from "react-hot-toast";
 import { useAuth } from "@clerk/nextjs";
-import { SaveSearchSelectSkeleton } from "./SaveSearchSelectSkeleton";
 
 type Search = {
   id: number;
-  userId: string;
+  userId: string | null | undefined;
   name: String;
   title?: string;
   location?: string;
   company?: string;
   jobDescription?: string;
   salary?: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
 };
 
 export function SaveSearchSelect() {
-  const [selectedSearch, setSelectedSearch] = useState<
-    Search | { name: string }
-  >({
-    name: "Select a saved search",
-  });
-
   const { userId } = useAuth();
+  const defaultSearch = {id: 0, userId, name: "Select a saved search" };
+
+  const [selectedSearch, setSelectedSearch] = useState<
+    Search
+  >(
+    defaultSearch
+  );
+
 
   const { data: searches, isLoading } = api.search.getSearches.useQuery();
   const filters = useFilter();
@@ -50,9 +51,9 @@ export function SaveSearchSelect() {
      }
    }, [selectedSearch, filters.setIsInputDisabled]);
 
-  const resetSelectedSearch = (e) => {
+  const resetSelectedSearch = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setSelectedSearch({ name: "Select a saved search" });
+    setSelectedSearch(defaultSearch);
     filters.setLocationFilter("");
     filters.setRoleFilter("");
     filters.setCompanyFilter("");
@@ -63,9 +64,10 @@ export function SaveSearchSelect() {
     return <div className="w-max flex justify-center"><InputSkeleton/></div> ;
   }
 
-  const handleListboxClick = (e) => {
+  const handleListboxClick = (e: React.MouseEvent) => {
     if (!searches || searches.length === 0 || !userId) {
-          e.stopPropagation();
+      e.preventDefault();
+      e.stopPropagation();
 
       toast.error("Login & save a search to use this feature", {
         icon: "🔒",
@@ -112,7 +114,7 @@ export function SaveSearchSelect() {
               leaveTo="opacity-0"
             >
               <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
-                {searches.map((search) => (
+                {searches!.map((search) => (
                   <Listbox.Option
                     key={search.id}
                     className={({ active }) =>
