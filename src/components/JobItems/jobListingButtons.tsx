@@ -10,7 +10,7 @@ import toast from "react-hot-toast";
 export const OriginalPostButton = (props: { url: string }) => {
   return (
     <Link
-      className="h-min rounded-xl bg-[#1A78E6] px-2 py-1 text-white focus-visible:outline-none"
+      className="h-min rounded-xl bg-[#1A78E6] px-2 py-1 text-white hover:bg-blue-600  focus-visible:outline-none"
       href={props.url}
       target="_blank"
       rel="noopener noreferrer"
@@ -63,7 +63,6 @@ export const MarkAppliedButton = (props: { post: Post }) => {
     });
 
   async function appliedPost() {
-    console.log("you clicked me user: ", userId);
     if (!userId) {
       toast.error("Log-in to use this feature", {
         icon: "🔒",
@@ -86,7 +85,9 @@ export const MarkAppliedButton = (props: { post: Post }) => {
   return (
     <button
       className={`h-min rounded-xl px-2 py-1 text-white ${
-        applied ? "bg-[#00A907]" : "bg-[#A500CE]"
+        applied
+          ? "bg-[#00A907]  hover:bg-green-700"
+          : "bg-[#A500CE]  hover:bg-purple-800"
       }`}
       onClick={() => appliedPost()}
     >

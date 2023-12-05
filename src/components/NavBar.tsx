@@ -64,7 +64,7 @@ export const HamburgerButton = () => {
             {isSignedIn ? (
               <Menu.Item>
                 {() => (
-                  <div className=" bg-white ">
+                  <div className=" bg-white">
                     <SignOutButton />
                   </div>
                 )}
@@ -89,12 +89,15 @@ export const NavLinks: React.FC = () => {
   const { setActionButton } = useButton();
   return (
     <>
-      <Link href={`/profile`} className="rounded-xl bg-white p-2">
+      <Link
+        href={`/profile`}
+        className="rounded-xl bg-white p-2  hover:bg-neutral-200"
+      >
         Saved Searches
       </Link>
       <Link
         href={`/profile`}
-        className="rounded-xl bg-white p-2"
+        className="rounded-xl bg-white p-2 hover:bg-neutral-200"
         onClick={() => {
           setActionButton("liked");
         }}
@@ -103,7 +106,7 @@ export const NavLinks: React.FC = () => {
       </Link>
       <Link
         href={`/profile`}
-        className="rounded-xl bg-white p-2"
+        className="rounded-xl bg-white p-2 hover:bg-neutral-200"
         onClick={() => {
           setActionButton("applied");
         }}
@@ -161,17 +164,17 @@ export const NavBar = () => {
           {screenSize! < 768 ? (
             <HamburgerButton />
           ) : (
-            <div className="h-[40px] min-w-[82.5px]  text-center">
+            <div className="h-[40px] min-w-[82.5px] text-center">
               {isSignedIn ? (
-                <div className="rounded-xl bg-white p-2">
+                <div className="rounded-xl bg-white p-2 hover:bg-neutral-200">
                   <SignOutButton />
                 </div>
               ) : (
                 <div className="flex gap-2">
-                  <div className="rounded-xl bg-white p-2">
+                  <div className="rounded-xl bg-white p-2 hover:bg-neutral-200">
                     <SignInButton />
                   </div>
-                  <div className="rounded-xl bg-white p-2">
+                  <div className="rounded-xl bg-white p-2 hover:bg-neutral-200">
                     <SignUpButton />
                   </div>
                 </div>

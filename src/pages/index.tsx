@@ -15,6 +15,8 @@ import { E } from "@upstash/redis/zmscore-b6b93f14";
 import { useModal } from "~/context/modalContext";
 import { SaveSearcNameModal } from "~/components/saveSearchNameModal";
 import toast from "react-hot-toast";
+import { SaveSearchSelect } from "~/components/Inputs/SaveSearchSelect";
+import { useQueryClient } from "@tanstack/react-query";
 
 const roleTags = [
   "Product",
@@ -182,34 +184,45 @@ export default function Home() {
   const { userId } = useAuth();
   const [isOpen, setIsOpen] = useModal("saveSearchName");
 
-  const mutation = api.user.saveSearch.useMutation();
+  const mutation = api.search.saveSearch.useMutation();
+  const queryClient = useQueryClient();
 
-  const handleSaveSearch = (e: React.MouseEvent, searchName: string) => {
-    e.preventDefault();
 
-    if (searchName === "") {
-    toast.error("Name required", {
-      icon: "📝",
-      style: {
-        borderRadius: "10px",
-        background: "#E61A1A",
-        color: "#fff",
-      },
-    });      return
-    } else {
-      setIsOpen(false);
+ const handleSaveSearch = (e: React.MouseEvent, searchName: string) => {
+   e.preventDefault();
 
-      if (!userId) return;
+   if (searchName === "") {
+     toast.error("Name required", {
+       icon: "📝",
+       style: {
+         borderRadius: "10px",
+         background: "#E61A1A",
+         color: "#fff",
+       },
+     });
+     return;
+   } else {
+     setIsOpen(false);
 
-      mutation.mutate({
-        searchName,
-        userId,
-        title: roleFilter,
-        location: locationFilter,
-        company: companyFilter,
-      });
-    }
-  };
+     if (!userId) return;
+
+     mutation.mutate(
+       {
+         searchName,
+         userId,
+         title: roleFilter,
+         location: locationFilter,
+         company: companyFilter,
+       },
+       {
+         onSuccess: () => {
+           queryClient.invalidateQueries("searches");
+         },
+       },
+     );
+   }
+ };
+
 
   return (
     <>
@@ -226,6 +239,9 @@ export default function Home() {
               All the dev jobs,
               <span className="font-semibold"> one place</span>
             </p>
+            <div className="mb-4 w-full px-4 text-center text-white md:text-left">
+              <SaveSearchSelect />
+            </div>
             <div className="flex w-full justify-center px-4">
               <form className="flex flex-col items-center justify-center md:flex-row md:gap-4">
                 <div className="mb-4 flex flex-col gap-2 md:mb-0 md:flex-row">
@@ -248,7 +264,7 @@ export default function Home() {
                 </div>
                 <button
                   type="submit"
-                  className="w-full self-end justify-self-end rounded-md bg-green-700 p-1 font-semibold text-white md:w-max"
+                  className="w-full self-end justify-self-end rounded-md bg-[#00A907] p-1 font-semibold text-white hover:bg-green-700  md:w-max"
                 >
                   {screenSize && screenSize < 768 ? (
                     "Search Jobs"
@@ -264,7 +280,7 @@ export default function Home() {
 
                 <button
                   type="button"
-                  className="mt-2 w-full self-end justify-self-end rounded-md bg-[#1A78E6] p-1 font-semibold text-white md:w-max"
+                  className="mt-2 w-full self-end justify-self-end rounded-md bg-[#1A78E6] p-1 font-semibold text-white hover:bg-blue-600  md:w-max"
                   onClick={() => setIsOpen(!isOpen)}
                 >
                   {screenSize && screenSize < 768 ? (
@@ -285,7 +301,7 @@ export default function Home() {
         </div>
         <div className=" flex justify-center bg-slate-200  p-2">
           <button
-            className="flex max-w-lg self-center justify-self-end rounded bg-blue-500 p-2 text-white"
+            className="flex max-w-lg self-center justify-self-end rounded bg-blue-500 p-2 text-white hover:bg-blue-600"
             onClick={() => setIsWidgetOpen(!isWidgetOpen)}
           >
             {isWidgetOpen ? "Minimize Tags" : "Open Tags"}
