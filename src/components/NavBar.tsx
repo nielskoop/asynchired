@@ -16,7 +16,8 @@ export const HamburgerButton = () => {
   const [hamburgerActive, setHamburgerActive] = useState<boolean>(false);
   const { isSignedIn } = useUser();
   const ref = useClickAway<HTMLButtonElement>(() => setHamburgerActive(false));
-
+  const { setStateButton } = useButton();
+  
   return (
     <Menu as={"div"} className={"relative inline-block text-left"}>
       <Menu.Button
@@ -57,6 +58,9 @@ export const HamburgerButton = () => {
                 <Link
                   className={`${active && "text-slate-500"}`}
                   href="/profile"
+                  onClick={() => {
+                    setStateButton("liked");
+                  }}
                 >
                   Liked Jobs
                 </Link>
@@ -67,6 +71,9 @@ export const HamburgerButton = () => {
                 <Link
                   className={`${active && "text-slate-500"}`}
                   href="/profile"
+                   onClick={() => {
+                    setStateButton("applied");
+                  }}
                 >
                   Applied Jobs
                 </Link>
@@ -122,7 +129,8 @@ export const HamburgerButton = () => {
 };
 
 export const NavLinks: React.FC = () => {
-  const { setActionButton } = useButton();
+ const { setStateButton } = useButton();
+  
   return (
     <>
       <Link href={`/profile`} className="rounded-xl bg-white p-2">
@@ -132,7 +140,7 @@ export const NavLinks: React.FC = () => {
         href={`/profile`}
         className="rounded-xl bg-white p-2"
         onClick={() => {
-          setActionButton("liked");
+          setStateButton("liked");
         }}
       >
         Liked Jobs
@@ -141,7 +149,7 @@ export const NavLinks: React.FC = () => {
         href={`/profile`}
         className="rounded-xl bg-white p-2"
         onClick={() => {
-          setActionButton("applied");
+          setStateButton("applied");
         }}
       >
         Applied Jobs
