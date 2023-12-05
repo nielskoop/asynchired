@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import LikedJobsList from "./jobLists/LikedJobsList";
 import DislikedJobsList from "./jobLists/DislikedJobsList";
 import AppliedJobsList from "./jobLists/AppliedJobsList";
