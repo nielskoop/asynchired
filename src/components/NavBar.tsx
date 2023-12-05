@@ -176,7 +176,7 @@ export const NavBar = () => {
     <div
       className={
         header
-          ? "bg-image-large fixed z-10 w-full transition-all"
+          ? "fixed z-10 w-full bg-gradient-to-r from-[#020307] via-[#06244E] to-[#020307]"
           : "bg-transparent"
       }
     >
