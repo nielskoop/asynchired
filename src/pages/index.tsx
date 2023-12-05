@@ -310,13 +310,6 @@ export default function Home() {
                     <SaveSearcNameModal handleSaveSearch={handleSaveSearch} />
                   </form>)}
             </div>
-
-            <div>
-              <div className="flex justify-center">
-                <DateInputBox />
-              </div>
-            </div>
-
             <div>
               <div className="flex justify-center">
                 <DateInputBox />

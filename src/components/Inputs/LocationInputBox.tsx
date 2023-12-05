@@ -1,4 +1,3 @@
-//src\components\Inputs\LocationInputBox.tsx
 import { Combobox, Transition } from "@headlessui/react";
 import { useState, Fragment } from "react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";

@@ -66,7 +66,7 @@ export const ProfileEditModal: React.FC = () => {
       setIsOpen(false)
   }
 
-  
+
   return (
     <>
       <Dialog
@@ -96,7 +96,6 @@ export const ProfileEditModal: React.FC = () => {
                 height={128}
                 className="rounded-full border-2 border-solid border-[#1A78E6]"
               />
-              <button className="hover:underline">Edit</button>
             </div>
           </Dialog.Description>
           {/* add logic to show placeholder if no info, else show value of state */}
@@ -128,7 +127,7 @@ export const ProfileEditModal: React.FC = () => {
                 onChange={(e) => setProfileDetails({...profileDetails, location:e.target.value})}
                 />
                 <EditIcon onClick={() => setEditMode({...editMode, location: !editMode.location})} />
-              
+
             </label>
             <label htmlFor="Tech Stack" className="m-2 flex flex-col">
               Tech Stack
@@ -143,7 +142,7 @@ export const ProfileEditModal: React.FC = () => {
                 onChange={(e) => setProfileDetails({...profileDetails, techStack:e.target.value})}
                 />
                 <EditIcon onClick={() => setEditMode({...editMode, techStack: !editMode.techStack})} />
-              
+
             </label>
             <label htmlFor="Education" className="m-2 flex flex-col">
               Education
@@ -158,7 +157,7 @@ export const ProfileEditModal: React.FC = () => {
                 onChange={(e) => setProfileDetails({...profileDetails, education:e.target.value})}
                 />
                 <EditIcon onClick={() => setEditMode({...editMode, education: !editMode.education})} />
-              
+
             </label>
           </form>
 

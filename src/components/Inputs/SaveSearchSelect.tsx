@@ -127,7 +127,7 @@ export function SaveSearchSelect() {
                     {({ selected, active }) => (
                       <>
                         <span
-                          className={`block truncate ${
+                          className={`block truncate text-left ${
                             selected ? "font-medium" : "font-normal"
                           }`}
                         >
