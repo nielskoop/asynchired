@@ -238,21 +238,6 @@ export default function Home() {
                   </div>
                 </div>
                 <button
-                  type="submit"
-                  className="w-full self-end justify-self-end rounded-md bg-green-700 p-1 font-semibold text-white md:w-max"
-                >
-                  {screenSize && screenSize < 768 ? (
-                    "Search Jobs"
-                  ) : (
-                    <Image
-                      src={"find.svg"}
-                      height={36}
-                      width={36}
-                      alt="search button"
-                    />
-                  )}
-                </button>
-                <button
                   onClick={(e) => {
                     handlePostSearch(e);
                   }}
@@ -263,7 +248,7 @@ export default function Home() {
             </div>
 
             <div>
-              <div className="flex justify-center">
+              <div className="flex justify-center ">
                 <DateInputBox />
               </div>
             </div>
