@@ -11,7 +11,6 @@ import { useFilter } from "~/context/FilterContext";
 import ScrollToTopButton from "~/components/scrollToTopButton";
 import { useAuth } from "@clerk/nextjs";
 import { api } from "~/utils/api";
-import { E } from "@upstash/redis/zmscore-b6b93f14";
 
 const roleTags = [
   "Product",
