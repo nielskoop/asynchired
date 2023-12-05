@@ -185,10 +185,9 @@ export default function Home() {
             <Image
               src={"/hero-bg-2.png"}
               layout="fill"
-              objectFit="cover"
-              objectPosition="50% 10%"
               alt="Hero Section Background"
               priority={true}
+              style={{ objectFit: "cover", objectPosition: "50% 10%" }}
             />
           </div>
           <NavBar />
