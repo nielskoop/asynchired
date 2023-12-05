@@ -6,6 +6,7 @@ import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import toast from "react-hot-toast";
 import { useAuth } from "@clerk/nextjs";
+import { SaveSearchSelectSkeleton } from "./SaveSearchSelectSkeleton";
 
 type Search = {
   id: number;
@@ -41,6 +42,14 @@ export function SaveSearchSelect() {
     }
   }, [selectedSearch, filters]);
 
+   useEffect(() => {
+     const isDisabled = selectedSearch.name !== "Select a saved search";
+     filters.setIsInputDisabled(isDisabled);
+
+     if (isDisabled) {
+     }
+   }, [selectedSearch, filters.setIsInputDisabled]);
+
   const resetSelectedSearch = (e) => {
     e.stopPropagation();
     setSelectedSearch({ name: "Select a saved search" });
@@ -51,7 +60,7 @@ export function SaveSearchSelect() {
   };
 
   if (isLoading) {
-    return <InputSkeleton />;
+    return <div className="w-max flex justify-center"><InputSkeleton/></div> ;
   }
 
   const handleListboxClick = (e) => {
@@ -70,7 +79,7 @@ export function SaveSearchSelect() {
   };
 
   return (
-    <div className="relative flex w-full ">
+    <div className="relative min-w-[211.69px] max-w-[247px] grow shadow-md md:px-0">
       <Listbox value={selectedSearch} onChange={setSelectedSearch}>
         {({ open }) => (
           <>

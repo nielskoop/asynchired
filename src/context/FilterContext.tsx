@@ -1,9 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-// src/context/FilterContext.tsx
 import React, { createContext, useContext, useState } from "react";
 import type { ReactNode } from "react";
 
-// Define the shape of your context data
 interface FilterContextType {
   locationFilter: string;
   setLocationFilter: React.Dispatch<React.SetStateAction<string>>;
@@ -15,6 +13,8 @@ interface FilterContextType {
   setSalaryFilter: React.Dispatch<React.SetStateAction<string | undefined>>;
   descriptionFilter: string;
   setDescriptionFilter: React.Dispatch<React.SetStateAction<string>>;
+  isInputDisabled: boolean;
+  setIsInputDisabled: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 // Create the context with an initial dummy value
@@ -28,7 +28,9 @@ const FilterContext = createContext<FilterContextType>({
   salaryFilter: "",
   setSalaryFilter: () => {},
   descriptionFilter: "",
-  setDescriptionFilter: () => {},
+  setDescriptionFilter: () => { },
+  isInputDisabled: false,
+  setIsInputDisabled: () => { },
 });
 
 export const useFilter = () => useContext(FilterContext);
@@ -44,6 +46,8 @@ export const FilterProvider: React.FC<FilterProviderProps> = ({ children }) => {
   const [companyFilter, setCompanyFilter] = useState("");
   const [salaryFilter, setSalaryFilter] = useState<string | undefined>("");
   const [descriptionFilter, setDescriptionFilter] = useState("");
+  const [isInputDisabled, setIsInputDisabled] = useState(false);
+
 
   const value = {
     locationFilter,
@@ -56,6 +60,8 @@ export const FilterProvider: React.FC<FilterProviderProps> = ({ children }) => {
     setSalaryFilter,
     descriptionFilter,
     setDescriptionFilter,
+    isInputDisabled,
+    setIsInputDisabled,
   };
 
   return (
