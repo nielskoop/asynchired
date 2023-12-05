@@ -200,7 +200,7 @@ export default function Home() {
         <meta name="description" content="All developer jobs in one place" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
+      <main className="pb-6">
         <div className="bg-image-large flex h-[30rem] w-full flex-col md:h-[450px]">
           <NavBar />
           <div className="relative left-1/2 top-[40%] mr-2 max-w-fit -translate-x-2/4 -translate-y-2/4 rounded-lg bg-gray-600 bg-opacity-70 px-2 pb-4 pt-1 md:top-1/3 md:px-4">
