@@ -15,6 +15,7 @@ import { useModal } from "~/context/modalContext";
 import { SaveSearcNameModal } from "~/components/saveSearchNameModal";
 import toast from "react-hot-toast";
 import { SaveSearchSelect } from "~/components/Inputs/SaveSearchSelect";
+import useScreenSize from "~/hooks/useScreenSize";
 
 const roleTags = [
   "Product",
@@ -180,6 +181,7 @@ export default function Home() {
   const [isWidgetOpen, setIsWidgetOpen] = useState(true);
   const { userId } = useAuth();
   const [isOpen, setIsOpen] = useModal("saveSearchName");
+  const screenSize = useScreenSize();
 
   const mutation = api.search.saveSearch.useMutation();
   const {
