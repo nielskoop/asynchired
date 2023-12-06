@@ -14,6 +14,7 @@ type Role = {
 
 export function RoleInputBox() {
   const [query, setQuery] = useState("");
+  const [inputValue, setInputValue] = useState("");
   const { data: roles, isLoading } = api.post.getAllRoles.useQuery("");
   const { setRoleFilter } = useFilter();
   const [selectedRole, setSelectedRole] = useState<Role | undefined>();
@@ -32,17 +33,20 @@ export function RoleInputBox() {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
     setQuery(newValue);
+    setInputValue(newValue);
   };
 
   const handleRoleChange = (role: Role) => {
     setSelectedRole(role);
     setRoleFilter(role.title);
+    setInputValue(role.title);
   };
 
   const clearInput = () => {
-    setQuery("");
-    setSelectedRole(undefined);
-    setRoleFilter("");
+    setQuery(""); // Also clear the query here
+    setInputValue(""); // Clear the inputValue
+    setSelectedRole(undefined); // Reset the selected role
+    setRoleFilter(""); // Clear the role filter
   };
 
   return (
@@ -51,9 +55,9 @@ export function RoleInputBox() {
         <div className="relative">
           <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
             <Combobox.Input
-              className="w-full border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0"
-              displayValue={(role) => (role ? (role as Role).title : "")}
+              className="w-full border-none py-2 pl-3 pr-12 text-sm leading-5 text-gray-900 focus:ring-0"
               onChange={handleInputChange}
+              value={inputValue}
               onKeyDown={(event) => {
                 if (event.key === "Enter" && query === "") {
                   event.preventDefault();
@@ -62,11 +66,12 @@ export function RoleInputBox() {
                 }
               }}
             />
+
             {/* Icons container */}
             <div className="absolute inset-y-0 right-0 flex items-center">
               {/* Clear input button */}
-              {query && (
-                <Combobox.Button
+              {inputValue.length > 0 && ( // Check the new state for content
+                <button
                   onClick={clearInput}
                   className="inline-flex items-center justify-center"
                 >
@@ -74,11 +79,11 @@ export function RoleInputBox() {
                     className="h-5 w-5 text-gray-400"
                     aria-hidden="true"
                   />
-                </Combobox.Button>
+                </button>
               )}
 
               {/* Combobox toggle button */}
-              <Combobox.Button className="inline-flex items-center justify-center pr-2 ">
+              <Combobox.Button className="inline-flex items-center justify-center pr-2">
                 <ChevronUpDownIcon
                   className="h-5 w-5 text-gray-400"
                   aria-hidden="true"
@@ -99,7 +104,7 @@ export function RoleInputBox() {
                 value={{ id: -1, title: query }}
                 className={({ active }) =>
                   `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                    active ? "bg-teal-600 text-white" : "text-gray-900"
+                    active ? "bg-blue-500 text-white" : "text-gray-900"
                   }`
                 }
               >
@@ -120,7 +125,7 @@ export function RoleInputBox() {
                   key={role.id}
                   className={({ active }) =>
                     `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                      active ? "bg-teal-600 text-white" : "text-gray-900"
+                      active ? "bg-blue-500 text-white" : "text-gray-900"
                     }`
                   }
                   value={role}
@@ -137,7 +142,7 @@ export function RoleInputBox() {
                       {selected ? (
                         <span
                           className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
-                            active ? "text-white" : "text-teal-600"
+                            active ? "text-white" : "text-blue-500"
                           }`}
                         >
                           <CheckIcon className="h-5 w-5" aria-hidden="true" />
