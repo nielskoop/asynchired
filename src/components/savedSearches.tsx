@@ -20,7 +20,7 @@ const SavedSearches: React.FC = () => {
   const { userId } = useAuth();
   const defaultSearch = {
     id: -1,
-    userId: userId as string,
+    userId: userId!,
     name: "Select a saved search",
     title: "...",
     location: "...",
@@ -127,7 +127,7 @@ const SavedSearches: React.FC = () => {
   function saveSearch() {
     const updatedSearch = {
       id: selectedSearch.id,
-      userId: userId as string,
+      userId: userId!,
       name: editableName,
       title: roleFilter,
       location: locationFilter,

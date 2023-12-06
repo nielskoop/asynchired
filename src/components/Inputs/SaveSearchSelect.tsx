@@ -7,9 +7,10 @@ import { CheckIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import toast from "react-hot-toast";
 import { useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/router";
+import type { Search } from "@prisma/client";
 
 interface SaveSearchSelectProps {
-  handleSelectSearch?: () => void;
+  handleSelectSearch?: (search: Search) => void;
 }
 
 export function SaveSearchSelect({
@@ -18,7 +19,7 @@ export function SaveSearchSelect({
   const { userId } = useAuth();
   const defaultSearch = {
     id: -1,
-    userId: userId as string,
+    userId: userId!,
     name: "Select a saved search",
     title: "...",
     location: "...",
@@ -103,9 +104,9 @@ export function SaveSearchSelect({
     }
   };
 
-  function handleSelectSearchPage() {
-    if (currentUrl === "/profile") {
-      handleSelectSearch();
+  function handleSelectSearchPage(search: Search) {
+    if (currentUrl === "/profile" && handleSelectSearch) {
+      handleSelectSearch(search);
     }
   }
 
