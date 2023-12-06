@@ -26,7 +26,7 @@ export function LocationInputBox() {
         });
         setLocationFilter(selectedSearch.location!);
       }
-    }, [locationFilter, selectedSearch]);
+    }, [selectedSearch]);
 
   const filteredLocations =
     query === ""

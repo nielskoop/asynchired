@@ -22,7 +22,7 @@ export function RoleInputBox() {
       setSelectedRole({ id: selectedSearch.id, title: selectedSearch.title! });
       setRoleFilter(selectedSearch.title!)
     }
-  }, [roleFilter, selectedSearch]);
+  }, [selectedSearch]);
 
   const filteredRoles =
     query === ""

@@ -21,7 +21,7 @@ export function CompanyInputBox() {
       setSelectedCompany({ id: selectedSearch.id, company: selectedSearch.company! });
       setCompanyFilter(selectedSearch.company!);
     }
-  }, [companyFilter, selectedSearch]);
+  }, [selectedSearch]);
 
   const filteredcompanies =
     query === ""
