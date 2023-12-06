@@ -18,7 +18,7 @@ export function RoleInputBox() {
   const [selectedRole, setSelectedRole] = useState<Role | undefined>();
 
   useEffect(() => {
-    if (roleFilter !== "" && selectedSearch.id !== -1) {
+    if (roleFilter !== "") {
       setSelectedRole({ id: selectedSearch.id, title: selectedSearch.title! });
       setRoleFilter(selectedSearch.title!)
     }

@@ -19,7 +19,7 @@ export function LocationInputBox() {
     >();
 
     useEffect(() => {
-      if (locationFilter !== "" && selectedSearch.id !== -1) {
+      if (locationFilter !== "") {
         setSelectedLocation({
           id: selectedSearch.id,
           location: selectedSearch.location!,

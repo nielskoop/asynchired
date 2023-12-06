@@ -17,7 +17,7 @@ export function CompanyInputBox() {
   const [selectedCompany, setSelectedCompany] = useState<Company | undefined>();
 
   useEffect(() => {
-    if (companyFilter !== "" && selectedSearch.id !== -1) {
+    if (companyFilter !== "") {
       setSelectedCompany({ id: selectedSearch.id, company: selectedSearch.company! });
       setCompanyFilter(selectedSearch.company!);
     }

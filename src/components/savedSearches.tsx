@@ -10,10 +10,21 @@ import { useFilter } from "~/context/FilterContext";
 import { UserJobsTrackerSkeleton } from "./userJobsTrackerSkeleton";
 import toast from "react-hot-toast";
 import type { Search } from "~/context/FilterContext";
+import { useEffect, useState } from "react";
+
 
 const SavedSearches: React.FC = () => {
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [editButtonIcon, setEditButtonIcon] = useState("/111-write white.svg");
   const { userId } = useAuth();
-  const defaultSearch = { id: -1, userId, name: "Select a saved search" };
+  const defaultSearch = {
+    id: -1,
+    userId,
+    name: "Select a saved search",
+    title: "...",
+    location: "...",
+    company: "...",
+  };
 
   const {
     selectedSearch,
@@ -23,14 +34,33 @@ const SavedSearches: React.FC = () => {
     setCompanyFilter,
     setDescriptionFilter,
     setIsInputDisabled,
+    roleFilter,
+    locationFilter,
+    companyFilter,
   } = useFilter();
+
+  useEffect(() => {
+    setIsInputDisabled(!isEditMode); // Disable/Enable input boxes based on edit mode
+    setEditButtonIcon(isEditMode ? "/save.svg" : "/111-write white.svg"); // Change button icon
+  }, [isEditMode, setIsInputDisabled]);
 
   const screenSize = useScreenSize();
 
-  const { data: userSearches, isLoading, refetch } = api.search.getSearches.useQuery()
+  const {
+    data: userSearches,
+    isLoading,
+    refetch,
+  } = api.search.getSearches.useQuery();
 
-  const filters = useFilter();
   const { mutate: deleteSearch } = api.search.deleteSearch.useMutation();
+  const { mutate: updateSearch } = api.search.updateSearch.useMutation();
+
+
+  useEffect(() => {
+    setRoleFilter(selectedSearch.title!);
+    setLocationFilter(selectedSearch.location!);
+    setCompanyFilter(selectedSearch.company!);
+  }, [selectedSearch]);
 
   // Handle loading state
   if (isLoading) return <UserJobsTrackerSkeleton />;
@@ -38,22 +68,31 @@ const SavedSearches: React.FC = () => {
   // Handling case where userId is null or undefined
   if (!userId) return <div>Please log in to view saved searches.</div>;
 
-  // Handling case where data fetching failed
-  if (!userSearches) return <div>Something went wrong!</div>;
+  // Handling case where data fetching failed or list is empty
+  if (!userSearches || userSearches.length === 0)
+    return <div>No saved searches to show!</div>;
 
   function handleSelectSearch(search: Search) {
+    if (isEditMode) {
+      // If in edit mode and another search is selected, exit edit mode
+      setIsEditMode(false);
+    }
     setSelectedSearch(search);
-    setRoleFilter(selectedSearch.title!);
-    setLocationFilter(selectedSearch.location!);
-    setCompanyFilter(selectedSearch.company!);
-
   }
-
   function delSearch(selectedSearch: Search) {
     if (selectedSearch && selectedSearch.id) {
       deleteSearch(selectedSearch.id, {
         onSuccess: () => {
-          refetch()
+          // After successfully deleting the search, reset the input fields
+          setRoleFilter(""); // Set to empty or initial value
+          setLocationFilter(""); // Set to empty or initial value
+          setCompanyFilter(""); // Set to empty or initial value
+
+          // Optionally reset other states as needed
+          setSelectedSearch(defaultSearch); // Reset selected search to default
+          refetch(); // Refetch searches if needed
+
+          // Display success message
           toast.success("Search deleted successfully", {
             style: {
               borderRadius: "10px",
@@ -61,9 +100,9 @@ const SavedSearches: React.FC = () => {
               color: "#fff",
             },
           });
-          setSelectedSearch(defaultSearch);
         },
         onError: () => {
+          // Handle error
           toast.error("Error deleting search", {
             style: {
               borderRadius: "10px",
@@ -76,7 +115,35 @@ const SavedSearches: React.FC = () => {
     }
   }
 
-  function editSearch(selectedSearch: Search) {}
+  function editSearch(selectedSearch: Search) {
+    setIsEditMode(!isEditMode); // Toggle edit mode
+  }
+
+  function saveSearch() {
+    // Call your update API here
+    // Use the values from your filters (roleFilter, locationFilter, companyFilter)
+    // to update the selected search in the database
+
+    updateSearch(
+      {
+        id: selectedSearch.id,
+        name: String(selectedSearch.name),
+        title: roleFilter, // Assuming roleFilter holds the updated title
+        location: locationFilter, // Assuming locationFilter holds the updated location
+        company: companyFilter, // Assuming companyFilter holds the updated company
+      },
+      {
+        onSuccess: () => {
+          toast.success("Search updated successfully");
+          setIsEditMode(false); // Exit edit mode after successful update
+          refetch(); // Refetch searches if needed
+        },
+        onError: (error) => {
+          toast.error("Error updating search");
+        },
+      },
+    );
+  }
 
   return (
     <>
@@ -110,14 +177,10 @@ const SavedSearches: React.FC = () => {
           >
             <h1 className="text-xl">{selectedSearch.name}</h1>
             <div className="flex w-fit flex-col items-end justify-center">
-              <button
-                onClick={() => {
-                  editSearch(selectedSearch);
-                }}
-              >
+              <button onClick={isEditMode ? saveSearch : editSearch}>
                 <Image
-                  src={"/111-write white.svg"}
-                  alt="Edit"
+                  src={editButtonIcon}
+                  alt={isEditMode ? "Save" : "Edit"}
                   height={20}
                   width={20}
                   className="m-1"
