@@ -89,7 +89,7 @@ const SavedSearches: React.FC = () => {
     setSelectedSearch(search);
   }
   function delSearch(selectedSearch: Search) {
-    if (selectedSearch && selectedSearch.id) {
+    if (selectedSearch?.id) {
       deleteSearch(selectedSearch.id, {
         onSuccess: () => {
           setRoleFilter("");
@@ -97,7 +97,9 @@ const SavedSearches: React.FC = () => {
           setCompanyFilter("");
 
           setSelectedSearch(defaultSearch);
-          refetch();
+          refetch().catch((error) => {
+            console.error("Failed to refetch: ", error);
+          });
 
           toast.success("Search deleted successfully", {
             style: {
@@ -159,7 +161,9 @@ const SavedSearches: React.FC = () => {
 
           setSelectedSearch(updatedSearch);
 
-          refetch();
+          refetch().catch((error) => {
+            console.error("Failed to refetch: ", error);
+          });
         },
         onError: () => {
           toast.error("Error updating search", {

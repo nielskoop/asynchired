@@ -15,18 +15,14 @@ import { useModal } from "~/context/modalContext";
 import { SaveSearcNameModal } from "~/components/saveSearchNameModal";
 import toast from "react-hot-toast";
 import { SaveSearchSelect } from "~/components/Inputs/SaveSearchSelect";
-import useScreenSize from "~/hooks/useScreenSize";
 
 export default function Home() {
   const { roleFilter, locationFilter, companyFilter } = useFilter();
   const { userId } = useAuth();
   const [isOpen, setIsOpen] = useModal("saveSearchName");
-  const screenSize = useScreenSize();
 
   const mutation = api.search.saveSearch.useMutation();
   const {
-    data: searches,
-    isLoading,
     refetch,
   } = api.search.getSearches.useQuery();
 
@@ -58,7 +54,10 @@ export default function Home() {
         },
         {
           onSuccess: () => {
-            refetch();
+            refetch().catch((error) => {
+              console.error("Failed to refetch: ", error);
+            });
+;
           },
         },
       );

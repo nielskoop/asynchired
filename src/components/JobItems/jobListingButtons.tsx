@@ -25,7 +25,7 @@ export const MarkAppliedButton = (props: { post: Post }) => {
   const { userId } = useAuth();
 
   // const ctx = api.useUtils();
-  const { data: userDetails, isLoading: applyLoading } =
+  const { data: userDetails } =
     api.user.getUser.useQuery(userId);
 
   const [applied, setApplied] = useState(false);
@@ -48,7 +48,7 @@ export const MarkAppliedButton = (props: { post: Post }) => {
     },
   });
 
-  const { mutate: unApply, isLoading: unApplyLoading } =
+  const { mutate: unApply } =
     api.user.unApply.useMutation({
       onSuccess: () => {
         console.log("success!");
@@ -96,7 +96,7 @@ export const MarkAppliedButton = (props: { post: Post }) => {
 // LIKE BUTTON
 export const LikeButton = (props: { post: Post }) => {
   const { userId } = useAuth();
-  const { data: userDetails, isLoading: likeLoading } =
+  const { data: userDetails } =
     api.user.getUser.useQuery(userId);
 
   const [isLiked, setIsLiked] = useState(false);
@@ -119,7 +119,7 @@ export const LikeButton = (props: { post: Post }) => {
     },
   });
 
-  const { mutate: unLike, isLoading: unLikeLoading } =
+  const { mutate: unLike } =
     api.user.unLike.useMutation({
       onSuccess: () => {
         console.log("success!");
@@ -167,7 +167,7 @@ export const LikeButton = (props: { post: Post }) => {
 // DISLIKE BUTTON
 export const DislikeButton = (props: { post: Post }) => {
   const { userId } = useAuth();
-  const { data: userDetails, isLoading: dislikeLoading } =
+  const { data: userDetails } =
     api.user.getUser.useQuery(userId);
   const [isDisliked, setIsDisliked] = useState(false);
 
@@ -189,7 +189,7 @@ export const DislikeButton = (props: { post: Post }) => {
     },
   });
 
-  const { mutate: unDislike, isLoading: unDislikeLoading } =
+  const { mutate: unDislike } =
     api.user.unDislike.useMutation({
       onSuccess: () => {
         console.log("success!");

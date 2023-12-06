@@ -33,7 +33,6 @@ export function SaveSearchSelect({
   const {
     data: searches,
     isLoading,
-    refetch,
   } = api.search.getSearches.useQuery();
   const {
     selectedSearch,
@@ -113,7 +112,7 @@ export function SaveSearchSelect({
   return (
     <div className="relative min-w-[211.69px] max-w-[247px] grow shadow-md md:px-0">
       <Listbox value={selectedSearch} onChange={setSelectedSearch}>
-        {({ open }) => (
+        {() => (
           <>
             <Listbox.Button
               onClick={(e) => handleListboxClick(e)}
@@ -152,7 +151,7 @@ export function SaveSearchSelect({
                     }}
                     className={({ active }) =>
                       `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                        active ? "bg-teal-600 text-white" : "text-gray-900"
+                        active ? "bg-blue-500 text-white" : "text-gray-900"
                       }`
                     }
                     value={search}
@@ -169,7 +168,7 @@ export function SaveSearchSelect({
                         {selected ? (
                           <span
                             className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
-                              active ? "text-white" : "text-teal-600"
+                              active ? "text-white" : "text-blue-500"
                             }`}
                           >
                             <CheckIcon className="h-5 w-5" aria-hidden="true" />

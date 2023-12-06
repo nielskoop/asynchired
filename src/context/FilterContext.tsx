@@ -82,11 +82,15 @@ export const FilterProvider: React.FC<FilterProviderProps> = ({ children }) => {
   const [isInputDisabled, setIsInputDisabled] = useState(false);
   const [selectedSearch, setSelectedSearch] = useState<Search>({
     id: -1,
-    userId: null,
+    userId: "0",
     name: "Select a saved search",
-    title: "",
-    location: "",
-    company: "",
+    title: "...",
+    location: "...",
+    company: "...",
+    jobDescription: "...",
+    salary: "...",
+    createdAt: new Date(),
+    updatedAt: new Date(),
   });
   const [roleInputValue, setRoleInputValue] = useState("");
   const [locationInputValue, setLocationInputValue] = useState("");
