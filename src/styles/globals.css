@@ -59,13 +59,26 @@ body {
   border: none;
 }
 
-/* For Webkit-based browsers (Chrome, Safari and Opera) */
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
+::-webkit-scrollbar {
+  width: 7px;
+  height: 10px;
 }
 
-/* For IE, Edge and Firefox */
-.scrollbar-hide {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+::-webkit-scrollbar-thumb {
+  background-color: #9ca3af;
+  border-radius: 5px;
+  border: 2px solid #e0eeff;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #bfdbfe;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #eff6ff;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-button {
+  display: none;
 }
