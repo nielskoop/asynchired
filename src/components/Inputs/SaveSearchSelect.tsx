@@ -7,7 +7,7 @@ import { CheckIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import toast from "react-hot-toast";
 import { useAuth } from "@clerk/nextjs";
 
-export function SaveSearchSelect() {
+export function SaveSearchSelect({ handleSelectSearch }) {
   const { userId } = useAuth();
   const defaultSearch = {
     id: -1,
@@ -130,6 +130,9 @@ export function SaveSearchSelect() {
                 {searches!.map((search) => (
                   <Listbox.Option
                     key={search.id}
+                    onClick={() => {
+                      handleSelectSearch(search);
+                    }}
                     className={({ active }) =>
                       `relative cursor-default select-none py-2 pl-10 pr-4 ${
                         active ? "bg-teal-600 text-white" : "text-gray-900"
