@@ -1,6 +1,3 @@
-import { useEffect } from "react";
-import { useFilter } from "~/context/FilterContext";
-
 interface SaveSearchInputDisabledProps {
   data: string | null | undefined;
 }

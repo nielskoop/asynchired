@@ -9,9 +9,24 @@ import { useAuth } from "@clerk/nextjs";
 
 export function SaveSearchSelect() {
   const { userId } = useAuth();
-  const defaultSearch = {id: -1, userId, name: "Select a saved search" };
+  const defaultSearch = {
+    id: -1,
+    userId,
+    name: "Select a saved search",
+    title: "...",
+    location: "...",
+    company: "...",
+    jobDescription: "...",
+    salary: "...",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  };
 
-  const { data: searches, isLoading, refetch } = api.search.getSearches.useQuery();
+  const {
+    data: searches,
+    isLoading,
+    refetch,
+  } = api.search.getSearches.useQuery();
   const {
     selectedSearch,
     setSelectedSearch,

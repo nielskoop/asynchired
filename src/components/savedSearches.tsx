@@ -9,7 +9,7 @@ import { SaveSearchSelect } from "./Inputs/SaveSearchSelect";
 import { useFilter } from "~/context/FilterContext";
 import { UserJobsTrackerSkeleton } from "./userJobsTrackerSkeleton";
 import toast from "react-hot-toast";
-import type { Search } from "~/context/FilterContext";
+import type { Search } from "@prisma/client";
 import { useEffect, useState } from "react";
 import { SaveSearchInputDisabled } from "./saveSearchInputDisabled";
 
@@ -20,11 +20,15 @@ const SavedSearches: React.FC = () => {
   const { userId } = useAuth();
   const defaultSearch = {
     id: -1,
-    userId,
+    userId: userId as string,
     name: "Select a saved search",
     title: "...",
     location: "...",
     company: "...",
+    jobDescription: "...",
+    salary: "...",
+    createdAt: new Date(),
+    updatedAt: new Date(),
   };
 
   const {
@@ -33,17 +37,13 @@ const SavedSearches: React.FC = () => {
     setLocationFilter,
     setRoleFilter,
     setCompanyFilter,
-    setDescriptionFilter,
     setIsInputDisabled,
     isInputDisabled,
     roleFilter,
     locationFilter,
     companyFilter,
-    roleInputValue,
     setRoleInputValue,
-    locationInputValue,
     setLocationInputValue,
-    companyInputValue,
     setCompanyInputValue,
   } = useFilter();
 
@@ -127,10 +127,15 @@ const SavedSearches: React.FC = () => {
   function saveSearch() {
     const updatedSearch = {
       id: selectedSearch.id,
+      userId: userId as string,
       name: editableName,
       title: roleFilter,
       location: locationFilter,
       company: companyFilter,
+      jobDescription: selectedSearch.jobDescription,
+      salary: selectedSearch.salary,
+      createdAt: selectedSearch.createdAt,
+      updatedAt: new Date(),
     };
 
     updateSearch(

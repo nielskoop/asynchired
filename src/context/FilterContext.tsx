@@ -1,19 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import React, { createContext, useContext, useState } from "react";
 import type { ReactNode } from "react";
-
-export type Search = {
-  id: number;
-  userId: string | null | undefined;
-  name: String;
-  title?: string | null | undefined;
-  location?: string | null;
-  company?: string | null;
-  jobDescription?: string | null;
-  salary?: string | null;
-  createdAt?: string;
-  updatedAt?: string;
-};
+import type { Search } from "@prisma/client";
 
 interface FilterContextType {
   locationFilter: string;
@@ -56,7 +44,18 @@ const FilterContext = createContext<FilterContextType>({
   setDateFilter: () => {},
   isInputDisabled: false,
   setIsInputDisabled: () => {},
-  selectedSearch: { id: -1, userId: null, name: "Select a saved search" },
+  selectedSearch: {
+    id: -1,
+    userId: "0",
+    name: "Select a saved search",
+    title: "...",
+    location: "...",
+    company: "...",
+    jobDescription: "...",
+    salary: "...",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
   setSelectedSearch: () => {},
   roleInputValue: "",
   setRoleInputValue: () => {},
@@ -92,7 +91,6 @@ export const FilterProvider: React.FC<FilterProviderProps> = ({ children }) => {
   const [roleInputValue, setRoleInputValue] = useState("");
   const [locationInputValue, setLocationInputValue] = useState("");
   const [companyInputValue, setCompanyInputValue] = useState("");
-
 
   const value = {
     locationFilter,
