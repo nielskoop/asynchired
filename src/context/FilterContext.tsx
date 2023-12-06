@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-// src/context/FilterContext.tsx
 import React, { createContext, useContext, useState } from "react";
 import type { ReactNode } from "react";
+import type { Search } from "@prisma/client";
 
-// Define the shape of your context data
 interface FilterContextType {
   locationFilter: string;
   setLocationFilter: React.Dispatch<React.SetStateAction<string>>;
@@ -17,6 +16,16 @@ interface FilterContextType {
   setDescriptionFilter: React.Dispatch<React.SetStateAction<string>>;
   dateFilter: Date | undefined;
   setDateFilter: React.Dispatch<React.SetStateAction<Date | undefined>>;
+  isInputDisabled: boolean;
+  setIsInputDisabled: React.Dispatch<React.SetStateAction<boolean>>;
+  selectedSearch: Search;
+  setSelectedSearch: React.Dispatch<React.SetStateAction<Search>>;
+  roleInputValue: string;
+  setRoleInputValue: React.Dispatch<React.SetStateAction<string>>;
+  locationInputValue: string;
+  setLocationInputValue: React.Dispatch<React.SetStateAction<string>>;
+  companyInputValue: string;
+  setCompanyInputValue: React.Dispatch<React.SetStateAction<string>>;
 }
 
 // Create the context with an initial dummy value
@@ -33,6 +42,27 @@ const FilterContext = createContext<FilterContextType>({
   setDescriptionFilter: () => {},
   dateFilter: undefined,
   setDateFilter: () => {},
+  isInputDisabled: false,
+  setIsInputDisabled: () => {},
+  selectedSearch: {
+    id: -1,
+    userId: "0",
+    name: "Select a saved search",
+    title: "...",
+    location: "...",
+    company: "...",
+    jobDescription: "...",
+    salary: "...",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  setSelectedSearch: () => {},
+  roleInputValue: "",
+  setRoleInputValue: () => {},
+  locationInputValue: "",
+  setLocationInputValue: () => {},
+  companyInputValue: "",
+  setCompanyInputValue: () => {},
 });
 
 export const useFilter = () => useContext(FilterContext);
@@ -49,6 +79,22 @@ export const FilterProvider: React.FC<FilterProviderProps> = ({ children }) => {
   const [salaryFilter, setSalaryFilter] = useState<string | undefined>("");
   const [descriptionFilter, setDescriptionFilter] = useState("");
   const [dateFilter, setDateFilter] = useState<Date | undefined>(undefined);
+  const [isInputDisabled, setIsInputDisabled] = useState(false);
+  const [selectedSearch, setSelectedSearch] = useState<Search>({
+    id: -1,
+    userId: "0",
+    name: "Select a saved search",
+    title: "...",
+    location: "...",
+    company: "...",
+    jobDescription: "...",
+    salary: "...",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  });
+  const [roleInputValue, setRoleInputValue] = useState("");
+  const [locationInputValue, setLocationInputValue] = useState("");
+  const [companyInputValue, setCompanyInputValue] = useState("");
 
   const value = {
     locationFilter,
@@ -63,6 +109,16 @@ export const FilterProvider: React.FC<FilterProviderProps> = ({ children }) => {
     setDescriptionFilter,
     dateFilter,
     setDateFilter,
+    isInputDisabled,
+    setIsInputDisabled,
+    selectedSearch,
+    setSelectedSearch,
+    roleInputValue,
+    setRoleInputValue,
+    locationInputValue,
+    setLocationInputValue,
+    companyInputValue,
+    setCompanyInputValue,
   };
 
   return (
