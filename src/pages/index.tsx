@@ -52,10 +52,10 @@ export default function Home() {
           </div>
           <NavBar />
           <div className="relative left-1/2 top-[40%] mr-2 max-w-fit -translate-x-2/4 -translate-y-2/4 rounded-lg bg-gray-600 bg-opacity-70 px-2 pb-4 pt-1 md:top-1/3 md:px-4">
-            <p className="mb-4 text-center text-2xl text-white md:text-4xl">
+            <h1 className="mb-4 text-center text-2xl text-white md:text-4xl">
               All the dev jobs,
               <span className="font-semibold"> one place</span>
-            </p>
+            </h1>
             <div className="flex w-full justify-center px-4">
               <form className="flex flex-col items-center justify-center md:flex-row md:gap-4">
                 <div className="mb-4 flex flex-col gap-2 md:mb-0 md:flex-row">
