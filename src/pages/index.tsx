@@ -11,169 +11,10 @@ import ScrollToTopButton from "~/components/scrollToTopButton";
 import { useAuth } from "@clerk/nextjs";
 import { api } from "~/utils/api";
 import { DateInputBox } from "~/components/Inputs/DateInputBox";
-
-const roleTags = [
-  "Product",
-  "Frontend",
-  "Backend",
-  "Software",
-  "Senior",
-  "Staff",
-  "Lead",
-  "Remote",
-];
-const locationTags = ["Remote", "Germany", "EU", "United States"];
-const salaryTags = [{ text: "With Salary", value: "$" }];
-const descriptionTags = [
-  "Javascript",
-  "Typescript",
-  "React",
-  "Node",
-  "GraphQL",
-  "AWS",
-  "Cybersecurity",
-];
-
-// const noSalaryTag = ["No Salary"];
-
-export function TagWidget() {
-  const {
-    setRoleFilter,
-    setSalaryFilter,
-    setLocationFilter,
-    setDescriptionFilter,
-  } = useFilter();
-  const [selectedTags, setSelectedTags] = useState({
-    role: "",
-    location: "",
-    salary: "",
-    description: "",
-  });
-
-  type TagCategory = "role" | "location" | "salary" | "description";
-
-  const toggleTagSelection = (tagValue: string, category: TagCategory) => {
-    const newSelectedTags = { ...selectedTags };
-
-    if (newSelectedTags[category] === tagValue) {
-      newSelectedTags[category] = "";
-    } else {
-      newSelectedTags[category] = tagValue;
-    }
-
-    setSelectedTags(newSelectedTags);
-
-    // Update the appropriate filter
-    switch (category) {
-      case "role":
-        setRoleFilter(newSelectedTags.role);
-        break;
-      case "location":
-        setLocationFilter(newSelectedTags.location);
-        break;
-      case "salary":
-        setSalaryFilter(newSelectedTags.salary);
-        break;
-      case "description":
-        setDescriptionFilter(newSelectedTags.description);
-      default:
-        break;
-    }
-  };
-
-  const isTagSelected = (tag: string, category: TagCategory) =>
-    selectedTags[category] === tag;
-
-  return (
-    <div className="min-w-screen flex flex-col overflow-auto bg-slate-200 px-2 py-4">
-      <div className="text-xl font-semibold sm:mx-auto sm:w-4/5">
-        Search With Tags:
-      </div>
-      <div className="mt-2 max-h-[150px] overflow-y-auto">
-        <div className="sm:mx-auto sm:w-4/5">
-          <div className="mt-2 flex flex-col gap-2">
-            <div>
-              <p>Role:</p>
-              {roleTags.map((tag) => (
-                <button
-                  key={tag}
-                  className={`mx-1 my-1 whitespace-nowrap rounded-full px-3 py-1 ${
-                    isTagSelected(tag, "role")
-                      ? "bg-blue-500 text-white"
-                      : "bg-white"
-                  }`}
-                  onClick={() => toggleTagSelection(tag, "role")}
-                >
-                  {tag}
-                </button>
-              ))}
-            </div>
-            <div>
-              <p>Salary:</p>
-              {salaryTags.map((tag) => (
-                <button
-                  key={tag.text}
-                  className={`mx-1 my-1 whitespace-nowrap rounded-full px-3 py-1 shadow-md ${
-                    isTagSelected(tag.value, "salary")
-                      ? "bg-blue-500 text-white"
-                      : "bg-white"
-                  }`}
-                  onClick={() => toggleTagSelection(tag.value, "salary")}
-                >
-                  {tag.text}
-                </button>
-              ))}
-            </div>
-            <div className="">
-              <p>Location:</p>
-
-              {locationTags.map((tag) => (
-                <button
-                  key={tag}
-                  className={`mx-1 my-1 whitespace-nowrap rounded-full px-3 py-1 ${
-                    isTagSelected(tag, "location")
-                      ? "bg-blue-500 text-white"
-                      : "bg-white"
-                  }`}
-                  onClick={() => toggleTagSelection(tag, "location")}
-                >
-                  {tag}
-                </button>
-              ))}
-            </div>
-            <div>
-              <div>Description:</div>
-              {descriptionTags.map((tag) => (
-                <button
-                  key={tag}
-                  className={`mx-1 my-1 whitespace-nowrap rounded-full px-3 py-1 shadow-md ${
-                    isTagSelected(tag, "description")
-                      ? "bg-blue-500 text-white"
-                      : "bg-white"
-                  }`}
-                  onClick={() => toggleTagSelection(tag, "description")}
-                >
-                  {tag}
-                </button>
-              ))}
-            </div>
-            {/* //TODO: Add no salary filter */}
-            {/* <button
-              className="whitespace-nowrap rounded-full bg-white px-3 py-1"
-              onClick={() => setSalaryFilter("NO_SALARY")}
-            >
-              {noSalaryTag}
-            </button> */}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
+import { TagWidget } from "~/components/Inputs/Tags/Tags";
 
 export default function Home() {
   const { roleFilter, locationFilter, companyFilter } = useFilter();
-  const [isWidgetOpen, setIsWidgetOpen] = useState(true);
   const { userId } = useAuth();
   const mutation = api.user.saveSearch.useMutation();
 
@@ -245,27 +86,18 @@ export default function Home() {
               </form>
             </div>
 
-            <div>
-              <div className="flex justify-center ">
+            <div className="flex w-full flex-col items-end justify-between px-4 md:flex-row">
+              <div className="flex justify-center">
                 <DateInputBox />
               </div>
             </div>
           </div>
         </div>
         <div></div>
-        <div className=" flex justify-center bg-slate-200  p-2">
-          <button
-            className="flex max-w-lg self-center justify-self-end rounded bg-blue-500 p-2 text-white"
-            onClick={() => setIsWidgetOpen(!isWidgetOpen)}
-          >
-            {isWidgetOpen ? "Minimize Tags" : "Open Tags"}
-          </button>
-        </div>
+
         <div className="flex">
           <div
-            className={`transition-all duration-500 ease-in-out ${
-              isWidgetOpen ? "min-w-full opacity-100" : "max-h-0 opacity-0"
-            }`}
+            className={`overflow-hidden transition-all duration-500 ease-in-out ${"h-auto w-full opacity-100"}`}
           >
             <TagWidget />
           </div>
