@@ -89,23 +89,24 @@ export default function Home() {
               All the dev jobs,
               <span className="font-semibold"> one place</span>
             </p>
+              {userId &&
             <div className="mb-4 flex w-full items-center justify-center px-4 text-center text-white md:text-left">
               <SaveSearchSelect />
-                <button
-                  type="button"
-                  className="ml-2 w-full rounded-md bg-[#1A78E6] p-1 font-semibold text-white hover:bg-blue-600  w-max"
-                  onClick={() => setIsOpen(!isOpen)}
-                >
-
-                    <Image
-                      src={"save.svg"}
-                      height={34}
-                      width={34}
-                      alt="save search button"
-                    />
-                </button>
-                <SaveSearcNameModal handleSaveSearch={handleSaveSearch} />
+              <button
+                type="button"
+                className="ml-2 w-max rounded-md bg-[#1A78E6] p-1 font-semibold text-white  hover:bg-blue-600"
+                onClick={() => setIsOpen(!isOpen)}
+              >
+                <Image
+                  src={"save.svg"}
+                  height={34}
+                  width={34}
+                  alt="save search button"
+                />
+              </button>
+              <SaveSearcNameModal handleSaveSearch={handleSaveSearch} />
             </div>
+              }
             <div className="flex w-full justify-center px-4">
               <form className="flex flex-col items-center justify-center md:flex-row md:gap-4">
                 <div className="mb-4 flex flex-col gap-2 md:mb-0 md:flex-row">

@@ -9,7 +9,7 @@ import { useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/router";
 
 interface SaveSearchSelectProps {
-  handleSelectSearch: () => void;
+  handleSelectSearch?: () => void;
 }
 
 export function SaveSearchSelect({
@@ -18,7 +18,7 @@ export function SaveSearchSelect({
   const { userId } = useAuth();
   const defaultSearch = {
     id: -1,
-    userId,
+    userId: userId as string,
     name: "Select a saved search",
     title: "...",
     location: "...",
@@ -70,6 +70,14 @@ export function SaveSearchSelect({
     }
   }, [selectedSearch, setIsInputDisabled]);
 
+  if (isLoading) {
+    return (
+      <div className="flex w-max justify-center">
+        <InputSkeleton />
+      </div>
+    );
+  }
+
   const resetSelectedSearch = (e: React.MouseEvent) => {
     e.stopPropagation();
     setSelectedSearch(defaultSearch);
@@ -78,14 +86,6 @@ export function SaveSearchSelect({
     setCompanyFilter("");
     setDescriptionFilter("");
   };
-
-  if (isLoading) {
-    return (
-      <div className="flex w-max justify-center">
-        <InputSkeleton />
-      </div>
-    );
-  }
 
   const handleListboxClick = (e: React.MouseEvent) => {
     if (!searches || searches.length === 0 || !userId) {

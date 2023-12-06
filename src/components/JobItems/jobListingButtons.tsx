@@ -2,7 +2,6 @@ import Image from "next/image";
 import type { Post } from "@prisma/client";
 import { api } from "~/utils/api";
 import { useAuth } from "@clerk/nextjs";
-import { LoadingSpinner } from "../Loading";
 import Link from "next/dist/client/link";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
@@ -79,9 +78,7 @@ export const MarkAppliedButton = (props: { post: Post }) => {
       apply({ postId: props.post.id, userId: userId });
     }
   }
-  if (applyLoading || unApplyLoading) {
-    return <LoadingSpinner />;
-  }
+
   return (
     <button
       className={`h-min rounded-xl px-2 py-1 text-white ${
@@ -153,9 +150,7 @@ export const LikeButton = (props: { post: Post }) => {
       like({ postId: props.post.id, userId: userId });
     }
   }
-  if (likeLoading || unLikeLoading) {
-    return <LoadingSpinner />;
-  }
+
   return (
     <button onClick={() => likePost()}>
       <Image
@@ -228,9 +223,7 @@ export const DislikeButton = (props: { post: Post }) => {
       dislike({ postId: props.post.id, userId: userId });
     }
   }
-  if (dislikeLoading || unDislikeLoading) {
-    return <LoadingSpinner />;
-  }
+
   return (
     <button onClick={() => dislikePost()}>
       <Image
