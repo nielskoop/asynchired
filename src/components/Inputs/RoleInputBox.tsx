@@ -1,8 +1,7 @@
-//src\components\Inputs\RoleInputBox.tsx
-import { useState, Fragment } from "react";
+import { useState, Fragment, useEffect } from "react";
 import { Combobox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
-import { api } from "~/utils/api"; // Import your api utility
+import { api } from "~/utils/api";
 import { useFilter } from "~/context/FilterContext";
 import { InputSkeleton } from "../InputSkeleton";
 import { XMarkIcon } from "@heroicons/react/20/solid";
@@ -14,10 +13,17 @@ type Role = {
 
 export function RoleInputBox() {
   const [query, setQuery] = useState("");
-  const [inputValue, setInputValue] = useState("");
   const { data: roles, isLoading } = api.post.getAllRoles.useQuery("");
-  const { setRoleFilter } = useFilter();
+  const { setRoleFilter, roleFilter, selectedSearch, roleInputValue, setRoleInputValue } = useFilter();
   const [selectedRole, setSelectedRole] = useState<Role | undefined>();
+
+  useEffect(() => {
+    if (roleFilter !== "") {
+      setSelectedRole({ id: selectedSearch.id, title: selectedSearch.title! });
+      setRoleFilter(selectedSearch.title!)
+      setRoleInputValue(selectedSearch.title!)
+    }
+  }, [selectedSearch]);
 
   const filteredRoles =
     query === ""
@@ -33,21 +39,22 @@ export function RoleInputBox() {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
     setQuery(newValue);
-    setInputValue(newValue);
+    setRoleInputValue(newValue);
   };
 
   const handleRoleChange = (role: Role) => {
     setSelectedRole(role);
     setRoleFilter(role.title);
-    setInputValue(role.title);
+    setRoleInputValue(role.title);
   };
 
   const clearInput = () => {
     setQuery(""); // Also clear the query here
-    setInputValue(""); // Clear the inputValue
+    setRoleInputValue(""); // Clear the roleInputValue
     setSelectedRole(undefined); // Reset the selected role
     setRoleFilter(""); // Clear the role filter
   };
+
 
   return (
     <div>
@@ -57,7 +64,7 @@ export function RoleInputBox() {
             <Combobox.Input
               className="w-full border-none py-2 pl-3 pr-12 text-sm leading-5 text-gray-900 focus:ring-0"
               onChange={handleInputChange}
-              value={inputValue}
+              value={roleInputValue}
               onKeyDown={(event) => {
                 if (event.key === "Enter" && query === "") {
                   event.preventDefault();
@@ -70,7 +77,7 @@ export function RoleInputBox() {
             {/* Icons container */}
             <div className="absolute inset-y-0 right-0 flex items-center">
               {/* Clear input button */}
-              {inputValue.length > 0 && ( // Check the new state for content
+              {roleInputValue.length > 0 && ( // Check the new state for content
                 <button
                   onClick={clearInput}
                   className="inline-flex items-center justify-center"

@@ -2,7 +2,6 @@ import Image from "next/image";
 import type { Post } from "@prisma/client";
 import { api } from "~/utils/api";
 import { useAuth } from "@clerk/nextjs";
-import { LoadingSpinner } from "../Loading";
 import Link from "next/dist/client/link";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
@@ -10,7 +9,7 @@ import toast from "react-hot-toast";
 export const OriginalPostButton = (props: { url: string }) => {
   return (
     <Link
-      className="h-min rounded-xl bg-[#1A78E6] px-2 py-1 text-white focus-visible:outline-none"
+      className="h-min rounded-xl bg-[#1A78E6] px-2 py-1 text-white hover:bg-blue-600  focus-visible:outline-none"
       href={props.url}
       target="_blank"
       rel="noopener noreferrer"
@@ -26,7 +25,7 @@ export const MarkAppliedButton = (props: { post: Post }) => {
   const { userId } = useAuth();
 
   // const ctx = api.useUtils();
-  const { data: userDetails, isLoading: applyLoading } =
+  const { data: userDetails } =
     api.user.getUser.useQuery(userId);
 
   const [applied, setApplied] = useState(false);
@@ -49,7 +48,7 @@ export const MarkAppliedButton = (props: { post: Post }) => {
     },
   });
 
-  const { mutate: unApply, isLoading: unApplyLoading } =
+  const { mutate: unApply } =
     api.user.unApply.useMutation({
       onSuccess: () => {
         console.log("success!");
@@ -63,11 +62,9 @@ export const MarkAppliedButton = (props: { post: Post }) => {
     });
 
   async function appliedPost() {
-    console.log("you clicked me user: ", userId);
     if (!userId) {
-      // fix this so it goes back to the same page
       toast.error("Log-in to use this feature", {
-        icon: "🔒", // Optional: add an emoji or custom icon
+        icon: "🔒",
         style: {
           borderRadius: "10px",
           background: "#E61A1A",
@@ -81,13 +78,13 @@ export const MarkAppliedButton = (props: { post: Post }) => {
       apply({ postId: props.post.id, userId: userId });
     }
   }
-  if (applyLoading || unApplyLoading) {
-    return <LoadingSpinner />;
-  }
+
   return (
     <button
       className={`h-min rounded-xl px-2 py-1 text-white ${
-        applied ? "bg-[#00A907]" : "bg-[#A500CE]"
+        applied
+          ? "bg-[#00A907]  hover:bg-green-700"
+          : "bg-[#A500CE]  hover:bg-purple-800"
       }`}
       onClick={() => appliedPost()}
     >
@@ -99,7 +96,7 @@ export const MarkAppliedButton = (props: { post: Post }) => {
 // LIKE BUTTON
 export const LikeButton = (props: { post: Post }) => {
   const { userId } = useAuth();
-  const { data: userDetails, isLoading: likeLoading } =
+  const { data: userDetails } =
     api.user.getUser.useQuery(userId);
 
   const [isLiked, setIsLiked] = useState(false);
@@ -122,7 +119,7 @@ export const LikeButton = (props: { post: Post }) => {
     },
   });
 
-  const { mutate: unLike, isLoading: unLikeLoading } =
+  const { mutate: unLike } =
     api.user.unLike.useMutation({
       onSuccess: () => {
         console.log("success!");
@@ -153,9 +150,7 @@ export const LikeButton = (props: { post: Post }) => {
       like({ postId: props.post.id, userId: userId });
     }
   }
-  if (likeLoading || unLikeLoading) {
-    return <LoadingSpinner />;
-  }
+
   return (
     <button onClick={() => likePost()}>
       <Image
@@ -172,7 +167,7 @@ export const LikeButton = (props: { post: Post }) => {
 // DISLIKE BUTTON
 export const DislikeButton = (props: { post: Post }) => {
   const { userId } = useAuth();
-  const { data: userDetails, isLoading: dislikeLoading } =
+  const { data: userDetails } =
     api.user.getUser.useQuery(userId);
   const [isDisliked, setIsDisliked] = useState(false);
 
@@ -194,7 +189,7 @@ export const DislikeButton = (props: { post: Post }) => {
     },
   });
 
-  const { mutate: unDislike, isLoading: unDislikeLoading } =
+  const { mutate: unDislike } =
     api.user.unDislike.useMutation({
       onSuccess: () => {
         console.log("success!");
@@ -228,9 +223,7 @@ export const DislikeButton = (props: { post: Post }) => {
       dislike({ postId: props.post.id, userId: userId });
     }
   }
-  if (dislikeLoading || unDislikeLoading) {
-    return <LoadingSpinner />;
-  }
+
   return (
     <button onClick={() => dislikePost()}>
       <Image

@@ -11,24 +11,57 @@ import { useAuth } from "@clerk/nextjs";
 import { api } from "~/utils/api";
 import { DateInputBox } from "~/components/Inputs/DateInputBox";
 import { TagWidget } from "~/components/Inputs/Tags/Tags";
+import { useModal } from "~/context/modalContext";
+import { SaveSearcNameModal } from "~/components/saveSearchNameModal";
+import toast from "react-hot-toast";
+import { SaveSearchSelect } from "~/components/Inputs/SaveSearchSelect";
 
 export default function Home() {
   const { roleFilter, locationFilter, companyFilter } = useFilter();
   const { userId } = useAuth();
-  const mutation = api.user.saveSearch.useMutation();
+  const [isOpen, setIsOpen] = useModal("saveSearchName");
 
-  const handlePostSearch = (e: React.MouseEvent) => {
+  const mutation = api.search.saveSearch.useMutation();
+  const {
+    refetch,
+  } = api.search.getSearches.useQuery();
+
+  const handleSaveSearch = (e: React.MouseEvent, searchName: string) => {
     e.preventDefault();
 
-    if (!userId) return;
+    if (searchName === "") {
+      toast.error("Name required", {
+        icon: "📝",
+        style: {
+          borderRadius: "10px",
+          background: "#E61A1A",
+          color: "#fff",
+        },
+      });
+      return;
+    } else {
+      setIsOpen(false);
 
-    mutation.mutate({
-      searchName: "Test Search Name",
-      userId,
-      title: roleFilter,
-      location: locationFilter,
-      company: companyFilter,
-    });
+      if (!userId) return;
+
+      mutation.mutate(
+        {
+          searchName,
+          userId,
+          title: roleFilter,
+          location: locationFilter,
+          company: companyFilter,
+        },
+        {
+          onSuccess: () => {
+            refetch().catch((error) => {
+              console.error("Failed to refetch: ", error);
+            });
+;
+          },
+        },
+      );
+    }
   };
 
   return (
@@ -55,6 +88,24 @@ export default function Home() {
               All the dev jobs,
               <span className="font-semibold"> one place</span>
             </h1>
+              {userId &&
+            <div className="mb-4 flex w-full items-center justify-center px-4 text-center text-white md:text-left">
+              <SaveSearchSelect />
+              <button
+                type="button"
+                className="ml-2 w-max rounded-md bg-[#1A78E6] p-1 font-semibold text-white  hover:bg-blue-600"
+                onClick={() => setIsOpen(!isOpen)}
+              >
+                <Image
+                  src={"save.svg"}
+                  height={34}
+                  width={34}
+                  alt="save search button"
+                />
+              </button>
+              <SaveSearcNameModal handleSaveSearch={handleSaveSearch} />
+            </div>
+              }
             <div className="flex w-full justify-center px-4">
               <form className="flex flex-col items-center justify-center md:flex-row md:gap-4">
                 <div className="mb-4 flex flex-col gap-2 md:mb-0 md:flex-row">
@@ -75,13 +126,6 @@ export default function Home() {
                     </div>
                   </div>
                 </div>
-                <button
-                  onClick={(e) => {
-                    handlePostSearch(e);
-                  }}
-                >
-                  Save
-                </button>
               </form>
             </div>
 
