@@ -6,8 +6,15 @@ import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import toast from "react-hot-toast";
 import { useAuth } from "@clerk/nextjs";
+import { useRouter } from "next/router";
 
-export function SaveSearchSelect({ handleSelectSearch }) {
+interface SaveSearchSelectProps {
+  handleSelectSearch: () => void;
+}
+
+export function SaveSearchSelect({
+  handleSelectSearch,
+}: SaveSearchSelectProps) {
   const { userId } = useAuth();
   const defaultSearch = {
     id: -1,
@@ -39,6 +46,9 @@ export function SaveSearchSelect({ handleSelectSearch }) {
     setLocationInputValue,
     setCompanyInputValue,
   } = useFilter();
+
+  const router = useRouter();
+  const currentUrl = router.asPath;
 
   useEffect(() => {
     if (selectedSearch.name !== "Select a saved search") {
@@ -93,6 +103,12 @@ export function SaveSearchSelect({ handleSelectSearch }) {
     }
   };
 
+  function handleSelectSearchPage() {
+    if (currentUrl === "/profile") {
+      handleSelectSearch();
+    }
+  }
+
   return (
     <div className="relative min-w-[211.69px] max-w-[247px] grow shadow-md md:px-0">
       <Listbox value={selectedSearch} onChange={setSelectedSearch}>
@@ -131,7 +147,7 @@ export function SaveSearchSelect({ handleSelectSearch }) {
                   <Listbox.Option
                     key={search.id}
                     onClick={() => {
-                      handleSelectSearch(search);
+                      handleSelectSearchPage(search);
                     }}
                     className={({ active }) =>
                       `relative cursor-default select-none py-2 pl-10 pr-4 ${

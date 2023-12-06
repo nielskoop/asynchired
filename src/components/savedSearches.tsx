@@ -12,6 +12,7 @@ import toast from "react-hot-toast";
 import type { Search } from "@prisma/client";
 import { useEffect, useState } from "react";
 import { SaveSearchInputDisabled } from "./saveSearchInputDisabled";
+import { useRouter } from "next/router";
 
 const SavedSearches: React.FC = () => {
   const [isEditMode, setIsEditMode] = useState(false);
@@ -46,6 +47,9 @@ const SavedSearches: React.FC = () => {
     setLocationInputValue,
     setCompanyInputValue,
   } = useFilter();
+
+  const router = useRouter();
+  const currentUrl = router.asPath;
 
   useEffect(() => {
     setIsInputDisabled(!isEditMode);
