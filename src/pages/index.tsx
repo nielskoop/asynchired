@@ -1,6 +1,5 @@
 import Head from "next/head";
 import Image from "next/image";
-import { useState } from "react";
 import { CompanyInputBox } from "~/components/Inputs/CompanyInputBox";
 import { LocationInputBox } from "~/components/Inputs/LocationInputBox";
 import { RoleInputBox } from "~/components/Inputs/RoleInputBox";
@@ -40,7 +39,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="pb-6">
-        <div className="flex h-[30rem] w-full flex-col md:h-[450px]">
+        <div className="flex h-[30rem] w-full flex-col bg-black bg-opacity-50 md:h-[450px] md:bg-transparent">
           <div className="absolute -z-10 h-[30rem] w-full md:h-[450px]">
             <Image
               src={"/hero-bg-2.png"}
@@ -51,7 +50,7 @@ export default function Home() {
             />
           </div>
           <NavBar />
-          <div className="relative left-1/2 top-[40%] mr-2 max-w-fit -translate-x-2/4 -translate-y-2/4 rounded-lg bg-gray-600 bg-opacity-70 px-2 pb-4 pt-1 md:top-1/3 md:px-4">
+          <div className="relative left-1/2 top-[40%] mr-2 max-w-fit -translate-x-2/4 -translate-y-2/4 rounded-lg md:top-1/3 md:bg-black md:bg-opacity-70 md:px-4 md:py-10">
             <h1 className="mb-4 text-center text-2xl text-white md:text-4xl">
               All the dev jobs,
               <span className="font-semibold"> one place</span>
@@ -93,7 +92,6 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div></div>
 
         <div className="flex">
           <div

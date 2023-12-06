@@ -75,11 +75,11 @@ export function TagWidget() {
     selectedTags[category] === tag;
 
   return (
-    <div className="min-w-full bg-slate-200 px-2 pt-4">
-      <div className="flex  overflow-x-auto pb-2">
+    <div className="min-w-full bg-slate-200 pt-4">
+      <div className="flex overflow-x-auto pb-2">
         {/* Category: Role */}
         <div
-          className=" flex flex-col items-start "
+          className="ml-3 flex flex-col items-start md:ml-6"
           style={{
             borderRight: "1px solid #ccc",
             paddingRight: "1rem",
