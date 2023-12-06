@@ -9,7 +9,7 @@ interface ButtonContextType {
 
 // Create the context with an initial dummy value
 const ButtonContext = createContext<ButtonContextType>({
-  selectedList: "",
+  selectedList: "liked",
   setSelectedList: () => {},
 });
 
@@ -21,7 +21,7 @@ interface ButtonProviderProps {
 }
 
 export const ButtonProvider: React.FC<ButtonProviderProps> = ({ children }) => {
-  const [selectedList, setSelectedList] = useState("");
+  const [selectedList, setSelectedList] = useState("liked");
 
   const value = {
     selectedList,
