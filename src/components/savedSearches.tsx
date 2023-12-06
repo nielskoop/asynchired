@@ -13,7 +13,6 @@ import type { Search } from "~/context/FilterContext";
 import { useEffect, useState } from "react";
 import { SaveSearchInputDisabled } from "./saveSearchInputDisabled";
 
-
 const SavedSearches: React.FC = () => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [editButtonIcon, setEditButtonIcon] = useState("/111-write white.svg");
@@ -40,6 +39,12 @@ const SavedSearches: React.FC = () => {
     roleFilter,
     locationFilter,
     companyFilter,
+    roleInputValue,
+    setRoleInputValue,
+    locationInputValue,
+    setLocationInputValue,
+    companyInputValue,
+    setCompanyInputValue,
   } = useFilter();
 
   useEffect(() => {
@@ -48,7 +53,7 @@ const SavedSearches: React.FC = () => {
     if (isEditMode) {
       setEditableName(selectedSearch.name);
     }
-  }, [isEditMode, setIsInputDisabled, selectedSearch.name]);;
+  }, [isEditMode, setIsInputDisabled, selectedSearch.name]);
 
   const screenSize = useScreenSize();
 
@@ -63,8 +68,11 @@ const SavedSearches: React.FC = () => {
 
   useEffect(() => {
     setRoleFilter(selectedSearch.title!);
+    setRoleInputValue(selectedSearch.title!);
     setLocationFilter(selectedSearch.location!);
+    setLocationInputValue(selectedSearch.location!);
     setCompanyFilter(selectedSearch.company!);
+    setCompanyInputValue(selectedSearch.company!);
   }, [selectedSearch]);
 
   if (isLoading) return <UserJobsTrackerSkeleton />;
@@ -148,7 +156,7 @@ const SavedSearches: React.FC = () => {
 
           refetch();
         },
-        onError: (error) => {
+        onError: () => {
           toast.error("Error updating search", {
             style: {
               borderRadius: "10px",
@@ -229,29 +237,31 @@ const SavedSearches: React.FC = () => {
           <div id="filters" className="my-4 flex h-[80%] flex-col">
             <div className="flex grow flex-col">
               <span className="">I'm looking for</span>
-              {isInputDisabled ? (
-                <SaveSearchInputDisabled data={selectedSearch.title} />
-              ) : (
+              <div className={isInputDisabled ? "hidden" : ""}>
                 <RoleInputBox />
-              )}
+              </div>
+              <div className={isInputDisabled ? "" : "hidden"}>
+                <SaveSearchInputDisabled data={selectedSearch.title} />
+              </div>
             </div>
 
             <div className="flex grow flex-col">
               <span className="">In</span>
-              {isInputDisabled ? (
-                <SaveSearchInputDisabled data={selectedSearch.location} />
-              ) : (
+              <div className={isInputDisabled ? "hidden" : ""}>
                 <LocationInputBox />
-              )}
+              </div>
+              <div className={isInputDisabled ? "" : "hidden"}>
+                <SaveSearchInputDisabled data={selectedSearch.location} />
+              </div>
             </div>
-
             <div className="flex grow flex-col">
               <span className="">At</span>
-              {isInputDisabled ? (
-                <SaveSearchInputDisabled data={selectedSearch.company} />
-              ) : (
+              <div className={isInputDisabled ? "hidden" : ""}>
                 <CompanyInputBox />
-              )}
+              </div>
+              <div className={isInputDisabled ? "" : "hidden"}>
+                <SaveSearchInputDisabled data={selectedSearch.company} />
+              </div>
             </div>
           </div>
         </div>

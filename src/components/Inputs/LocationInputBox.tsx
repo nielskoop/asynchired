@@ -13,9 +13,8 @@ type Location = {
 
 export function LocationInputBox() {
   const [query, setQuery] = useState("");
-  const [inputValue, setInputValue] = useState("");
   const { data: locations, isLoading } = api.post.getAllLocations.useQuery("");
-  const { setLocationFilter, locationFilter, selectedSearch } = useFilter();
+  const { setLocationFilter, locationFilter, selectedSearch, locationInputValue, setLocationInputValue } = useFilter();
   const [selectedLocation, setSelectedLocation] = useState<
     Location | undefined
     >();
@@ -27,6 +26,7 @@ export function LocationInputBox() {
           location: selectedSearch.location!,
         });
         setLocationFilter(selectedSearch.location!);
+        setLocationInputValue(selectedSearch.location!);
       }
     }, [selectedSearch]);
 
@@ -44,18 +44,18 @@ export function LocationInputBox() {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
     setQuery(newValue);
-    setInputValue(newValue);
+    setLocationInputValue(newValue);
   };
 
   const handleLocationChange = (location: Location) => {
     setSelectedLocation(location);
     setLocationFilter(location.location);
-    setInputValue(location.location);
+    setLocationInputValue(location.location);
   };
 
   const clearInput = () => {
     setQuery("");
-    setInputValue(""); // Clear the new state
+    setLocationInputValue(""); // Clear the new state
     setSelectedLocation(undefined);
     setLocationFilter("");
   };
@@ -68,7 +68,7 @@ export function LocationInputBox() {
             <Combobox.Input
               className="w-full border-none py-2 pl-3 pr-12 text-sm leading-5 text-gray-900 focus:ring-0"
               onChange={handleInputChange}
-              value={inputValue}
+              value={locationInputValue}
               onKeyDown={(event) => {
                 if (event.key === "Enter" && query === "") {
                   event.preventDefault();
@@ -81,7 +81,7 @@ export function LocationInputBox() {
             {/* Icons container */}
             <div className="absolute inset-y-0 right-0 flex items-center">
               {/* Clear input button */}
-              {inputValue.length > 0 && ( // Check the new state for content
+              {locationInputValue.length > 0 && ( // Check the new state for content
                 <button
                   onClick={clearInput}
                   className="inline-flex items-center justify-center"

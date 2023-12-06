@@ -32,6 +32,12 @@ interface FilterContextType {
   setIsInputDisabled: React.Dispatch<React.SetStateAction<boolean>>;
   selectedSearch: Search;
   setSelectedSearch: React.Dispatch<React.SetStateAction<Search>>;
+  roleInputValue: string;
+  setRoleInputValue: React.Dispatch<React.SetStateAction<string>>;
+  locationInputValue: string;
+  setLocationInputValue: React.Dispatch<React.SetStateAction<string>>;
+  companyInputValue: string;
+  setCompanyInputValue: React.Dispatch<React.SetStateAction<string>>;
 }
 
 // Create the context with an initial dummy value
@@ -52,6 +58,12 @@ const FilterContext = createContext<FilterContextType>({
   setIsInputDisabled: () => {},
   selectedSearch: { id: -1, userId: null, name: "Select a saved search" },
   setSelectedSearch: () => {},
+  roleInputValue: "",
+  setRoleInputValue: () => {},
+  locationInputValue: "",
+  setLocationInputValue: () => {},
+  companyInputValue: "",
+  setCompanyInputValue: () => {},
 });
 
 export const useFilter = () => useContext(FilterContext);
@@ -77,6 +89,10 @@ export const FilterProvider: React.FC<FilterProviderProps> = ({ children }) => {
     location: "",
     company: "",
   });
+  const [roleInputValue, setRoleInputValue] = useState("");
+  const [locationInputValue, setLocationInputValue] = useState("");
+  const [companyInputValue, setCompanyInputValue] = useState("");
+
 
   const value = {
     locationFilter,
@@ -95,6 +111,12 @@ export const FilterProvider: React.FC<FilterProviderProps> = ({ children }) => {
     setIsInputDisabled,
     selectedSearch,
     setSelectedSearch,
+    roleInputValue,
+    setRoleInputValue,
+    locationInputValue,
+    setLocationInputValue,
+    companyInputValue,
+    setCompanyInputValue,
   };
 
   return (

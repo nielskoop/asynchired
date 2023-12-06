@@ -19,7 +19,10 @@ export function SaveSearchSelect() {
     setRoleFilter,
     setCompanyFilter,
     setDescriptionFilter,
-    setIsInputDisabled
+    setIsInputDisabled,
+    setRoleInputValue,
+    setLocationInputValue,
+    setCompanyInputValue,
   } = useFilter();
 
   useEffect(() => {
@@ -28,6 +31,9 @@ export function SaveSearchSelect() {
       setRoleFilter(selectedSearch.title ?? "");
       setCompanyFilter(selectedSearch.company ?? "");
       setDescriptionFilter(selectedSearch.jobDescription ?? "");
+      setRoleInputValue(selectedSearch.title ?? "");
+      setLocationInputValue(selectedSearch.location ?? "");
+      setCompanyInputValue(selectedSearch.company ?? "");
     }
   }, [selectedSearch]);
 
