@@ -24,15 +24,19 @@ const ProfilePage: NextPage = () => {
       <div className="bg-image-large">
         <NavBar />
       </div>
+      <div className="w-full flex items-center justify-center">
+      <div className="w-fit px-2">
       <div className="flex flex-row flex-wrap items-center justify-center pt-24">
         <UserInfo />
         <UserJobsTracker />
       </div>
       <div className="flex flex-col items-center justify-center">
-        <div className="p-4 text-center text-2xl font-bold">
+        <div className="p-2 text-center text-2xl font-bold">
           <h2>Your Saved Searches</h2>
         </div>
         <SavedSearches />
+      </div>
+      </div>
       </div>
     </>
   );

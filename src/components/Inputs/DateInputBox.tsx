@@ -1,7 +1,6 @@
 import { RadioGroup } from "@headlessui/react";
 import { useFilter } from "~/context/FilterContext";
 import { useState } from "react";
-import { XMarkIcon } from "@heroicons/react/20/solid";
 
 const dateOptions = [
   { label: "Yesterday", value: "yesterday" },

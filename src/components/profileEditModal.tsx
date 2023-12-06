@@ -21,26 +21,19 @@ export const ProfileEditModal: React.FC = () => {
     techStack: false,
     education: false,
   });
-  if (!userId) return <> please log in</>
+
+  if (!userId) return <> please log in</>;
   if (isLoading) return <LoadingPage />;
   if (!profileData) return <>No data</> ;
+  if(profileDetails.userId === '')setProfileDetails({...profileDetails, userId: userId})
   if(profileDetails.job === '' && profileData.job !== '') {
     setProfileDetails({job: profileData.job,
       location: profileData.location,
       education: profileData.education,
       techStack: profileData.techStack,
       userId});
-  }
-  const handleClick = async() => {
-    updateProfile(profileDetails);
-    setEditMode({
-      job: false,
-      location: false,
-      techStack: false,
-      education: false,
-    });
-    setIsOpen(false)
-  }
+  };
+
   const handleClose = () => {
     setProfileDetails({job: profileData.job,
       location: profileData.location,
@@ -54,7 +47,20 @@ export const ProfileEditModal: React.FC = () => {
         education: false,
       });
       setIsOpen(false)
-  }
+  };
+
+
+  const handleClick = async() => {
+    updateProfile(profileDetails);
+    console.log(profileData, profileDetails)
+    setEditMode({
+      job: false,
+      location: false,
+      techStack: false,
+      education: false,
+    });
+    setIsOpen(false)
+  };
 
 
   interface EditIconProps {
@@ -63,22 +69,23 @@ export const ProfileEditModal: React.FC = () => {
 
 const EditIcon: React.FC<EditIconProps> = React.memo(({ onClick }) => (
   <button className="ml-2 text-[#1A78E6] hover:text-blue-500" onClick={onClick}>
-    <Image src={'/111-write.svg'} alt={'Editing'} width={20} height={20}/>
+    <Image src={'/111-write white.svg'} alt={'Editing'} width={20} height={20}/>
   </button>
 ));
+
   return (
     <>
       <Dialog
         open={isOpen}
         onClose={handleClose}
         className={
-          "z-30 fixed left-1/2 top-1/2 max-w-lg -translate-x-1/2 -translate-y-1/2 rounded-lg border-2 border-solid border-[#1A78E6] bg-white text-black"
+          "w-full z-30 fixed left-1/2 top-1/2 max-w-lg -translate-x-1/2 -translate-y-1/2 rounded-lg border-2 border-solid border-blue-500 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 text-white shadow-2xl"
         }
       >
         <Dialog.Panel>
           <Dialog.Title
             className={
-              "mb-4 border-b-2 border-[#1A78E6] text-center text-lg font-semibold"
+              "mb-4 border-b-2 border-white text-center text-lg font-semibold p-3"
             }
           >
             <h2>Edit Profile</h2>
@@ -93,13 +100,13 @@ const EditIcon: React.FC<EditIconProps> = React.memo(({ onClick }) => (
                 alt={`Profile picture`}
                 width={128}
                 height={128}
-                className="rounded-full border-2 border-solid border-[#1A78E6]"
+                className="rounded-full border-4 border-solid border-white shadow-md"
               />
             </div>
           </Dialog.Description>
           {/* add logic to show placeholder if no info, else show value of state */}
           <form className="mt-4 flex flex-row flex-wrap items-center justify-center px-2">
-            <label htmlFor="Job" className="m-2 flex flex-col">
+            <label htmlFor="Job" className="m-2 flex flex-col space-y-2">
               Job
                 <input
                 type="text"
@@ -109,11 +116,11 @@ const EditIcon: React.FC<EditIconProps> = React.memo(({ onClick }) => (
                 className={`rounded-lg border-[1px] border-[#1A78E6] p-1 text-black focus-visible:outline-none ${
                   editMode.job ? "bg-gray-100" : ""
                 }`}
-                onChange={(e) => setProfileDetails({...profileDetails, job:e.target.value})}
+                onChange={(e) => {e.target.value.length < 16 ? setProfileDetails({...profileDetails, job:e.target.value}) : null}}
                 />
                 <EditIcon onClick={() => setEditMode({...editMode, job: !editMode.job})} />
             </label>
-            <label htmlFor="Location" className="m-2 flex flex-col">
+            <label htmlFor="Location" className="m-2 flex flex-col space-y-2">
               Location
                 <input
                 type="text"
@@ -123,12 +130,12 @@ const EditIcon: React.FC<EditIconProps> = React.memo(({ onClick }) => (
                 className={`rounded-lg border-[1px] border-[#1A78E6] p-1 text-black focus-visible:outline-none ${
                   editMode.location ? "bg-gray-100" : ""
                 }`}
-                onChange={(e) => setProfileDetails({...profileDetails, location:e.target.value})}
+                onChange={(e) => {e.target.value.length < 16 ? setProfileDetails({...profileDetails, location:e.target.value}) : null}}
                 />
                 <EditIcon onClick={() => setEditMode({...editMode, location: !editMode.location})} />
 
             </label>
-            <label htmlFor="Tech Stack" className="m-2 flex flex-col">
+            <label htmlFor="Tech Stack" className="m-2 flex flex-col space-y-2">
               Tech Stack
               <input
                 type="text"
@@ -138,12 +145,12 @@ const EditIcon: React.FC<EditIconProps> = React.memo(({ onClick }) => (
                 className={`rounded-lg border-[1px] border-[#1A78E6] p-1 text-black focus-visible:outline-none ${
                   editMode.techStack ? "bg-gray-100" : ""
                 }`}
-                onChange={(e) => setProfileDetails({...profileDetails, techStack:e.target.value})}
+                onChange={(e) => {e.target.value.length < 31 ? setProfileDetails({...profileDetails, techStack:e.target.value}) : null}}
                 />
                 <EditIcon onClick={() => setEditMode({...editMode, techStack: !editMode.techStack})} />
 
             </label>
-            <label htmlFor="Education" className="m-2 flex flex-col">
+            <label htmlFor="Education" className="m-2 flex flex-col space-y-2">
               Education
               <input
                 type="text"
@@ -153,14 +160,14 @@ const EditIcon: React.FC<EditIconProps> = React.memo(({ onClick }) => (
                 className={`rounded-lg border-[1px] border-[#1A78E6] p-1 text-black focus-visible:outline-none ${
                   editMode.education ? "bg-gray-100" : ""
                 }`}
-                onChange={(e) => setProfileDetails({...profileDetails, education:e.target.value})}
+                onChange={(e) => {e.target.value.length < 16 ? setProfileDetails({...profileDetails, education:e.target.value}) : null}}
                 />
                 <EditIcon onClick={() => setEditMode({...editMode, education: !editMode.education})} />
 
             </label>
           </form>
 
-          <div className="mt-2 flex flex-row justify-between bg-[#1A78E6] px-4 py-1 text-white">
+          <div className="mt-2 flex flex-row justify-between bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 px-4 py-2 text-white hover:opacity-90 transition-opacity duration-300">
             <button
               className="hover:underline"
               onClick={handleClick}

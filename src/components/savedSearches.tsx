@@ -176,9 +176,9 @@ const SavedSearches: React.FC = () => {
 
   return (
     <>
-      <div className="bg-[#1A78E6]shadow-lg relative mx-8 mb-60 flex max-h-[400px]  min-h-[400px] max-w-fit flex-col justify-center rounded-lg border-2 border-solid border-[#1A78E6] bg-[#1A78E6] shadow-lg sm:flex-row">
+      <div className="bg-[#1A78E6]shadow-lg relative mb-60 flex max-h-[400px] min-h-[400px] min-w-full max-w-fit  flex-col justify-start rounded-lg border-2 border-solid border-[#1A78E6] bg-[#1A78E6] shadow-lg sm:mr-4 sm:flex-row md:mx-4">
         {screenSize! < 640 ? (
-          <div className="flex items-center justify-center">
+          <div className="flex items-center justify-center mt-2">
             <SaveSearchSelect />
           </div>
         ) : (
@@ -209,7 +209,7 @@ const SavedSearches: React.FC = () => {
                 type="text"
                 value={editableName}
                 onChange={(e) => setEditableName(e.target.value)}
-                className="w-fit rounded-lg px-3 py-1 text-xl text-black shadow-md"
+                className="w-fit rounded-lg px-3 py-1 text-xl text-black shadow-md pr-2"
               />
             ) : (
               <h1 className="text-xl">{selectedSearch.name}</h1>
