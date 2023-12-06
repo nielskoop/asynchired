@@ -69,7 +69,7 @@ export const JobListingModal: React.FC<{ post: Post }> = ({ post }) => {
 
               <h2 className="mb-1 text-lg font-semibold">Job Description</h2>
               <div className="max-h-screen md:max-h-[400px]">
-                <p className="px-3 pb-4 md:px-4">{post?.jobDescription}</p>
+                <pre className="px-3 pb-4 md:px-4 whitespace-pre-wrap font-sans">{post?.jobDescription}</pre>
               </div>
             </Dialog.Description>
           </div>
