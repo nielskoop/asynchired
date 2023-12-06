@@ -8,16 +8,6 @@ import { LoadingPage } from "./Loading";
 import { useProfile } from "~/context/profileContext";
 import React, { useState } from "react";
 
-interface EditIconProps {
-  onClick: () => void;
-};
-
-const EditIcon: React.FC<EditIconProps> = React.memo(({ onClick }) => (
-  <button className="ml-2 text-[#1A78E6] hover:text-blue-500" onClick={onClick}>
-    <Image src={'/111-write.svg'} alt={'Editing'} width={20} height={20}/>
-  </button>
-));
-
 export const ProfileEditModal: React.FC = () => {
   const { profileDetails, setProfileDetails } = useProfile();
   const [isOpen, setIsOpen] = useModal("editProfile");
@@ -67,6 +57,15 @@ export const ProfileEditModal: React.FC = () => {
   }
 
 
+  interface EditIconProps {
+  onClick: () => void;
+};
+
+const EditIcon: React.FC<EditIconProps> = React.memo(({ onClick }) => (
+  <button className="ml-2 text-[#1A78E6] hover:text-blue-500" onClick={onClick}>
+    <Image src={'/111-write.svg'} alt={'Editing'} width={20} height={20}/>
+  </button>
+));
   return (
     <>
       <Dialog

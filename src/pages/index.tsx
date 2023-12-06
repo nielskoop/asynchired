@@ -6,7 +6,6 @@ import { LocationInputBox } from "~/components/Inputs/LocationInputBox";
 import { RoleInputBox } from "~/components/Inputs/RoleInputBox";
 import JobList from "~/components/jobLists/JobList";
 import { NavBar } from "~/components/NavBar";
-import useScreenSize from "~/hooks/useScreenSize";
 import { useFilter } from "~/context/FilterContext";
 import ScrollToTopButton from "~/components/scrollToTopButton";
 import { useAuth } from "@clerk/nextjs";
@@ -28,7 +27,7 @@ const roleTags = [
   "Remote",
 ];
 const locationTags = ["Remote", "Germany", "EU", "United States"];
-const salaryTags = ["$"];
+const salaryTags = [{ text: "With Salary", value: "$" }];
 const descriptionTags = [
   "Javascript",
   "Typescript",
@@ -57,13 +56,13 @@ export function TagWidget() {
 
   type TagCategory = "role" | "location" | "salary" | "description";
 
-  const toggleTagSelection = (tag: string, category: TagCategory) => {
+  const toggleTagSelection = (tagValue: string, category: TagCategory) => {
     const newSelectedTags = { ...selectedTags };
 
-    if (newSelectedTags[category] === tag) {
-      newSelectedTags[category] = ""; // Deselect the tag
+    if (newSelectedTags[category] === tagValue) {
+      newSelectedTags[category] = "";
     } else {
-      newSelectedTags[category] = tag; // Select the tag
+      newSelectedTags[category] = tagValue;
     }
 
     setSelectedTags(newSelectedTags);
@@ -117,15 +116,15 @@ export function TagWidget() {
               <p>Salary:</p>
               {salaryTags.map((tag) => (
                 <button
-                  key={tag}
+                  key={tag.text}
                   className={`mx-1 my-1 whitespace-nowrap rounded-full px-3 py-1 shadow-md ${
-                    isTagSelected(tag, "salary")
+                    isTagSelected(tag.value, "salary")
                       ? "bg-blue-500 text-white"
                       : "bg-white"
                   }`}
-                  onClick={() => toggleTagSelection(tag, "salary")}
+                  onClick={() => toggleTagSelection(tag.value, "salary")}
                 >
-                  {tag}
+                  {tag.text}
                 </button>
               ))}
             </div>
@@ -177,7 +176,6 @@ export function TagWidget() {
 }
 
 export default function Home() {
-  const screenSize = useScreenSize();
   const { roleFilter, locationFilter, companyFilter } = useFilter();
   const [isWidgetOpen, setIsWidgetOpen] = useState(true);
   const { userId } = useAuth();
@@ -309,7 +307,7 @@ export default function Home() {
               </form>
             </div>
             <div>
-              <div className="flex justify-center">
+              <div className="flex justify-center ">
                 <DateInputBox />
               </div>
             </div>

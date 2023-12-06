@@ -10,6 +10,7 @@ import { FilterProvider } from "~/context/FilterContext";
 import { Toaster } from "react-hot-toast";
 import { ButtonProvider } from "~/context/buttonContext";
 import { GlobalOverlay } from "~/components/globalOverlay";
+import { ProfileProvider } from "~/context/profileContext";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -31,9 +32,11 @@ const MyApp: AppType = ({ Component, pageProps }) => {
             <ModalProvider>
                 <GlobalOverlay activeModals={activeModals} />
               <ButtonProvider>
+                <ProfileProvider>
                 <Toaster position="bottom-center" />
 
                 <Component {...pageProps} />
+                </ProfileProvider>
               </ButtonProvider>
             </ModalProvider>
           </FilterProvider>

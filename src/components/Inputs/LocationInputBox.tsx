@@ -4,6 +4,7 @@ import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { api } from "~/utils/api";
 import { useFilter } from "~/context/FilterContext";
 import { InputSkeleton } from "../InputSkeleton";
+import { XMarkIcon } from "@heroicons/react/20/solid";
 
 type Location = {
   id: number;
@@ -12,6 +13,7 @@ type Location = {
 
 export function LocationInputBox() {
   const [query, setQuery] = useState("");
+  const [inputValue, setInputValue] = useState("");
   const { data: locations, isLoading } = api.post.getAllLocations.useQuery("");
   const { setLocationFilter, locationFilter, selectedSearch } = useFilter();
   const [selectedLocation, setSelectedLocation] = useState<
@@ -42,11 +44,20 @@ export function LocationInputBox() {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
     setQuery(newValue);
+    setInputValue(newValue);
   };
 
   const handleLocationChange = (location: Location) => {
     setSelectedLocation(location);
     setLocationFilter(location.location);
+    setInputValue(location.location);
+  };
+
+  const clearInput = () => {
+    setQuery("");
+    setInputValue(""); // Clear the new state
+    setSelectedLocation(undefined);
+    setLocationFilter("");
   };
 
   return (
@@ -55,11 +66,9 @@ export function LocationInputBox() {
         <div className="relative">
           <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
             <Combobox.Input
-              className="w-full border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0"
-              displayValue={(location) =>
-                location ? (location as Location).location : ""
-              }
+              className="w-full border-none py-2 pl-3 pr-12 text-sm leading-5 text-gray-900 focus:ring-0"
               onChange={handleInputChange}
+              value={inputValue}
               onKeyDown={(event) => {
                 if (event.key === "Enter" && query === "") {
                   event.preventDefault();
@@ -69,12 +78,29 @@ export function LocationInputBox() {
               }}
             />
 
-            <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
-              <ChevronUpDownIcon
-                className="h-5 w-5 text-gray-400"
-                aria-hidden="true"
-              />
-            </Combobox.Button>
+            {/* Icons container */}
+            <div className="absolute inset-y-0 right-0 flex items-center">
+              {/* Clear input button */}
+              {inputValue.length > 0 && ( // Check the new state for content
+                <button
+                  onClick={clearInput}
+                  className="inline-flex items-center justify-center"
+                >
+                  <XMarkIcon
+                    className="h-5 w-5 text-gray-400"
+                    aria-hidden="true"
+                  />
+                </button>
+              )}
+
+              {/* Combobox toggle button */}
+              <Combobox.Button className="inline-flex items-center justify-center pr-2">
+                <ChevronUpDownIcon
+                  className="h-5 w-5 text-gray-400"
+                  aria-hidden="true"
+                />
+              </Combobox.Button>
+            </div>
           </div>
           <Transition
             as={Fragment}
@@ -89,7 +115,7 @@ export function LocationInputBox() {
                 value={{ id: -1, location: query }}
                 className={({ active }) =>
                   `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                    active ? "bg-teal-600 text-white" : "text-gray-900"
+                    active ? "bg-blue-500 text-white" : "text-gray-900"
                   }`
                 }
               >
@@ -111,7 +137,7 @@ export function LocationInputBox() {
                   value={location}
                   className={({ active }) =>
                     `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                      active ? "bg-teal-600 text-white" : "text-gray-900"
+                      active ? "bg-blue-500 text-white" : "text-gray-900"
                     }`
                   }
                 >
@@ -127,7 +153,7 @@ export function LocationInputBox() {
                       {selected ? (
                         <span
                           className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
-                            active ? "text-white" : "text-teal-600"
+                            active ? "text-white" : "bg-blue-500"
                           }`}
                         >
                           <CheckIcon className="h-5 w-5" aria-hidden="true" />
