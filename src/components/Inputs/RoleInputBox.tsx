@@ -5,7 +5,7 @@ import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { api } from "~/utils/api"; // Import your api utility
 import { useFilter } from "~/context/FilterContext";
 import { InputSkeleton } from "../InputSkeleton";
-// import { LoadingSpinner } from "../Loading";
+import { XMarkIcon } from "@heroicons/react/20/solid";
 
 type Role = {
   id: number;
@@ -26,7 +26,7 @@ export function RoleInputBox() {
         ) ?? [];
 
   if (isLoading) {
-    return <InputSkeleton/>;
+    return <InputSkeleton />;
   }
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,6 +37,12 @@ export function RoleInputBox() {
   const handleRoleChange = (role: Role) => {
     setSelectedRole(role);
     setRoleFilter(role.title);
+  };
+
+  const clearInput = () => {
+    setQuery("");
+    setSelectedRole(undefined);
+    setRoleFilter("");
   };
 
   return (
@@ -56,12 +62,29 @@ export function RoleInputBox() {
                 }
               }}
             />
-            <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
-              <ChevronUpDownIcon
-                className="h-5 w-5 text-gray-400"
-                aria-hidden="true"
-              />
-            </Combobox.Button>
+            {/* Icons container */}
+            <div className="absolute inset-y-0 right-0 flex items-center">
+              {/* Clear input button */}
+              {query && (
+                <Combobox.Button
+                  onClick={clearInput}
+                  className="inline-flex items-center justify-center"
+                >
+                  <XMarkIcon
+                    className="h-5 w-5 text-gray-400"
+                    aria-hidden="true"
+                  />
+                </Combobox.Button>
+              )}
+
+              {/* Combobox toggle button */}
+              <Combobox.Button className="inline-flex items-center justify-center pr-2 ">
+                <ChevronUpDownIcon
+                  className="h-5 w-5 text-gray-400"
+                  aria-hidden="true"
+                />
+              </Combobox.Button>
+            </div>
           </div>
           <Transition
             as={Fragment}

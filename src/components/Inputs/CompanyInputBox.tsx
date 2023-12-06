@@ -5,6 +5,7 @@ import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { api } from "~/utils/api";
 import { useFilter } from "~/context/FilterContext";
 import { InputSkeleton } from "../InputSkeleton";
+import { XMarkIcon } from "@heroicons/react/20/solid";
 
 type Company = {
   id: number;
@@ -38,6 +39,12 @@ export function CompanyInputBox() {
     setCompanyFilter(Company.company);
   };
 
+  const clearInput = () => {
+    setQuery("");
+    setSelectedCompany(undefined);
+    setCompanyFilter("");
+  };
+
   return (
     <div>
       <Combobox value={selectedCompany} onChange={handleCompanyChange}>
@@ -57,13 +64,29 @@ export function CompanyInputBox() {
                 }
               }}
             />
+            {/* Icons container */}
+            <div className="absolute inset-y-0 right-0 flex items-center">
+              {/* Clear input button */}
+              {query && (
+                <Combobox.Button
+                  onClick={clearInput}
+                  className="inline-flex items-center justify-center"
+                >
+                  <XMarkIcon
+                    className="h-5 w-5 text-gray-400"
+                    aria-hidden="true"
+                  />
+                </Combobox.Button>
+              )}
 
-            <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
-              <ChevronUpDownIcon
-                className="h-5 w-5 text-gray-400"
-                aria-hidden="true"
-              />
-            </Combobox.Button>
+              {/* Combobox toggle button */}
+              <Combobox.Button className="inline-flex items-center justify-center pr-2 ">
+                <ChevronUpDownIcon
+                  className="h-5 w-5 text-gray-400"
+                  aria-hidden="true"
+                />
+              </Combobox.Button>
+            </div>
           </div>
           <Transition
             as={Fragment}
