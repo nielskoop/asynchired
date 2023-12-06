@@ -1,7 +1,7 @@
 import { Fragment, useEffect } from "react";
 import { api } from "~/utils/api";
 import { useFilter } from "~/context/FilterContext";
-import { InputSkeleton } from "../InputSkeleton";
+import { InputSkeleton } from "../LoadingAndSkeletonsAndOverlays/InputSkeleton";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import toast from "react-hot-toast";

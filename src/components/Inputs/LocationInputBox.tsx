@@ -3,7 +3,7 @@ import { useState, Fragment, useEffect } from "react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { api } from "~/utils/api";
 import { useFilter } from "~/context/FilterContext";
-import { InputSkeleton } from "../InputSkeleton";
+import { InputSkeleton } from "../LoadingAndSkeletonsAndOverlays/InputSkeleton";
 import { XMarkIcon } from "@heroicons/react/20/solid";
 
 type Location = {

@@ -1,6 +1,6 @@
 import React from "react";
 import { api } from "~/utils/api";
-import { JobListSkeleton } from "../jobListSkeleton";
+import { JobListSkeleton } from "../LoadingAndSkeletonsAndOverlays/jobListSkeleton";
 import { useAuth } from "@clerk/nextjs";
 import { JobListing } from "../JobItems/JobListing";
 

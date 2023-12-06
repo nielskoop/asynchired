@@ -1,17 +1,18 @@
 import { useAuth } from "@clerk/nextjs";
 import { api } from "~/utils/api";
-import { CompanyInputBox } from "./Inputs/CompanyInputBox";
+import { CompanyInputBox } from "../Inputs/CompanyInputBox";
 import Image from "next/image";
-import { RoleInputBox } from "./Inputs/RoleInputBox";
-import { LocationInputBox } from "./Inputs/LocationInputBox";
+import { RoleInputBox } from "../Inputs/RoleInputBox";
+import { LocationInputBox } from "../Inputs/LocationInputBox";
 import useScreenSize from "~/hooks/useScreenSize";
-import { SaveSearchSelect } from "./Inputs/SaveSearchSelect";
+import { SaveSearchSelect } from "../Inputs/SaveSearchSelect";
 import { useFilter } from "~/context/FilterContext";
-import { UserJobsTrackerSkeleton } from "./userJobsTrackerSkeleton";
+import { UserJobsTrackerSkeleton } from "../LoadingAndSkeletonsAndOverlays/userJobsTrackerSkeleton";
 import toast from "react-hot-toast";
 import type { Search } from "@prisma/client";
 import { useEffect, useState } from "react";
 import { SaveSearchInputDisabled } from "./saveSearchInputDisabled";
+import { SavedSearchCountCircle } from "./SavedSearchCountCircle";
 
 const SavedSearches: React.FC = () => {
   const [isEditMode, setIsEditMode] = useState(false);
@@ -180,14 +181,14 @@ const SavedSearches: React.FC = () => {
 
   return (
     <>
-      <div className="bg-[#1A78E6]shadow-lg relative mb-60 flex max-h-[400px] min-h-[400px] min-w-full max-w-fit  flex-col justify-start rounded-lg border-2 border-solid border-[#1A78E6] bg-[#1A78E6] shadow-lg sm:mr-4 sm:flex-row md:mx-4">
+      <div className="bg-[#1A78E6]shadow-lg relative mb-60 flex min-h-[400px] flex-col justify-start rounded-lg border-2 border-solid border-[#1A78E6] bg-[#1A78E6] shadow-lg sm:flex-row md:mx-4 lg:min-w-full lg:max-w-prose">
         {screenSize! < 640 ? (
           <div className="mt-2 flex items-center justify-center">
             <SaveSearchSelect handleSelectSearch={handleSelectSearch} />
           </div>
         ) : (
-          <div className="max-h-[400px] min-w-fit overflow-y-auto rounded-lg bg-white p-4 sm:rounded-md">
-            <ul className="mb-4 flex flex-col items-start justify-start sm:mx-auto">
+          <div className=" min-w-fit overflow-y-auto rounded-lg bg-white p-4 sm:rounded-md">
+            <ul className="max-w mb-4 flex flex-col items-start justify-start text-lg sm:mx-auto">
               {userSearches.map((search) => (
                 <li className="flex w-full flex-row items-center justify-between border-b border-slate-300 shadow-sm">
                   <button
@@ -203,75 +204,83 @@ const SavedSearches: React.FC = () => {
             </ul>
           </div>
         )}
-        <div id="filters" className="bg-[#1A78E6] p-4 font-bold text-white">
+        <div className="flex w-max flex-row flex-wrap justify-center lg:w-full lg:flex-nowrap">
           <div
-            id="searchName"
-            className="flex flex-row items-center justify-between border-b text-center"
+            id="filters"
+            className="flex grow flex-col justify-center bg-[#1A78E6] p-4 font-bold text-white"
           >
-            {isEditMode ? (
-              <input
-                type="text"
-                value={editableName}
-                onChange={(e) => setEditableName(e.target.value)}
-                className="w-fit rounded-lg px-3 py-1 pr-2 text-xl text-black shadow-md"
-              />
-            ) : (
-              <h1 className="text-xl">{selectedSearch.name}</h1>
-            )}
-            <div className="flex w-fit flex-col items-end justify-center">
-              <button onClick={isEditMode ? saveSearch : editSearch}>
-                <Image
-                  src={editButtonIcon}
-                  alt={isEditMode ? "Save" : "Edit"}
-                  height={20}
-                  width={20}
-                  className="m-1"
+            <div
+              id="searchName"
+              className="flex grow flex-row items-center justify-between border-b text-center"
+            >
+              {isEditMode ? (
+                <input
+                  type="text"
+                  value={editableName}
+                  onChange={(e) => setEditableName(e.target.value)}
+                  className="w-fit rounded-lg px-3 py-1 pr-2 text-xl text-black shadow-md"
                 />
-              </button>
-              <button
-                onClick={() => {
-                  delSearch(selectedSearch);
-                }}
-              >
-                <Image
-                  src={"/002-remove white.svg"}
-                  alt="Edit"
-                  height={20}
-                  width={20}
-                  className="m-1"
-                />
-              </button>
+              ) : (
+                <h1 className="text-xl">{selectedSearch.name}</h1>
+              )}
+              <div className="flex w-fit flex-col items-end justify-center">
+                <button onClick={isEditMode ? saveSearch : editSearch}>
+                  <Image
+                    src={editButtonIcon}
+                    alt={isEditMode ? "Save" : "Edit"}
+                    height={20}
+                    width={20}
+                    className="m-1"
+                  />
+                </button>
+                <button
+                  onClick={() => {
+                    delSearch(selectedSearch);
+                  }}
+                >
+                  <Image
+                    src={"/002-remove white.svg"}
+                    alt="Edit"
+                    height={20}
+                    width={20}
+                    className="m-1"
+                  />
+                </button>
+              </div>
+            </div>
+            <div id="filtersFields" className="my-4 flex h-[80%] grow flex-col">
+              <div className="flex grow flex-col">
+                <span className="">I'm looking for</span>
+                <div className={isInputDisabled ? "hidden" : ""}>
+                  <RoleInputBox />
+                </div>
+                <div className={isInputDisabled ? "" : "hidden"}>
+                  <SaveSearchInputDisabled data={selectedSearch.title} />
+                </div>
+              </div>
+
+              <div className="flex grow flex-col">
+                <span className="">In</span>
+                <div className={isInputDisabled ? "hidden" : ""}>
+                  <LocationInputBox />
+                </div>
+                <div className={isInputDisabled ? "" : "hidden"}>
+                  <SaveSearchInputDisabled data={selectedSearch.location} />
+                </div>
+              </div>
+              <div className="flex grow flex-col">
+                <span className="">At</span>
+                <div className={isInputDisabled ? "hidden" : ""}>
+                  <CompanyInputBox />
+                </div>
+                <div className={isInputDisabled ? "" : "hidden"}>
+                  <SaveSearchInputDisabled data={selectedSearch.company} />
+                </div>
+              </div>
             </div>
           </div>
-          <div id="filters" className="my-4 flex h-[80%] flex-col">
-            <div className="flex grow flex-col">
-              <span className="">I'm looking for</span>
-              <div className={isInputDisabled ? "hidden" : ""}>
-                <RoleInputBox />
-              </div>
-              <div className={isInputDisabled ? "" : "hidden"}>
-                <SaveSearchInputDisabled data={selectedSearch.title} />
-              </div>
-            </div>
-
-            <div className="flex grow flex-col">
-              <span className="">In</span>
-              <div className={isInputDisabled ? "hidden" : ""}>
-                <LocationInputBox />
-              </div>
-              <div className={isInputDisabled ? "" : "hidden"}>
-                <SaveSearchInputDisabled data={selectedSearch.location} />
-              </div>
-            </div>
-            <div className="flex grow flex-col">
-              <span className="">At</span>
-              <div className={isInputDisabled ? "hidden" : ""}>
-                <CompanyInputBox />
-              </div>
-              <div className={isInputDisabled ? "" : "hidden"}>
-                <SaveSearchInputDisabled data={selectedSearch.company} />
-              </div>
-            </div>
+          <div className="flex min-w-full max-w-full grow items-center justify-center rounded-bl-lg rounded-br-lg rounded-br-lg bg-black p-4 text-black lg:rounded-tr-lg lg:min-w-[400px]">
+            <SavedSearchCountCircle />
           </div>
         </div>
       </div>

@@ -2,7 +2,7 @@ import { Dialog } from "@headlessui/react";
 
 import { useState } from "react";
 import { useModal } from "~/context/modalContext";
-import { Overlay } from "./overlay";
+import { Overlay } from "../LoadingAndSkeletonsAndOverlays/overlay";
 
 export const SaveSearcNameModal: React.FC<{
   handleSaveSearch: (e: React.MouseEvent, searchName: string) => void;
