@@ -26,13 +26,6 @@ export const ProfileEditModal: React.FC = () => {
   if (isLoading) return <LoadingPage />;
   if (!profileData) return <>No data</> ;
   if(profileDetails.userId === '')setProfileDetails({...profileDetails, userId: userId})
-  if(profileDetails.job === '' && profileData.job !== '') {
-    setProfileDetails({job: profileData.job,
-      location: profileData.location,
-      education: profileData.education,
-      techStack: profileData.techStack,
-      userId});
-  };
 
   const handleClose = () => {
     setProfileDetails({job: profileData.job,
@@ -50,16 +43,33 @@ export const ProfileEditModal: React.FC = () => {
   };
 
   
-  const handleClick = async() => {
-    updateProfile(profileDetails);
-    console.log(profileData, profileDetails)
-    setEditMode({
-      job: false,
-      location: false,
-      techStack: false,
-      education: false,
-    });
-    setIsOpen(false)
+  const handleClick = () => {
+    console.log(profileDetails)
+    if (profileDetails.job === '') {
+      setProfileDetails((prevDetails) => ({ ...prevDetails, job: 'Job' }));
+    };
+
+    if (profileDetails.location === '') {
+      setProfileDetails((prevDetails) => ({ ...prevDetails, location: 'Location' }));
+    };
+  
+    if (profileDetails.education === '') {
+      setProfileDetails((prevDetails) => ({ ...prevDetails, education: 'Education' }));
+    };
+  
+    if (profileDetails.techStack === '') {
+      setProfileDetails((prevDetails) => ({ ...prevDetails, techStack: 'Tech Stack' }));
+    };
+    
+      updateProfile(profileDetails);
+      setEditMode({
+        job: false,
+        location: false,
+        techStack: false,
+        education: false,
+      });
+      setIsOpen(false)
+    
   };
 
   interface EditIconProps {
@@ -113,11 +123,11 @@ const EditIcon: React.FC<EditIconProps> = React.memo(({ onClick }) => (
                 type="text"
                 id="Job"
                 value={profileDetails.job}
-                readOnly={!editMode.job}
+                disabled={!editMode.job}
                 className={`rounded-lg border-[1px] border-[#1A78E6] p-1 text-black focus-visible:outline-none ${
                   editMode.job ? "bg-gray-100" : ""
                 }`}
-                onChange={(e) => {e.target.value.length < 16 ? setProfileDetails({...profileDetails, job:e.target.value}) : null}}
+                onChange={(e) => {e.target.value.length < 31 ? setProfileDetails({...profileDetails, job:e.target.value}) : null}}
                 />
                 <EditIcon onClick={() => setEditMode({...editMode, job: !editMode.job})} />
             </label>
@@ -127,11 +137,11 @@ const EditIcon: React.FC<EditIconProps> = React.memo(({ onClick }) => (
                 type="text"
                 id="Location"
                 value={profileDetails.location}
-                readOnly={!editMode.location}
+                disabled={!editMode.location}
                 className={`rounded-lg border-[1px] border-[#1A78E6] p-1 text-black focus-visible:outline-none ${
                   editMode.location ? "bg-gray-100" : ""
                 }`}
-                onChange={(e) => {e.target.value.length < 16 ? setProfileDetails({...profileDetails, location:e.target.value}) : null}}
+                onChange={(e) => {e.target.value.length < 31 ? setProfileDetails({...profileDetails, location:e.target.value}) : null}}
                 />
                 <EditIcon onClick={() => setEditMode({...editMode, location: !editMode.location})} />
               
@@ -142,7 +152,7 @@ const EditIcon: React.FC<EditIconProps> = React.memo(({ onClick }) => (
                 type="text"
                 id="Tech Stack"
                 value={profileDetails.techStack}
-                readOnly={!editMode.techStack}
+                disabled={!editMode.techStack}
                 className={`rounded-lg border-[1px] border-[#1A78E6] p-1 text-black focus-visible:outline-none ${
                   editMode.techStack ? "bg-gray-100" : ""
                 }`}
@@ -157,11 +167,11 @@ const EditIcon: React.FC<EditIconProps> = React.memo(({ onClick }) => (
                 type="text"
                 id="Education"
                 value={profileDetails.education}
-                readOnly={!editMode.education}
+                disabled={!editMode.education}
                 className={`rounded-lg border-[1px] border-[#1A78E6] p-1 text-black focus-visible:outline-none ${
                   editMode.education ? "bg-gray-100" : ""
                 }`}
-                onChange={(e) => {e.target.value.length < 16 ? setProfileDetails({...profileDetails, education:e.target.value}) : null}}
+                onChange={(e) => {e.target.value.length < 31 ? setProfileDetails({...profileDetails, education:e.target.value}) : null}}
                 />
                 <EditIcon onClick={() => setEditMode({...editMode, education: !editMode.education})} />
               
@@ -187,3 +197,4 @@ const EditIcon: React.FC<EditIconProps> = React.memo(({ onClick }) => (
     </>
   );
 };
+
