@@ -84,11 +84,11 @@ export default function Home() {
             />
           </div>
           <NavBar />
-          <div className="relative left-1/2 top-[40%] my-1 mr-2 max-w-fit -translate-x-2/4 -translate-y-2/4 rounded-lg bg-gray-600 bg-opacity-70 px-2 pb-4 pt-1 md:top-1/3 md:px-4">
-            <p className="mb-4 text-center text-2xl text-white md:text-4xl">
+          <div className="relative left-1/2 top-[40%] mr-2 max-w-fit -translate-x-2/4 -translate-y-2/4 rounded-lg bg-gray-600 bg-opacity-70 px-2 pb-4 pt-1 md:top-1/3 md:px-4">
+            <h1 className="mb-4 text-center text-2xl text-white md:text-4xl">
               All the dev jobs,
               <span className="font-semibold"> one place</span>
-            </p>
+            </h1>
               {userId &&
             <div className="mb-4 flex w-full items-center justify-center px-4 text-center text-white md:text-left">
               <SaveSearchSelect />
