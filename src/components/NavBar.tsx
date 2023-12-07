@@ -11,6 +11,7 @@ import { Menu, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useState } from "react";
 import { useButton } from "~/context/buttonContext";
 import { useClickAway } from "@uidotdev/usehooks";
+import { useRouter } from "next/router";
 
 export const HamburgerButton = () => {
   const [hamburgerActive, setHamburgerActive] = useState<boolean>(false);
@@ -161,6 +162,7 @@ export const NavLinks: React.FC = () => {
 export const NavBar = () => {
   const { isSignedIn } = useUser();
   const [header, setHeader] = useState<boolean>(false);
+  const { pathname } = useRouter();
 
   const scrollHeader = () => {
     if (window.scrollY >= 450) {
@@ -185,7 +187,9 @@ export const NavBar = () => {
       className={
         header
           ? "fixed z-10 w-full bg-gradient-to-r from-[#020307] via-[#06244E] to-[#020307]"
-          : "bg-transparent"
+          : pathname !== "/"
+            ? "bg-gradient-to-r from-[#020307] via-[#06244E] to-[#020307]"
+            : "bg-transparent"
       }
     >
       <nav className="flex items-center justify-between px-8 font-semibold">
