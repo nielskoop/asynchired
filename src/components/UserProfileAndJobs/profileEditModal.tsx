@@ -2,9 +2,9 @@ import { useAuth, useUser } from "@clerk/nextjs";
 import { Dialog } from "@headlessui/react";
 import Image from "next/image";
 import { useModal } from "~/context/modalContext";
-import { Overlay } from "./overlay";
+import { Overlay } from "../LoadingAndSkeletonsAndOverlays/overlay";
 import { api } from "~/utils/api";
-import { LoadingPage } from "./Loading";
+import { LoadingPage } from "../LoadingAndSkeletonsAndOverlays/Loading";
 import { useProfile } from "~/context/profileContext";
 import React, { useState } from "react";
 

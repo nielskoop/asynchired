@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { useUser } from "@clerk/nextjs";
-import { TagIcon } from "./TagIcon";
-import { EditProfileButton } from "./editProfileButton";
+import { TagIcon } from "../TagIcon";
+import { EditProfileButton } from "../Buttons/editProfileButton";
 import { useProfile } from "~/context/profileContext";
 
 export const UserInfo = () => {

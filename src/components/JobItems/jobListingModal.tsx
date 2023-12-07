@@ -9,7 +9,7 @@ import {
 } from "./jobListingButtons";
 import { useState } from "react";
 import { useModal } from "~/context/modalContext";
-import { Overlay } from "../overlay";
+import { Overlay } from "../LoadingAndSkeletonsAndOverlays/overlay";
 
 export const JobListingModal: React.FC<{ post: Post }> = ({ post }) => {
   const [isOpen, setIsOpen] = useModal(post.id);

@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { ModalContext } from "../context/modalContext"
+import { ModalContext } from "../../context/modalContext"
 
 export const GlobalOverlay = ({ activeModals }: { activeModals: string[] }) => {
   const context = useContext(ModalContext);

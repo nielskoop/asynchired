@@ -1,4 +1,4 @@
-import { ProfileEditModal } from "./profileEditModal";
+import { ProfileEditModal } from "../UserProfileAndJobs/profileEditModal";
 import { useModal } from "~/context/modalContext";
 
 export const EditProfileButton = () => {

@@ -2,10 +2,10 @@ import Head from "next/head";
 import type { NextPage } from "next/types";
 import { NavBar } from "~/components/NavBar";
 import { useUser } from "@clerk/nextjs";
-import { UserInfo } from "~/components/userInfo";
-import { UserJobsTracker } from "~/components/userJobsTracker";
-import { LoadingPage } from "~/components/Loading";
-import SavedSearches from "~/components/savedSearches";
+import { UserInfo } from "~/components/UserProfileAndJobs/userInfo";
+import { UserJobsTracker } from "~/components/UserProfileAndJobs/userJobsTracker";
+import { LoadingPage } from "~/components/LoadingAndSkeletonsAndOverlays/Loading";
+import SavedSearches from "~/components/SavedSearches/savedSearches";
 
 
 const ProfilePage: NextPage = () => {

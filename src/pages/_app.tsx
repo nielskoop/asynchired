@@ -9,7 +9,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { FilterProvider } from "~/context/FilterContext";
 import { Toaster } from "react-hot-toast";
 import { ButtonProvider } from "~/context/buttonContext";
-import { GlobalOverlay } from "~/components/globalOverlay";
+import { GlobalOverlay } from "~/components/LoadingAndSkeletonsAndOverlays/globalOverlay";
 import { ProfileProvider } from "~/context/profileContext";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
