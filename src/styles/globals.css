@@ -29,7 +29,10 @@ body {
 .circle-aspect {
   width: 80%;
   padding-top: 80%;
+  box-shadow: inset 0 4px 12px rgba(0, 0, 0, 0.55); /* Even more visible inner shadow */
 }
+
+
 
 @keyframes popIn {
   0% {

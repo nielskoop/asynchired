@@ -203,7 +203,7 @@ const SavedSearches: React.FC = () => {
 
   return (
     <>
-      <div className="bg-[#1A78E6]shadow-lg relative mb-60 flex min-h-[400px] flex-col justify-start rounded-lg border-2 border-solid border-[#1A78E6] bg-[#1A78E6] shadow-lg sm:flex-row md:mx-4 lg:min-w-full lg:max-w-prose">
+      <div className="relative mb-60 flex min-h-[400px] min-w-full sm:min-w-max flex-col justify-start rounded-lg border-2 border-solid border-[#1A78E6] bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 shadow-lg  sm:flex-row md:mx-4 lg:min-w-full lg:max-w-prose">
         {screenSize! < 640 ? (
           <div className="mt-2 flex items-center justify-center">
             <SaveSearchSelect handleSelectSearch={handleSelectSearch} />
@@ -219,17 +219,19 @@ const SavedSearches: React.FC = () => {
                       handleSelectSearch(search);
                     }}
                   >
+                    <p className="max-w-[200px] md:max-w-[250px]">
                     {search.name}
+                    </p>
                   </button>
                 </li>
               ))}
             </ul>
           </div>
         )}
-        <div className="flex w-max flex-row flex-wrap justify-center lg:w-full lg:flex-nowrap pb-2 lg:pb-0">
+        <div className="flex justify-center flex-row flex-wrap pb-4 lg:w-full lg:flex-nowrap lg:pb-0">
           <div
             id="filters"
-            className="flex grow flex-col justify-center bg-[#1A78E6] p-4 font-bold text-white lg:max-w-xs lg:border-r"
+            className="flex grow max-w-full flex-col justify-center p-4 font-bold text-white lg:max-w-[275px]"
           >
             <div
               id="searchName"
@@ -243,7 +245,7 @@ const SavedSearches: React.FC = () => {
                   className="w-fit rounded-lg px-3 py-1 pr-2 text-xl text-black shadow-md lg:max-w-[85%]"
                 />
               ) : (
-                <h1 className="text-xl">{selectedSearch.name}</h1>
+                <h1 className="text-xl sm:max-w-[200px]">{selectedSearch.name}</h1>
               )}
               <div className="flex w-fit min-w-max flex-col items-end justify-center">
                 <button onClick={isEditMode ? saveSearch : editSearch}>
