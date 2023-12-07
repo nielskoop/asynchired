@@ -16,7 +16,10 @@ import { useRouter } from "next/router";
 export const HamburgerButton = () => {
   const [hamburgerActive, setHamburgerActive] = useState<boolean>(false);
   const { isSignedIn } = useUser();
-  const { setSelectedList } = useButton();
+   const { setSelectedList, setScroll } = useButton();
+  const handleProfileLinkClick = () => {
+    setScroll(true);
+  };
   const ref = useClickAway<HTMLButtonElement>(() => setHamburgerActive(false));
 
   return (
@@ -49,6 +52,7 @@ export const HamburgerButton = () => {
                 <Link
                   className={`${active && "text-slate-500"}`}
                   href="/profile"
+                  onClick={handleProfileLinkClick}
                 >
                   Saved Searches
                 </Link>
@@ -128,12 +132,17 @@ export const HamburgerButton = () => {
 };
 
 export const NavLinks: React.FC = () => {
-  const { setSelectedList } = useButton();
+  const { setSelectedList, setScroll } = useButton();
+  const handleProfileLinkClick = () => {
+    setScroll(true);
+  };
+  
   return (
     <>
       <Link
         href={`/profile`}
         className="rounded-xl bg-white p-2  hover:bg-neutral-200"
+        onClick={handleProfileLinkClick}
       >
         Saved Searches
       </Link>
@@ -205,6 +214,12 @@ export const NavBar = () => {
           </Link>
           {screenSize! > 768 && <NavLinks />}
         </div>
+        <Link
+          href="/profile"
+          className="rounded-xl bg-white p-2  hover:bg-neutral-200"
+        >
+        Profile
+      </Link>
         <div>
           {screenSize! < 768 ? (
             <HamburgerButton />
