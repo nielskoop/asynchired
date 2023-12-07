@@ -64,6 +64,17 @@ const SavedSearches: React.FC = () => {
     refetch,
   } = api.search.getSearches.useQuery();
 
+  const queryParameters = {
+    location: selectedSearch.location ?? undefined,
+    role: selectedSearch.title ?? undefined,
+    company: selectedSearch.company ?? undefined,
+  };
+
+  const {
+    data: postsCount,
+    refetch: refetchingPosts,
+  } = api.post.getFilteredPostsCount.useQuery(queryParameters);
+
   const { mutate: deleteSearch } = api.search.deleteSearch.useMutation();
   const { mutate: updateSearch } = api.search.updateSearch.useMutation();
 
@@ -83,12 +94,13 @@ const SavedSearches: React.FC = () => {
   if (!userSearches || userSearches.length === 0)
     return <div>No saved searches to show!</div>;
 
-  function handleSelectSearch(search: Search) {
+  async function handleSelectSearch(search: Search) {
     if (isEditMode) {
       setIsEditMode(false);
     }
     setSelectedSearch(search);
   }
+
   function delSearch(selectedSearch: Search) {
     if (selectedSearch?.id) {
       deleteSearch(selectedSearch.id, {
@@ -214,10 +226,10 @@ const SavedSearches: React.FC = () => {
             </ul>
           </div>
         )}
-        <div className="flex w-max flex-row flex-wrap justify-center lg:w-full lg:flex-nowrap">
+        <div className="flex w-max flex-row flex-wrap justify-center lg:w-full lg:flex-nowrap pb-2 lg:pb-0">
           <div
             id="filters"
-            className="flex grow flex-col justify-center bg-[#1A78E6] p-4 font-bold text-white lg:max-w-xs"
+            className="flex grow flex-col justify-center bg-[#1A78E6] p-4 font-bold text-white lg:max-w-xs lg:border-r"
           >
             <div
               id="searchName"
@@ -233,7 +245,7 @@ const SavedSearches: React.FC = () => {
               ) : (
                 <h1 className="text-xl">{selectedSearch.name}</h1>
               )}
-              <div className="flex w-fit flex-col items-end justify-center min-w-max">
+              <div className="flex w-fit min-w-max flex-col items-end justify-center">
                 <button onClick={isEditMode ? saveSearch : editSearch}>
                   <Image
                     src={editButtonIcon}
@@ -289,8 +301,11 @@ const SavedSearches: React.FC = () => {
               </div>
             </div>
           </div>
-          <div className="flex min-w-full max-w-full grow items-center justify-center rounded-bl-lg rounded-br-lg md:rounded-bl-none bg-black p-4 text-black lg:rounded-tr-lg lg:min-w-[400px]">
-            <SavedSearchCountCircle />
+          <div className="flex min-w-full max-w-full grow items-center justify-center rounded-bl-lg rounded-br-lg text-black md:rounded-bl-none lg:min-w-[400px] lg:rounded-tr-lg">
+            <SavedSearchCountCircle
+              postsCount={postsCount}
+              key={selectedSearch.id}
+            />
           </div>
         </div>
       </div>

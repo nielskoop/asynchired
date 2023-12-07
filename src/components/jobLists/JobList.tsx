@@ -48,8 +48,6 @@ export default function JobList() {
     nextPage().catch(console.error);
   }, [entry]);
 
-  // TODO: FIX issue where someone opening the site for the first time (maybe only in prod?) fails to load this and goes to "something went wrong"
-
   return (
     <>
       {postQuery.isLoading && <JobListSkeleton />}
