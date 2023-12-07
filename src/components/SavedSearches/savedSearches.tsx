@@ -72,7 +72,6 @@ const SavedSearches: React.FC = () => {
 
   const {
     data: postsCount,
-    refetch: refetchingPosts,
   } = api.post.getFilteredPostsCount.useQuery(queryParameters);
 
   const { mutate: deleteSearch } = api.search.deleteSearch.useMutation();
@@ -94,7 +93,7 @@ const SavedSearches: React.FC = () => {
   if (!userSearches || userSearches.length === 0)
     return <div>No saved searches to show!</div>;
 
-  async function handleSelectSearch(search: Search) {
+  function handleSelectSearch(search: Search) {
     if (isEditMode) {
       setIsEditMode(false);
     }
@@ -203,7 +202,7 @@ const SavedSearches: React.FC = () => {
 
   return (
     <>
-      <div className="relative mb-60 flex min-h-[400px] min-w-full sm:min-w-max flex-col justify-start rounded-lg border-2 border-solid border-[#1A78E6] bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 shadow-lg  sm:flex-row md:mx-4 lg:min-w-full lg:max-w-prose">
+      <div className="relative mb-40 flex min-h-[400px] min-w-full sm:min-w-max flex-col justify-start rounded-lg border-2 border-solid border-[#1A78E6] bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 shadow-lg  sm:flex-row md:mx-4 lg:min-w-full lg:max-w-prose">
         {screenSize! < 640 ? (
           <div className="mt-2 flex items-center justify-center">
             <SaveSearchSelect handleSelectSearch={handleSelectSearch} />
