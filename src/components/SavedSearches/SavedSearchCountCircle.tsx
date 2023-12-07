@@ -1,7 +1,9 @@
 export const SavedSearchCountCircle: React.FC = () => {
   return (
-    <div className="flex justify-center items-center w-1/2 pt-[50%] rounded-full bg-white text-center shadow-inner animate-popIn">
-      <p className="text-3xl">{"text"}</p>
+    <div className="circle-aspect relative flex w-full animate-popIn items-center justify-center rounded-full bg-white text-center shadow-inner">
+      <p className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform text-3xl">
+        {"text"}
+      </p>
     </div>
   );
 };

@@ -124,7 +124,6 @@ export const ProfileEditModal: React.FC = () => {
                 height={128}
                 className="rounded-full border-4 border-solid border-white shadow-md"
               />
-              <button className="hover:underline">Edit</button>
             </div>
           </Dialog.Description>
           {/* add logic to show placeholder if no info, else show value of state */}

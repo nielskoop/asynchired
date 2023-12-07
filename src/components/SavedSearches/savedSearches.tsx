@@ -23,11 +23,11 @@ const SavedSearches: React.FC = () => {
     id: -1,
     userId: userId!,
     name: "Select a saved search",
-    title: "...",
-    location: "...",
-    company: "...",
-    jobDescription: "...",
-    salary: "...",
+    title: "",
+    location: "",
+    company: "",
+    jobDescription: "",
+    salary: "",
     createdAt: new Date(),
     updatedAt: new Date(),
   };
@@ -124,7 +124,17 @@ const SavedSearches: React.FC = () => {
   }
 
   function editSearch() {
-    setIsEditMode(!isEditMode);
+    if (selectedSearch.id === -1) {
+      toast.error("Select a search to start editing", {
+        style: {
+          borderRadius: "10px",
+          background: "#E61A1A",
+          color: "#fff",
+        },
+      });
+    } else {
+      setIsEditMode(!isEditMode);
+    }
   }
 
   function saveSearch() {
@@ -207,7 +217,7 @@ const SavedSearches: React.FC = () => {
         <div className="flex w-max flex-row flex-wrap justify-center lg:w-full lg:flex-nowrap">
           <div
             id="filters"
-            className="flex grow flex-col justify-center bg-[#1A78E6] p-4 font-bold text-white"
+            className="flex grow flex-col justify-center bg-[#1A78E6] p-4 font-bold text-white lg:max-w-xs"
           >
             <div
               id="searchName"
@@ -218,7 +228,7 @@ const SavedSearches: React.FC = () => {
                   type="text"
                   value={editableName}
                   onChange={(e) => setEditableName(e.target.value)}
-                  className="w-fit rounded-lg px-3 py-1 pr-2 text-xl text-black shadow-md"
+                  className="w-fit rounded-lg px-3 py-1 pr-2 text-xl text-black shadow-md lg:max-w-[85%]"
                 />
               ) : (
                 <h1 className="text-xl">{selectedSearch.name}</h1>

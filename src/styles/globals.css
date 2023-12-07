@@ -26,6 +26,11 @@ body {
   animation: reflectionWave 2s linear infinite;
 }
 
+.circle-aspect {
+  width: 80%;
+  padding-top: 80%;
+}
+
 @keyframes popIn {
   0% {
     transform: scale(0);
