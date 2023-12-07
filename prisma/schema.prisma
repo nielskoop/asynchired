@@ -27,6 +27,7 @@ model Post {
     updatedAt   DateTime @updatedAt
 }
 
+
 model User {
     id              String     @id
     name            String
