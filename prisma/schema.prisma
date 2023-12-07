@@ -18,13 +18,15 @@ model Post {
     company     String
     jobDescription  String
     salary      String?
+    minSalary   Int?
     datePosted  DateTime?
     logo        String?
-    url         String
-    jobId      String    @unique
+    url         String  
+    jobId      String  @unique
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
 }
+
 
 model User {
     id              String     @id

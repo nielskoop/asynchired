@@ -1,28 +1,48 @@
-# Create T3 App
+# AsyncHired - README
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+## Overview
 
-## What's next? How do I make an app with this?
+AsyncHired is a cutting-edge job search application specifically tailored for the tech industry. Developed by a team of skilled professionals, this app stands out by aggregating job listings from various websites, presenting them in a user-friendly interface.
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+### Creators
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+- Nacho Planas
+- Christopher Heinzmann
+- Niels Koop
+- Patrik Róbert Horváth
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+## Tech Stack
 
-## Learn More
+The application is built using the T3 stack, ensuring a robust and scalable solution. The key technologies include:
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+1. **Next.js**: A React framework that enables server-side rendering and generates static websites, enhancing performance and SEO.
+2. **React**: A JavaScript library for building user interfaces, ensuring a dynamic and responsive design.
+3. **TypeScript**: A superset of JavaScript that adds static types, improving maintainability and developer productivity.
+4. **Tailwind CSS with HeadlessUI**: A utility-first CSS framework paired with a set of completely unstyled, fully accessible UI components.
+5. **Tanstack Query**: A powerful data synchronization library for React.
+6. **trpc**: A framework for building typesafe APIs, utilizing Zod for input validation, simplifying the API layer.
+7. **Prisma**: An open-source database toolkit, making database access easy and type-safe.
+8. **Clerk**: A platform for secure and easy user authentication and management.
+9. **AWS RDS**: Amazon's relational database service, ensuring scalable and reliable database storage.
+10. **Puppeteer**: A Node library for controlling headless Chrome, used for efficient web scraping.
+11. **Cypress**: An end-to-end testing framework, ensuring the reliability of the application.
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+## Features
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+AsyncHired offers a range of features designed to streamline the tech job search process:
 
-## How do I deploy this?
+- **Advanced Filtering**: Users can refine job searches by various criteria such as role, description, date posted, company, salary, and location.
+- **Personalization**: The application allows users to save searches, like or dislike job listings, and apply to jobs directly. Users can also customize their profiles to enhance job recommendations and alerts.
+- **Job Data Aggregation**: By using Puppeteer for web scraping, the app collates job listings from multiple websites, providing a comprehensive view of the job market.
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+## Getting Started
+
+To get started with AsyncHired, clone the repository and follow the setup instructions in the documentation. Ensure you have the necessary dependencies installed and configure your environment according to the provided guidelines.
+
+## Contribution
+
+Contributions to AsyncHired are welcome. Please read the contribution guidelines to understand the process for submitting pull requests.
+
+## License
+
+AsyncHired is licensed under MIT, which allows for collaboration and sharing under the specified terms.
