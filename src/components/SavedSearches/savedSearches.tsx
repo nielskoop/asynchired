@@ -223,7 +223,7 @@ const SavedSearches: React.FC = () => {
               ) : (
                 <h1 className="text-xl">{selectedSearch.name}</h1>
               )}
-              <div className="flex w-fit flex-col items-end justify-center">
+              <div className="flex w-fit flex-col items-end justify-center min-w-max">
                 <button onClick={isEditMode ? saveSearch : editSearch}>
                   <Image
                     src={editButtonIcon}
@@ -279,7 +279,7 @@ const SavedSearches: React.FC = () => {
               </div>
             </div>
           </div>
-          <div className="flex min-w-full max-w-full grow items-center justify-center rounded-bl-lg rounded-br-lg rounded-br-lg bg-black p-4 text-black lg:rounded-tr-lg lg:min-w-[400px]">
+          <div className="flex min-w-full max-w-full grow items-center justify-center rounded-bl-lg rounded-br-lg md:rounded-bl-none bg-black p-4 text-black lg:rounded-tr-lg lg:min-w-[400px]">
             <SavedSearchCountCircle />
           </div>
         </div>
