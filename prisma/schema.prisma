@@ -7,7 +7,7 @@ generator client {
 
 datasource db {
     provider = "postgres"
-    url      = env("DATABASE_URL")
+    url      = env("TEST_DATABASE_URL")
 }
 
 model Post {
@@ -18,10 +18,11 @@ model Post {
     company     String
     jobDescription  String
     salary      String?
+    minSalary   Int?
     datePosted  DateTime?
     logo        String?
-    url         String
-    jobId      String    @unique
+    url         String  
+    jobId      String  @unique
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
 }

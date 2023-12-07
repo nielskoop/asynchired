@@ -133,6 +133,7 @@ export const postRouter = createTRPCRouter({
         role: z.string().optional(),
         company: z.string().optional(),
         salary: z.string().nullable().optional(),
+        minSalary: z.number().optional(),
         description: z.string().optional(),
         datePosted: z.date().optional(),
       }),
@@ -169,6 +170,10 @@ export const postRouter = createTRPCRouter({
             : input.salary === "NO_SALARY"
               ? { salary: { equals: null } } // Checking for null (which includes undefined)
               : {}),
+          minSalary: {
+            gte: input.minSalary,
+          },
+
           jobDescription: {
             contains: input.description,
             mode: "insensitive",
