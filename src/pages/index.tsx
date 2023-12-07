@@ -4,6 +4,7 @@ import { useState } from "react";
 import { CompanyInputBox } from "~/components/Inputs/CompanyInputBox";
 import { LocationInputBox } from "~/components/Inputs/LocationInputBox";
 import { RoleInputBox } from "~/components/Inputs/RoleInputBox";
+import { MinSalaryInputBox } from "~/components/Inputs/minSalaryInputBox";
 import JobList from "~/components/jobLists/JobList";
 import { NavBar } from "~/components/NavBar";
 import { useFilter } from "~/context/FilterContext";
@@ -86,9 +87,12 @@ export default function Home() {
               </form>
             </div>
 
-            <div className="flex w-full flex-col items-end justify-between px-4 md:flex-row">
-              <div className="flex justify-center">
+            <div className="flex w-full flex-col items-end gap-8 px-4 md:flex-row">
+              <div className="flex justify-center ">
                 <DateInputBox />
+              </div>
+              <div className="flex justify-center">
+                <MinSalaryInputBox />
               </div>
             </div>
           </div>
