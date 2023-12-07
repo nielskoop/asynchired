@@ -24,23 +24,26 @@ export function DateInputBox() {
   const [selectedDate, setSelectedDate] = useState<DateOptionKey | undefined>(
     undefined,
   );
+  const [key, setKey] = useState(0); // Additional state to force re-render
 
   const handleDateChange = (value: DateOptionKey) => {
     if (selectedDate === value) {
       setSelectedDate(undefined);
-      setDateFilter(undefined); // Clear the date filter
+      setDateFilter(undefined);
+      setKey((prevKey) => prevKey + 1); // Increment key to force re-render
     } else {
       setSelectedDate(value);
       setDateFilter(dates[value]);
     }
   };
-
   const handleOptionClick = (value: DateOptionKey) => () => {
     handleDateChange(value);
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col" key={key}>
+      {" "}
+      {/* Use key here */}
       <RadioGroup value={selectedDate} onChange={handleDateChange}>
         <div className="flex gap-4 space-y-4">
           <RadioGroup.Label className="sr-only">Date Filter</RadioGroup.Label>
