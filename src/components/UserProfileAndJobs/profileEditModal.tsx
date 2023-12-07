@@ -26,17 +26,18 @@ export const ProfileEditModal: React.FC = () => {
 
   if (!userId) return <> please log in</>;
   if (isLoading) return <LoadingPage />;
-
+  if (!profileData) return <>No data</> ;
+  
   profileDetails.userId === ""
-    ? setProfileDetails({ ...profileData!, userId: userId })
+    ? setProfileDetails({ ...profileData, userId: userId })
     : null;
 
   const handleClose = () => {
     setProfileDetails({
-      job: profileData!.job,
-      location: profileData!.location,
-      education: profileData!.education,
-      techStack: profileData!.techStack,
+      job: profileData.job,
+      location: profileData.location,
+      education: profileData.education,
+      techStack: profileData.techStack,
       userId,
     });
     setEditMode({
