@@ -8,27 +8,26 @@ interface ProfileDetails {
     location: string;
     userId: string;
   }
-  
+
   interface ProfileContextType {
     profileDetails: ProfileDetails;
     setProfileDetails: Dispatch<SetStateAction<ProfileDetails>>;
   }
-  
+
   // Create the context with an initial dummy value
   const ProfileContext = createContext<ProfileContextType>({
     profileDetails: { job: '', education: '', techStack: '', location: '', userId: '' },
     setProfileDetails: (value: SetStateAction<ProfileDetails>) => {
-      console.log(value);
     },
   });
 
   export const useProfile = () => {
     const context = useContext(ProfileContext);
-  
+
     if (!context) {
       throw new Error('useProfile must be used within a ProfileProvider');
     }
-  
+
     return context;
   };
 

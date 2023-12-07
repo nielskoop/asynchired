@@ -12,11 +12,9 @@ interface ButtonContextType {
 const ButtonContext = createContext<ButtonContextType>({
   selectedList: "liked",
   setSelectedList: (value: SetStateAction<ButtonContextType['selectedList']>) => {
-    console.log(value);
   },
   scroll: false,
   setScroll: (value: SetStateAction<ButtonContextType['scroll']>) => {
-    console.log(value);
   },
 });
 
