@@ -98,7 +98,7 @@ export const ProfileEditModal: React.FC = () => {
         open={isOpen}
         onClose={handleClose}
         className={
-          "min-w-full fixed left-1/2 top-1/2 max-h-screen z-30 max-w-lg -translate-x-1/2 -translate-y-1/2 rounded-lg border-2 border-solid border-blue-500 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 text-white shadow-2xl md:max-h-[85%] xl:min-w-fit"
+          "min-w-full fixed left-1/2 top-1/2 max-h-screen z-30 max-w-lg -translate-x-1/2 -translate-y-1/2 rounded-lg border-2 border-solid border-blue-500 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 text-white shadow-2xl md:max-h-[85%] md:min-w-fit"
         }
       >
         <Dialog.Panel>
