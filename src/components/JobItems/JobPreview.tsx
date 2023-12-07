@@ -11,7 +11,7 @@ export function JobPreview(post: Post) {
       <div className="mb-2">
         <span className="font-bold">{post.title}</span>
         {post.datePosted && (
-          <span className="ml-2 text-xs font-light text-slate-500">
+          <span className="ml-2 whitespace-nowrap text-xs font-light text-slate-500">
             {dayjs(post.datePosted).fromNow()}
           </span>
         )}
