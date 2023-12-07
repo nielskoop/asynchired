@@ -1,4 +1,4 @@
-name: Tests for production
+name: Production Ready Tests
 
 on:
   push:
@@ -39,5 +39,9 @@ jobs:
       - name: Linting
         run: npm run lint
 
-      - name: Building
-        run: npm run build
+      - name: Cypress Tests
+        uses: cypress-io/github-action@v6
+        with:
+          build: npm run build
+          start: npm start
+          browser: chrome

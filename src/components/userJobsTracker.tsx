@@ -9,11 +9,11 @@ export const UserJobsTracker: React.FC = () => {
 
   const buttonClass =
     "flex transform items-center rounded-md border border-blue-700 bg-blue-500 px-4 py-1 font-semibold text-white transition duration-300 ease-in-out";
-  const activeButtonClass = "bg-blue-700 scale-105"; // Additional styles for the active button
+  const activeButtonClass = "bg-blue-700 scale-105";
 
   return (
     <>
-      <div className="relative mb-8 flex h-[400px] w-[550px] flex-col rounded-lg border-2 border-solid border-[#1A78E6] shadow-lg">
+      <div className="relative mb-8 flex h-[400px] flex-col rounded-lg border-2 border-solid border-[#1A78E6] shadow-lg sm:w-[550px]">
         <ul className="border-b-solid flex flex-row justify-evenly border-b-2 border-[#1A78E6] py-2 pt-2 text-lg">
           <li>
             <button
@@ -22,7 +22,7 @@ export const UserJobsTracker: React.FC = () => {
               }`}
               onClick={() => setSelectedList("applied")}
             >
-              <span className="mr-2">📄</span> Applied
+              <span className="mr-2 hidden sm:inline">📄</span> Applied
             </button>
           </li>
           <li>
@@ -32,7 +32,7 @@ export const UserJobsTracker: React.FC = () => {
               }`}
               onClick={() => setSelectedList("liked")}
             >
-              <span className="mr-2">❤️</span> Liked
+              <span className="mr-2 hidden sm:inline">❤️</span> Liked
             </button>
           </li>
           <li>
@@ -42,7 +42,7 @@ export const UserJobsTracker: React.FC = () => {
               }`}
               onClick={() => setSelectedList("disliked")}
             >
-              <span className="mr-2">👎</span> Disliked
+              <span className="mr-2 hidden sm:inline">👎</span> Disliked
             </button>
           </li>
         </ul>

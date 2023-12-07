@@ -11,7 +11,7 @@ export const UserInfo = () => {
 
   return (
     <>
-      <div className="relative mx-8 mb-8 flex min-h-[400px] min-w-[400px] flex-col items-center rounded-lg border-2 border-solid border-[#1A78E6] px-8 shadow-lg">
+      <div className="w-full md:mr-10 relative mb-8 flex min-h-[400px] min-w-[350px] sm:min-w-[400px] max-w-[400px] flex-col items-center rounded-lg border-2 border-solid border-[#1A78E6] px-8 shadow-lg">
         <Image
           src={user!.imageUrl}
           alt={`Profile picture`}
@@ -19,30 +19,25 @@ export const UserInfo = () => {
           height={128}
           className="left-50% absolute top-[-16.5%] rounded-full border-2 border-solid border-[#1A78E6]"
         />
-        <h1 className="mt-[30%] pb-4 text-2xl font-bold">{user?.fullName}</h1>
-        <ul className="pb-4">
-          <li>
-            <TagIcon className="gap-2" text={profileDetails.job} type="company" />
-          </li>
-          <li>
-            <TagIcon className="gap-2" text={profileDetails.location} type="location" />
-          </li>
-          <li>
-            <TagIcon
-              className="gap-2"
-              text={profileDetails.techStack}
-              type="tech"
-            />
-          </li>
-          <li>
-            <TagIcon
-              className="gap-2"
-              text={profileDetails.education}
-              type="education"
-            />
-          </li>
-        </ul>
-        <EditProfileButton />
+        <div className="mt-20 text-center">
+    <h1 className="text-3xl font-bold mb-12">{user?.fullName}</h1>
+
+    <ul className="mb-8">
+      <li className="mb-4">
+        <TagIcon className="inline-block gap-2" text={profileDetails.job} type="company" />
+      </li>
+      <li className="mb-4">
+        <TagIcon className="inline-block gap-2" text={profileDetails.location} type="location" />
+      </li>
+      <li className="mb-4">
+        <TagIcon className="inline-block gap-2" text={profileDetails.techStack} type="tech" />
+      </li>
+      <li className="mb-4">
+        <TagIcon className="inline-block gap-2" text={profileDetails.education} type="education" />
+      </li>
+    </ul>
+    </div>
+    <EditProfileButton />
       </div>
     </>
   );

@@ -1,6 +1,5 @@
-//src\components\Inputs\CompanyInputBox.tsx
 import { Combobox, Transition } from "@headlessui/react";
-import { useState, Fragment } from "react";
+import { useState, Fragment, useEffect } from "react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { api } from "~/utils/api";
 import { useFilter } from "~/context/FilterContext";
@@ -14,10 +13,23 @@ type Company = {
 
 export function CompanyInputBox() {
   const [query, setQuery] = useState("");
-  const [inputValue, setInputValue] = useState("");
   const { data: companies, isLoading } = api.post.getAllCompanies.useQuery("");
-  const { setCompanyFilter } = useFilter();
+  const {
+    setCompanyFilter,
+    selectedSearch,
+    companyFilter,
+    companyInputValue,
+    setCompanyInputValue,
+  } = useFilter();
   const [selectedCompany, setSelectedCompany] = useState<Company | undefined>();
+
+  useEffect(() => {
+    if (companyFilter !== "") {
+      setSelectedCompany({ id: selectedSearch.id, company: selectedSearch.company! });
+      setCompanyFilter(selectedSearch.company!);
+      setCompanyInputValue(selectedSearch.company!);
+    }
+  }, [selectedSearch]);
 
   const filteredcompanies =
     query === ""
@@ -33,18 +45,18 @@ export function CompanyInputBox() {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
     setQuery(newValue);
-    setInputValue(newValue);
+    setCompanyInputValue(newValue);
   };
 
   const handleCompanyChange = (company: Company) => {
     setSelectedCompany(company);
     setCompanyFilter(company.company);
-    setInputValue(company.company);
+    setCompanyInputValue(company.company);
   };
 
   const clearInput = () => {
     setQuery("");
-    setInputValue("");
+    setCompanyInputValue("");
     setSelectedCompany(undefined);
     setCompanyFilter("");
   };
@@ -56,7 +68,7 @@ export function CompanyInputBox() {
           <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
             <Combobox.Input
               className="w-full border-none py-2 pl-3 pr-12 text-sm leading-5 text-gray-900 focus:ring-0"
-              value={inputValue}
+              value={companyInputValue}
               onChange={handleInputChange}
               onKeyDown={(event) => {
                 if (event.key === "Enter" && query === "") {
@@ -70,7 +82,7 @@ export function CompanyInputBox() {
             {/* Icons container */}
             <div className="absolute inset-y-0 right-0 flex items-center">
               {/* Clear input button */}
-              {inputValue && (
+              {companyInputValue && (
                 <button
                   onClick={clearInput}
                   className="inline-flex items-center justify-center"

@@ -21,7 +21,7 @@ export const userRouter = createTRPCRouter({
 
       return user;
     }),
-  
+
  updateProfile: privateProcedure
   .input(z.object({ job: z.string(), location: z.string(), techStack: z.string(), education: z.string(), userId: z.string() }))
   .mutation(async ({ ctx, input }) => {
@@ -56,7 +56,7 @@ export const userRouter = createTRPCRouter({
     });
     return user;
   }),
-  
+
   // LIKES
   getLikes: privateProcedure.input(z.string()).query(async ({ ctx, input }) => {
     const userLikes = await ctx.db.user?.findUnique({
@@ -95,6 +95,7 @@ export const userRouter = createTRPCRouter({
         return updateUser;
       }
     }),
+  
   unLike: privateProcedure
     .input(z.object({ postId: z.number(), userId: z.string() }))
     .mutation(async ({ ctx, input }) => {
