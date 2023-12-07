@@ -75,18 +75,18 @@ export function TagWidget() {
     selectedTags[category] === tag;
 
   return (
-    <div className="min-w-full bg-slate-200 px-2 pt-4">
-      <div className="flex  overflow-x-auto pb-2">
+    <div className="min-w-full bg-slate-200 pt-4">
+      <div className="flex overflow-x-auto pb-2">
         {/* Category: Role */}
         <div
-          className=" flex flex-col items-start "
+          className="ml-3 flex flex-col items-start md:ml-6"
           style={{
             borderRight: "1px solid #ccc",
             paddingRight: "1rem",
             marginRight: "1rem",
           }}
         >
-          <p className="font-sm mb-1 text-sm">Role:</p>
+          <p className="font-sm mb-1 text-sm font-bold">Role:</p>
           <div className="border-r-solid border-blue flex gap-2">
             {roleTags.map((tag) => (
               <button
@@ -113,7 +113,7 @@ export function TagWidget() {
             marginRight: "1rem",
           }}
         >
-          <p className="font-sm mb-1 text-sm">Salary:</p>
+          <p className="font-sm mb-1 text-sm font-bold">Salary:</p>
           <div className="flex gap-2">
             {salaryTags.map((tag) => (
               <button
@@ -140,7 +140,7 @@ export function TagWidget() {
             marginRight: "1rem",
           }}
         >
-          <p className="font-sm mb-1 text-sm">Location:</p>
+          <p className="font-sm mb-1 text-sm font-bold">Location:</p>
           <div className="flex gap-2">
             {locationTags.map((tag) => (
               <button
@@ -160,7 +160,7 @@ export function TagWidget() {
 
         {/* Category: Description */}
         <div className="flex flex-col items-start">
-          <p className="font-sm mb-1 text-sm">Description:</p>
+          <p className="font-sm mb-1 text-sm font-bold">Description:</p>
           <div className="flex gap-2">
             {descriptionTags.map((tag) => (
               <button

@@ -22,9 +22,7 @@ export default function Home() {
   const [isOpen, setIsOpen] = useModal("saveSearchName");
 
   const mutation = api.search.saveSearch.useMutation();
-  const {
-    refetch,
-  } = api.search.getSearches.useQuery();
+  const { refetch } = api.search.getSearches.useQuery();
 
   const handleSaveSearch = (e: React.MouseEvent, searchName: string) => {
     e.preventDefault();
@@ -57,7 +55,6 @@ export default function Home() {
             refetch().catch((error) => {
               console.error("Failed to refetch: ", error);
             });
-;
           },
         },
       );
@@ -72,8 +69,8 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="pb-6">
-        <div className="flex h-[30rem] w-full flex-col md:h-[450px]">
-          <div className="absolute -z-10 h-[30rem] w-full md:h-[450px]">
+        <div className="flex h-[34rem] w-full flex-col bg-black bg-opacity-50 md:h-[500px] md:bg-transparent">
+          <div className="absolute -z-10 h-[34rem] w-full md:h-[500px]">
             <Image
               src={"/hero-bg-2.png"}
               layout="fill"
@@ -83,29 +80,29 @@ export default function Home() {
             />
           </div>
           <NavBar />
-          <div className="relative left-1/2 top-[40%] mr-2 max-w-fit -translate-x-2/4 -translate-y-2/4 rounded-lg bg-gray-600 bg-opacity-70 px-2 pb-4 pt-1 md:top-1/3 md:px-4">
+          <div className="relative left-1/2 top-[40%] mr-2 max-w-fit -translate-x-2/4 -translate-y-2/4 rounded-lg md:bg-black md:bg-opacity-70 md:px-4 md:py-10">
             <h1 className="mb-4 text-center text-2xl text-white md:text-4xl">
               All the dev jobs,
               <span className="font-semibold"> one place</span>
             </h1>
-              {userId &&
-            <div className="mb-4 flex w-full items-center justify-center px-4 text-center text-white md:text-left">
-              <SaveSearchSelect />
-              <button
-                type="button"
-                className="ml-2 w-max rounded-md bg-[#1A78E6] p-1 font-semibold text-white  hover:bg-blue-600"
-                onClick={() => setIsOpen(!isOpen)}
-              >
-                <Image
-                  src={"save.svg"}
-                  height={34}
-                  width={34}
-                  alt="save search button"
-                />
-              </button>
-              <SaveSearcNameModal handleSaveSearch={handleSaveSearch} />
-            </div>
-              }
+            {userId && (
+              <div className="mb-4 flex w-full items-center justify-center px-4 text-center text-white md:text-left">
+                <SaveSearchSelect />
+                <button
+                  type="button"
+                  className="ml-2 w-max rounded-md bg-[#1A78E6] p-1 font-semibold text-white  hover:bg-blue-600"
+                  onClick={() => setIsOpen(!isOpen)}
+                >
+                  <Image
+                    src={"save.svg"}
+                    height={34}
+                    width={34}
+                    alt="save search button"
+                  />
+                </button>
+                <SaveSearcNameModal handleSaveSearch={handleSaveSearch} />
+              </div>
+            )}
             <div className="flex w-full justify-center px-4">
               <form className="flex flex-col items-center justify-center md:flex-row md:gap-4">
                 <div className="mb-4 flex flex-col gap-2 md:mb-0 md:flex-row">
@@ -136,7 +133,6 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div></div>
 
         <div className="flex">
           <div
