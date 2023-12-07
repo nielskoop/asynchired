@@ -6,16 +6,23 @@ import { UserInfo } from "~/components/UserProfileAndJobs/userInfo";
 import { UserJobsTracker } from "~/components/UserProfileAndJobs/userJobsTracker";
 import { LoadingPage } from "~/components/LoadingAndSkeletonsAndOverlays/Loading";
 import SavedSearches from "~/components/SavedSearches/savedSearches";
-
+import { useEffect } from "react";
 
 const ProfilePage: NextPage = () => {
   const { user } = useUser();
-
+  const { setScroll, scroll } = useButton();
 
   if (!user) {
     return <LoadingPage/>;
   }
-
+  
+  useEffect(() => {
+    if (scroll) {
+      window.scrollTo(0, document.body.scrollHeight);
+      setScroll(false);
+    }
+  }, [scroll]);
+  
   return (
     <>
       <Head>
