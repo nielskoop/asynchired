@@ -7,13 +7,13 @@ import { MinSalaryInputBox } from "~/components/Inputs/minSalaryInputBox";
 import JobList from "~/components/jobLists/JobList";
 import { NavBar } from "~/components/NavBar";
 import { useFilter } from "~/context/FilterContext";
-import ScrollToTopButton from "~/components/scrollToTopButton";
+import ScrollToTopButton from "~/components/Buttons/scrollToTopButton";
 import { useAuth } from "@clerk/nextjs";
 import { api } from "~/utils/api";
 import { DateInputBox } from "~/components/Inputs/DateInputBox";
 import { TagWidget } from "~/components/Inputs/Tags/Tags";
 import { useModal } from "~/context/modalContext";
-import { SaveSearcNameModal } from "~/components/saveSearchNameModal";
+import { SaveSearcNameModal } from "~/components/SavedSearches/saveSearchNameModal";
 import toast from "react-hot-toast";
 import { SaveSearchSelect } from "~/components/Inputs/SaveSearchSelect";
 

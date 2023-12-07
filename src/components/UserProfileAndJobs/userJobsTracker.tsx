@@ -1,7 +1,7 @@
 import React from "react";
-import LikedJobsList from "./jobLists/LikedJobsList";
-import DislikedJobsList from "./jobLists/DislikedJobsList";
-import AppliedJobsList from "./jobLists/AppliedJobsList";
+import LikedJobsList from "../jobLists/LikedJobsList";
+import DislikedJobsList from "../jobLists/DislikedJobsList";
+import AppliedJobsList from "../jobLists/AppliedJobsList";
 import { useButton } from "~/context/buttonContext";
 
 export const UserJobsTracker: React.FC = () => {

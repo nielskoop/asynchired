@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { useUser } from "@clerk/nextjs";
-import { TagIcon } from "./TagIcon";
-import { EditProfileButton } from "./editProfileButton";
+import { TagIcon } from "../TagIcon";
+import { EditProfileButton } from "../Buttons/editProfileButton";
 import { useProfile } from "~/context/profileContext";
 
 export const UserInfo = () => {
@@ -11,7 +11,7 @@ export const UserInfo = () => {
 
   return (
     <>
-      <div className="w-full md:mr-10 relative mb-8 flex min-h-[400px] min-w-[350px] sm:min-w-[400px] max-w-[400px] flex-col items-center rounded-lg border-2 border-solid border-[#1A78E6] px-8 shadow-lg">
+      <div className="w-full md:mr-10 relative mb-8 flex h-[400px] min-w-[350px] sm:min-w-[400px] max-w-[400px] flex-col items-center rounded-lg border-2 border-solid border-[#1A78E6] px-8 shadow-lg">
         <Image
           src={user!.imageUrl}
           alt={`Profile picture`}
@@ -19,7 +19,7 @@ export const UserInfo = () => {
           height={128}
           className="left-50% absolute top-[-16.5%] rounded-full border-2 border-solid border-[#1A78E6]"
         />
-        <div className="mt-20 text-center">
+        <div className="mt-16 text-center">
     <h1 className="text-3xl font-bold mb-12">{user?.fullName}</h1>
 
     <ul className="mb-8">

@@ -10,6 +10,9 @@ export default {
       fontFamily: {
         sans: ["var(--font-inter)"],
       },
+      animation: {
+        popIn: 'popIn 1s ease-out',
+      }
     },
   },
   plugins: [],

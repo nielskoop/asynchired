@@ -1,7 +1,7 @@
 //src\components\jobLists\JobList.tsx
 import React, { Fragment, useEffect, useRef } from "react";
 import { api } from "~/utils/api";
-import { JobListSkeleton } from "../jobListSkeleton";
+import { JobListSkeleton } from "../LoadingAndSkeletonsAndOverlays/jobListSkeleton";
 import { useFilter } from "~/context/FilterContext";
 import { JobListing } from "../JobItems/JobListing";
 import { useIntersection } from "@mantine/hooks";
