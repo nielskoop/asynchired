@@ -21,7 +21,7 @@ export function JobListing(post: Post) {
   return (
     <div className="flex justify-between border-b border-slate-300  p-3 shadow-md sm:mt-3 sm:rounded-2xl sm:border-x sm:border-t">
       <div className="flex gap-4">
-        {post.logo && screenSize && screenSize > 1200 && (
+        {post.logo && screenSize && screenSize > 1200 && currentUrl === "/" && (
           <div>
             <img
               src={post.logo}

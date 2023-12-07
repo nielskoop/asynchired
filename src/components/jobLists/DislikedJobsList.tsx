@@ -24,7 +24,7 @@ export default function DislikedJobsList() {
   return (
     <>
       {data.map((post) => (
-        <div className="sm:mx-auto sm:w-4/5" key={post.id}>
+        <div className="mx-auto mb-2 px-2 pt-4 md:px-8 md:pt-0" key={post.id}>
           <JobListing {...post} />
         </div>
       ))}
