@@ -23,11 +23,11 @@ const SavedSearches: React.FC = () => {
     id: -1,
     userId: userId!,
     name: "Select a saved search",
-    title: "...",
-    location: "...",
-    company: "...",
-    jobDescription: "...",
-    salary: "...",
+    title: "",
+    location: "",
+    company: "",
+    jobDescription: "",
+    salary: "",
     createdAt: new Date(),
     updatedAt: new Date(),
   };
@@ -64,6 +64,16 @@ const SavedSearches: React.FC = () => {
     refetch,
   } = api.search.getSearches.useQuery();
 
+  const queryParameters = {
+    location: selectedSearch.location ?? undefined,
+    role: selectedSearch.title ?? undefined,
+    company: selectedSearch.company ?? undefined,
+  };
+
+  const {
+    data: postsCount,
+  } = api.post.getFilteredPostsCount.useQuery(queryParameters);
+
   const { mutate: deleteSearch } = api.search.deleteSearch.useMutation();
   const { mutate: updateSearch } = api.search.updateSearch.useMutation();
 
@@ -89,6 +99,7 @@ const SavedSearches: React.FC = () => {
     }
     setSelectedSearch(search);
   }
+
   function delSearch(selectedSearch: Search) {
     if (selectedSearch?.id) {
       deleteSearch(selectedSearch.id, {
@@ -124,7 +135,17 @@ const SavedSearches: React.FC = () => {
   }
 
   function editSearch() {
-    setIsEditMode(!isEditMode);
+    if (selectedSearch.id === -1) {
+      toast.error("Select a search to start editing", {
+        style: {
+          borderRadius: "10px",
+          background: "#E61A1A",
+          color: "#fff",
+        },
+      });
+    } else {
+      setIsEditMode(!isEditMode);
+    }
   }
 
   function saveSearch() {
@@ -180,109 +201,116 @@ const SavedSearches: React.FC = () => {
   }
 
   return (
-    <div className="bg-[#1A78E6]shadow-lg relative mb-60 flex min-h-[400px] flex-col justify-start rounded-lg border-2 border-solid border-[#1A78E6] bg-[#1A78E6] shadow-lg sm:flex-row md:mx-4 lg:min-w-full lg:max-w-prose">
-      {screenSize! < 640 ? (
-        <div className="mt-2 flex items-center justify-center">
-          <SaveSearchSelect handleSelectSearch={handleSelectSearch} />
-        </div>
-      ) : (
-        <div className=" min-w-fit overflow-y-auto rounded-lg bg-white p-4 sm:rounded-md">
-          <ul className="max-w mb-4 flex flex-col items-start justify-start text-lg sm:mx-auto">
-            {userSearches.map((search) => (
-              <li className="flex w-full flex-row items-center justify-between border-b border-slate-300 shadow-sm">
+    <>
+      <div className="relative mb-40 flex min-h-[400px] min-w-full sm:min-w-max flex-col justify-start rounded-lg border-2 border-solid border-[#1A78E6] bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 shadow-lg  sm:flex-row md:mx-4 lg:min-w-full lg:max-w-prose">
+        {screenSize! < 640 ? (
+          <div className="mt-2 flex items-center justify-center">
+            <SaveSearchSelect handleSelectSearch={handleSelectSearch} />
+          </div>
+        ) : (
+          <div className=" min-w-fit overflow-y-auto rounded-lg bg-white p-4 sm:rounded-md">
+            <ul className="max-w mb-4 flex flex-col items-start justify-start text-lg sm:mx-auto">
+              {userSearches.map((search) => (
+                <li className="flex w-full flex-row items-center justify-between border-b border-slate-300 shadow-sm">
+                  <button
+                    className="mr-4 cursor-pointer text-start"
+                    onClick={() => {
+                      handleSelectSearch(search);
+                    }}
+                  >
+                    <p className="max-w-[200px] md:max-w-[250px]">
+                    {search.name}
+                    </p>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+        <div className="flex justify-center flex-row flex-wrap pb-4 lg:w-full lg:flex-nowrap lg:pb-0">
+          <div
+            id="filters"
+            className="flex grow max-w-full flex-col justify-center p-4 font-bold text-white lg:max-w-[275px]"
+          >
+            <div
+              id="searchName"
+              className="flex grow flex-row items-center justify-between border-b text-center"
+            >
+              {isEditMode ? (
+                <input
+                  type="text"
+                  value={editableName}
+                  onChange={(e) => setEditableName(e.target.value)}
+                  className="w-fit rounded-lg px-3 py-1 pr-2 text-xl text-black shadow-md lg:max-w-[85%]"
+                />
+              ) : (
+                <h1 className="text-xl sm:max-w-[200px]">{selectedSearch.name}</h1>
+              )}
+              <div className="flex w-fit min-w-max flex-col items-end justify-center">
+                <button onClick={isEditMode ? saveSearch : editSearch}>
+                  <Image
+                    src={editButtonIcon}
+                    alt={isEditMode ? "Save" : "Edit"}
+                    height={20}
+                    width={20}
+                    className="m-1"
+                  />
+                </button>
                 <button
-                  className="mr-4 cursor-pointer text-start"
                   onClick={() => {
-                    handleSelectSearch(search);
+                    delSearch(selectedSearch);
                   }}
                 >
-                  {search.name}
+                  <Image
+                    src={"/002-remove white.svg"}
+                    alt="Edit"
+                    height={20}
+                    width={20}
+                    className="m-1"
+                  />
                 </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-      <div className="flex w-max flex-row flex-wrap justify-center lg:w-full lg:flex-nowrap">
-        <div
-          id="filters"
-          className="flex grow flex-col justify-center bg-[#1A78E6] p-4 font-bold text-white"
-        >
-          <div
-            id="searchName"
-            className="flex grow flex-row items-center justify-between border-b text-center"
-          >
-            {isEditMode ? (
-              <input
-                type="text"
-                value={editableName}
-                onChange={(e) => setEditableName(e.target.value)}
-                className="w-fit rounded-lg px-3 py-1 pr-2 text-xl text-black shadow-md"
-              />
-            ) : (
-              <h1 className="text-xl">{selectedSearch.name}</h1>
-            )}
-            <div className="flex w-fit min-w-max flex-col items-end justify-center">
-              <button onClick={isEditMode ? saveSearch : editSearch}>
-                <Image
-                  src={editButtonIcon}
-                  alt={isEditMode ? "Save" : "Edit"}
-                  height={20}
-                  width={20}
-                  className="m-1"
-                />
-              </button>
-              <button
-                onClick={() => {
-                  delSearch(selectedSearch);
-                }}
-              >
-                <Image
-                  src={"/002-remove white.svg"}
-                  alt="Edit"
-                  height={20}
-                  width={20}
-                  className="m-1"
-                />
-              </button>
-            </div>
-          </div>
-          <div id="filtersFields" className="my-4 flex h-[80%] grow flex-col">
-            <div className="flex grow flex-col">
-              <span className="">I'm looking for</span>
-              <div className={isInputDisabled ? "hidden" : ""}>
-                <RoleInputBox />
-              </div>
-              <div className={isInputDisabled ? "" : "hidden"}>
-                <SaveSearchInputDisabled data={selectedSearch.title} />
               </div>
             </div>
+            <div id="filtersFields" className="my-4 flex h-[80%] grow flex-col">
+              <div className="flex grow flex-col">
+                <span className="">I'm looking for</span>
+                <div className={isInputDisabled ? "hidden" : ""}>
+                  <RoleInputBox />
+                </div>
+                <div className={isInputDisabled ? "" : "hidden"}>
+                  <SaveSearchInputDisabled data={selectedSearch.title} />
+                </div>
+              </div>
 
-            <div className="flex grow flex-col">
-              <span className="">In</span>
-              <div className={isInputDisabled ? "hidden" : ""}>
-                <LocationInputBox />
+              <div className="flex grow flex-col">
+                <span className="">In</span>
+                <div className={isInputDisabled ? "hidden" : ""}>
+                  <LocationInputBox />
+                </div>
+                <div className={isInputDisabled ? "" : "hidden"}>
+                  <SaveSearchInputDisabled data={selectedSearch.location} />
+                </div>
               </div>
-              <div className={isInputDisabled ? "" : "hidden"}>
-                <SaveSearchInputDisabled data={selectedSearch.location} />
-              </div>
-            </div>
-            <div className="flex grow flex-col">
-              <span className="">At</span>
-              <div className={isInputDisabled ? "hidden" : ""}>
-                <CompanyInputBox />
-              </div>
-              <div className={isInputDisabled ? "" : "hidden"}>
-                <SaveSearchInputDisabled data={selectedSearch.company} />
+              <div className="flex grow flex-col">
+                <span className="">At</span>
+                <div className={isInputDisabled ? "hidden" : ""}>
+                  <CompanyInputBox />
+                </div>
+                <div className={isInputDisabled ? "" : "hidden"}>
+                  <SaveSearchInputDisabled data={selectedSearch.company} />
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div className="flex min-w-full max-w-full grow items-center justify-center rounded-bl-lg rounded-br-lg bg-black p-4 text-black md:rounded-bl-none lg:min-w-[400px] lg:rounded-tr-lg">
-          <SavedSearchCountCircle />
+          <div className="flex min-w-full max-w-full grow items-center justify-center rounded-bl-lg rounded-br-lg text-black md:rounded-bl-none lg:min-w-[400px] lg:rounded-tr-lg">
+            <SavedSearchCountCircle
+              postsCount={postsCount}
+              key={selectedSearch.id}
+            />
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 export default SavedSearches;

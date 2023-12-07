@@ -193,4 +193,34 @@ export const postRouter = createTRPCRouter({
 
       return { posts, nextCursor };
     }),
+
+  getFilteredPostsCount: publicProcedure
+    .input(
+      z.object({
+        location: z.string().optional(),
+        role: z.string().optional(),
+        company: z.string().optional(),
+      }),
+    )
+    .query(async ({ input, ctx }) => {
+      const posts = await ctx.db.post.findMany({
+        where: {
+          location: {
+            contains: input.location,
+            mode: "insensitive",
+          },
+          title: {
+            contains: input.role,
+            mode: "insensitive",
+          },
+          company: {
+            contains: input.company,
+            mode: "insensitive",
+          },
+        },
+      });
+
+      const count = posts.length
+      return count;
+    }),
 });
