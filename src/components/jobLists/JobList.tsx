@@ -1,3 +1,4 @@
+//src\components\jobLists\JobList.tsx
 import React, { Fragment, useEffect, useRef } from "react";
 import { api } from "~/utils/api";
 import { JobListSkeleton } from "../LoadingAndSkeletonsAndOverlays/jobListSkeleton";
@@ -11,6 +12,7 @@ export default function JobList() {
     roleFilter,
     companyFilter,
     salaryFilter,
+    minSalaryFilter,
     descriptionFilter,
     dateFilter,
   } = useFilter();
@@ -20,6 +22,7 @@ export default function JobList() {
     role: roleFilter,
     company: companyFilter,
     salary: salaryFilter,
+    minSalary: minSalaryFilter,
     description: descriptionFilter,
     datePosted: dateFilter,
   };

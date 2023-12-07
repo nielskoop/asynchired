@@ -12,6 +12,8 @@ interface FilterContextType {
   setCompanyFilter: React.Dispatch<React.SetStateAction<string>>;
   salaryFilter: string | undefined;
   setSalaryFilter: React.Dispatch<React.SetStateAction<string | undefined>>;
+  minSalaryFilter: number | undefined;
+  setMinSalaryFilter: React.Dispatch<React.SetStateAction<number | undefined>>;
   descriptionFilter: string;
   setDescriptionFilter: React.Dispatch<React.SetStateAction<string>>;
   dateFilter: Date | undefined;
@@ -38,6 +40,8 @@ const FilterContext = createContext<FilterContextType>({
   setCompanyFilter: () => {},
   salaryFilter: "",
   setSalaryFilter: () => {},
+  minSalaryFilter: undefined,
+  setMinSalaryFilter: () => {},
   descriptionFilter: "",
   setDescriptionFilter: () => {},
   dateFilter: undefined,
@@ -77,6 +81,9 @@ export const FilterProvider: React.FC<FilterProviderProps> = ({ children }) => {
   const [roleFilter, setRoleFilter] = useState("");
   const [companyFilter, setCompanyFilter] = useState("");
   const [salaryFilter, setSalaryFilter] = useState<string | undefined>("");
+  const [minSalaryFilter, setMinSalaryFilter] = useState<number | undefined>(
+    undefined,
+  );
   const [descriptionFilter, setDescriptionFilter] = useState("");
   const [dateFilter, setDateFilter] = useState<Date | undefined>(undefined);
   const [isInputDisabled, setIsInputDisabled] = useState(false);
@@ -105,6 +112,8 @@ export const FilterProvider: React.FC<FilterProviderProps> = ({ children }) => {
     setCompanyFilter,
     salaryFilter,
     setSalaryFilter,
+    minSalaryFilter,
+    setMinSalaryFilter,
     descriptionFilter,
     setDescriptionFilter,
     dateFilter,
