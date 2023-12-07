@@ -20,8 +20,19 @@ export function JobListing(post: Post) {
 
   return (
     <div className="flex justify-between border-b border-slate-300  p-3 shadow-md sm:mt-3 sm:rounded-2xl sm:border-x sm:border-t">
-      <div className="cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
-        <JobPreview {...post} />
+      <div className="flex gap-4">
+        {post.logo && screenSize && screenSize > 1200 && (
+          <div>
+            <img
+              src={post.logo}
+              alt={`${post.company} logo`}
+              className="h-12 w-12 rounded-full"
+            />
+          </div>
+        )}
+        <div className="cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
+          <JobPreview {...post} />
+        </div>
       </div>
       <JobListingModal post={post} />
       {currentUrl !== "/profile" && screenSize && screenSize > 767 && (
