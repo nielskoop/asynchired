@@ -19,7 +19,7 @@ export const HamburgerButton = () => {
   const { setSelectedList, setScroll } = useButton();
   const handleProfileLinkClick = () => setScroll(true);
   const ref = useClickAway<HTMLButtonElement>(() => setHamburgerActive(false));
-  
+
   return (
     <Menu as={"div"} className={"relative inline-block text-left"}>
       <Menu.Button
@@ -45,6 +45,17 @@ export const HamburgerButton = () => {
       >
         <Menu.Items className="absolute right-0 z-20 mt-2 flex w-48 origin-top-right flex-col divide-y divide-gray-100 rounded-xl bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
           <div className="flex flex-col gap-2 px-4 py-4">
+            <Menu.Item>
+              {({ active }) => (
+
+                <Link
+                className={`${active && "text-slate-500"}`}
+                href="/profile"
+                >
+                  Profile
+                </Link>
+              )}
+            </Menu.Item>
             <Menu.Item>
               {({ active }) => (
                 <Link
@@ -134,7 +145,7 @@ export const NavLinks: React.FC = () => {
   const handleProfileLinkClick = () => {
     setScroll(true);
   };
-  
+
   return (
     <>
       <Link
@@ -212,20 +223,24 @@ export const NavBar = () => {
           </Link>
           {screenSize! > 768 && <NavLinks />}
         </div>
-        <Link
-          href="/profile"
-          className="rounded-xl bg-white p-2  hover:bg-neutral-200"
-          >
-          Profile
-        </Link>
         <div>
           {screenSize! < 768 ? (
             <HamburgerButton />
           ) : (
             <div className="h-[40px] min-w-[82.5px] text-center">
               {isSignedIn ? (
-                <div className="rounded-xl bg-white p-2 hover:bg-neutral-200">
-                  <SignOutButton />
+                <div className="flex flex-row gap-3">
+                  <div className="rounded-xl bg-white p-2 hover:bg-neutral-200">
+                    <Link
+                      href="/profile"
+                      className="rounded-xl bg-white p-2  hover:bg-neutral-200"
+                    >
+                      Profile
+                    </Link>
+                  </div>
+                  <div className="rounded-xl bg-white p-2 hover:bg-neutral-200">
+                    <SignOutButton />
+                  </div>
                 </div>
               ) : (
                 <div className="flex gap-2">

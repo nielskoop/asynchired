@@ -16,7 +16,7 @@ const ProfilePage: NextPage = () => {
   if (!user) {
     return <LoadingPage/>;
   }
-  
+
   useEffect(() => {
     if (scroll) {
       window.scrollTo(0, document.body.scrollHeight);
@@ -33,7 +33,7 @@ const ProfilePage: NextPage = () => {
         <NavBar />
       </div>
       <div className="w-full flex items-center justify-center">
-      <div className="w-fit px-2">
+      <div className="w-fit px-2\">
       <div className="flex flex-row flex-wrap items-center justify-center pt-24">
         <UserInfo />
         <UserJobsTracker />
