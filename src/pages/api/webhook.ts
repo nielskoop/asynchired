@@ -2,6 +2,8 @@ import { Webhook } from "svix";
 import { WebhookEvent } from "@clerk/nextjs/server";
 import { NextApiRequest, NextApiResponse } from "next";
 import { buffer } from "micro";
+import { env } from "~/env";
+import { api } from "~/utils/api";
 
 export const config = {
   api: {
@@ -17,7 +19,7 @@ export default async function handler(
     return res.status(405);
   }
   // You can find this in the Clerk Dashboard -> Webhooks -> choose the webhook
-  const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
+  const WEBHOOK_SECRET = env.WEBHOOK_SECRET;
 
   if (!WEBHOOK_SECRET) {
     throw new Error(
@@ -59,9 +61,14 @@ export default async function handler(
   // Get the ID and type
   const { id } = evt.data;
   const eventType = evt.type;
+  if (eventType === "user.created" || eventType === "user.updated") {
+    const id = evt.data.id;
+    const email = evt.data.email_addresses[0]?.email_address;
+    const name = evt.data.first_name + " " + evt.data.last_name;
+    console.log("id: " + id + "email: " + email + "name: " + name);
+  }
 
-  console.log(`Webhook with and ID of ${id} and type of ${eventType}`);
-  console.log("Webhook body:", body);
+  res.json({});
 
   return res.status(200).json({ response: "Success" });
 }

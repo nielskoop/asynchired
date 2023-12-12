@@ -6,7 +6,8 @@ export default authMiddleware({
     "/api/trpc/post.getFilteredPosts",
     "/api/trpc/post.getAllPosts",
     "/api/trpc/post.getAllRoles,post.getAllLocations,post.getAllCompanies,post.getFilteredPosts",
-    "/api/webhooks(.*)",
+    "/api/webhook",
+    "/api/trpc/user.getUser",
   ],
 });
 
