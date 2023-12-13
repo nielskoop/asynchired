@@ -70,9 +70,8 @@ const SavedSearches: React.FC = () => {
     company: selectedSearch.company ?? undefined,
   };
 
-  const {
-    data: postsCount,
-  } = api.post.getFilteredPostsCount.useQuery(queryParameters);
+  const { data: postsCount } =
+    api.post.getFilteredPostsCount.useQuery(queryParameters);
 
   const { mutate: deleteSearch } = api.search.deleteSearch.useMutation();
   const { mutate: updateSearch } = api.search.updateSearch.useMutation();
@@ -202,7 +201,7 @@ const SavedSearches: React.FC = () => {
 
   return (
     <>
-      <div className="relative mb-40 flex min-h-[400px] min-w-full sm:min-w-max flex-col justify-start rounded-lg border-2 border-solid border-[#1A78E6] bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 shadow-lg  sm:flex-row md:mx-4 lg:min-w-full lg:max-w-prose">
+      <div className="relative mb-40 flex min-h-[400px] min-w-full flex-col justify-start rounded-lg border-2 border-solid border-[#1A78E6] bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 shadow-lg sm:min-w-max  sm:flex-row md:mx-4 lg:min-w-full lg:max-w-prose">
         {screenSize! < 640 ? (
           <div className="mt-2 flex items-center justify-center">
             <SaveSearchSelect handleSelectSearch={handleSelectSearch} />
@@ -219,7 +218,7 @@ const SavedSearches: React.FC = () => {
                     }}
                   >
                     <p className="max-w-[200px] md:max-w-[250px]">
-                    {search.name}
+                      {search.name}
                     </p>
                   </button>
                 </li>
@@ -227,10 +226,10 @@ const SavedSearches: React.FC = () => {
             </ul>
           </div>
         )}
-        <div className="flex justify-center flex-row flex-wrap pb-4 lg:w-full lg:flex-nowrap lg:pb-0">
+        <div className="flex flex-row flex-wrap justify-center pb-4 lg:w-full lg:flex-nowrap lg:pb-0">
           <div
             id="filters"
-            className="flex grow max-w-full flex-col justify-center p-4 font-bold text-white lg:max-w-[275px]"
+            className="flex max-w-full grow flex-col justify-center p-4 font-bold text-white lg:max-w-[275px]"
           >
             <div
               id="searchName"
@@ -244,7 +243,9 @@ const SavedSearches: React.FC = () => {
                   className="w-fit rounded-lg px-3 py-1 pr-2 text-xl text-black shadow-md lg:max-w-[85%]"
                 />
               ) : (
-                <h1 className="text-xl sm:max-w-[200px]">{selectedSearch.name}</h1>
+                <h1 className="text-xl sm:max-w-[200px]">
+                  {selectedSearch.name}
+                </h1>
               )}
               <div className="flex w-fit min-w-max flex-col items-end justify-center">
                 <button onClick={isEditMode ? saveSearch : editSearch}>

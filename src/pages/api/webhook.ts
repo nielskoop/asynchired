@@ -3,7 +3,9 @@ import { WebhookEvent } from "@clerk/nextjs/server";
 import { NextApiRequest, NextApiResponse } from "next";
 import { buffer } from "micro";
 import { env } from "~/env";
-import { api } from "~/utils/api";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 export const config = {
   api: {
@@ -18,6 +20,7 @@ export default async function handler(
   if (req.method !== "POST") {
     return res.status(405);
   }
+
   // You can find this in the Clerk Dashboard -> Webhooks -> choose the webhook
   const WEBHOOK_SECRET = env.WEBHOOK_SECRET;
 
@@ -37,7 +40,6 @@ export default async function handler(
     return res.status(400).json({ error: "Error occured -- no svix headers" });
   }
 
-  console.log("headers", req.headers, svix_id, svix_signature, svix_timestamp);
   // Get the body
   const body = (await buffer(req)).toString();
 
@@ -60,22 +62,38 @@ export default async function handler(
 
   // Get the ID and type
   const eventType = evt.type;
+
   if (eventType === "user.created" || eventType === "user.updated") {
     const id = evt.data.id;
-    const email = evt.data.email_addresses[0]?.email_address;
-    const name = evt.data.first_name + " " + evt.data.last_name;
+    const email = evt.data.email_addresses[0]!.email_address;
 
-    // Directly pass the user input object to useMutation
-    const response = api.user.addUser.useMutation({
-      id: id,
-      email: email,
-      name: name,
-    });
+    // Handle potential absence of name
+    const firstName = evt.data.first_name ?? "";
+    const lastName = evt.data.last_name ?? "";
+    const name = firstName + (firstName && lastName ? " " : "") + lastName;
 
-    return res.status(200).json({ response: response });
+    try {
+      // Direct database operation
+      const user = await prisma.user.upsert({
+        where: { id },
+        update: { email, name },
+        create: {
+          id,
+          email,
+          name,
+          job: "",
+          location: "",
+          techStack: "",
+          education: "",
+        },
+      });
+
+      return res.status(200).json(user);
+    } catch (error) {
+      console.error("Error processing webhook event:", error);
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
   }
-
-  res.json({});
 
   return res.status(200).json({ response: "Success" });
 }
