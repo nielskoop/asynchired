@@ -28,7 +28,6 @@ export const HamburgerButton = () => {
         onClick={() => setHamburgerActive(!hamburgerActive)}
         className={"hamburgerButton flex items-center"}
       >
-        {/* REPLACE FALSE WITH MENU OPEN LOGIC AND TAILWIND SYNTAX*/}
         <div className={`hamburger ${hamburgerActive ? "active" : ""}`}>
           <span className="bar"></span>
           <span className="bar"></span>
