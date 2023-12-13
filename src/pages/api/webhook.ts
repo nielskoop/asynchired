@@ -59,13 +59,20 @@ export default async function handler(
   }
 
   // Get the ID and type
-  const { id } = evt.data;
   const eventType = evt.type;
   if (eventType === "user.created" || eventType === "user.updated") {
     const id = evt.data.id;
     const email = evt.data.email_addresses[0]?.email_address;
     const name = evt.data.first_name + " " + evt.data.last_name;
-    console.log("id: " + id + "email: " + email + "name: " + name);
+
+    // Directly pass the user input object to useMutation
+    const response = api.user.addUser.useMutation({
+      id: id,
+      email: email,
+      name: name,
+    });
+
+    return res.status(200).json({ response: response });
   }
 
   res.json({});

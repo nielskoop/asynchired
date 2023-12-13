@@ -11,13 +11,13 @@ export const userRouter = createTRPCRouter({
   addUser: publicProcedure
     .input(
       z.object({
-        id: z.string(),
-        email: z.string(),
-        name: z.string(),
+        id: z.string().nullable().optional(),
+        email: z.string().nullable().optional(),
+        name: z.string().nullable().optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      if (input === null) {
+      if (!input.id || !input.email || !input.name) {
         return null;
       }
       const user = await ctx.db.user?.upsert({
