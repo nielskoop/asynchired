@@ -22,7 +22,7 @@ export default async function handler(
   }
 
   // You can find this in the Clerk Dashboard -> Webhooks -> choose the webhook
-  const WEBHOOK_SECRET = env.WEBHOOK_SECRET;
+  const WEBHOOK_SECRET = env.NEXT_PUBLIC_WEBHOOK_SECRET;
 
   if (!WEBHOOK_SECRET) {
     throw new Error(
