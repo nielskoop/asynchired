@@ -31,6 +31,7 @@ export const searchRouter = createTRPCRouter({
             salary: input.salary,
           },
         });
+
         return updateUser;
       }
     }),

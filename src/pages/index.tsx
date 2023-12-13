@@ -53,6 +53,14 @@ export default function Home() {
         },
         {
           onSuccess: () => {
+            toast.success("Search saved", {
+              icon: "📝",
+              style: {
+                borderRadius: "10px",
+                background: "#10B981",
+                color: "#fff",
+              },
+            });
             refetch().catch((error) => {
               console.error("Failed to refetch: ", error);
             });

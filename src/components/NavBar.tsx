@@ -12,6 +12,7 @@ import { Fragment, useEffect, useState } from "react";
 import { useButton } from "~/context/buttonContext";
 import { useClickAway } from "@uidotdev/usehooks";
 import { useRouter } from "next/router";
+import { router } from "@trpc/server";
 
 export const HamburgerButton = () => {
   const [hamburgerActive, setHamburgerActive] = useState<boolean>(false);
@@ -47,10 +48,9 @@ export const HamburgerButton = () => {
           <div className="flex flex-col gap-2 px-4 py-4">
             <Menu.Item>
               {({ active }) => (
-
                 <Link
-                className={`${active && "text-slate-500"}`}
-                href="/profile"
+                  className={`${active && "text-slate-500"}`}
+                  href="/profile"
                 >
                   Profile
                 </Link>
@@ -180,7 +180,8 @@ export const NavLinks: React.FC = () => {
 export const NavBar = () => {
   const { isSignedIn } = useUser();
   const [header, setHeader] = useState<boolean>(false);
-  const { pathname } = useRouter();
+  const router = useRouter();
+  const pathname = router.pathname;
 
   const scrollHeader = () => {
     if (window.scrollY >= 450) {
@@ -199,6 +200,14 @@ export const NavBar = () => {
   }, []);
 
   const screenSize = useScreenSize();
+
+  async function handleLogout() {
+    if (pathname == "/profile") {
+      await router.push("/");
+    } else {
+      router.reload();
+    }
+  }
 
   return (
     <div
@@ -239,7 +248,7 @@ export const NavBar = () => {
                     </Link>
                   </div>
                   <div className="rounded-xl bg-white p-2 hover:bg-neutral-200">
-                    <SignOutButton />
+                    <SignOutButton signOutCallback={() => handleLogout()} />
                   </div>
                 </div>
               ) : (
