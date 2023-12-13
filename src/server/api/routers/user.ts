@@ -1,6 +1,10 @@
 import { z } from "zod";
 
-import { createTRPCRouter, privateProcedure } from "~/server/api/trpc";
+import {
+  createTRPCRouter,
+  privateProcedure,
+  publicProcedure,
+} from "~/server/api/trpc";
 
 export const userRouter = createTRPCRouter({
   // USER
@@ -22,10 +26,18 @@ export const userRouter = createTRPCRouter({
       return user;
     }),
 
- updateProfile: privateProcedure
-  .input(z.object({ job: z.string(), location: z.string(), techStack: z.string(), education: z.string(), userId: z.string() }))
-  .mutation(async ({ ctx, input }) => {
-    const userId = input.userId;
+  updateProfile: privateProcedure
+    .input(
+      z.object({
+        job: z.string(),
+        location: z.string(),
+        techStack: z.string(),
+        education: z.string(),
+        userId: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const userId = input.userId;
       if (userId) {
         const updateUser = await ctx.db.user.update({
           where: {
@@ -35,27 +47,29 @@ export const userRouter = createTRPCRouter({
             job: input.job,
             location: input.location,
             techStack: input.techStack,
-            education: input.education
+            education: input.education,
           },
         });
         return updateUser;
-    }
-  }),
-
-  getProfile: privateProcedure.input(z.string()).query(async ({ ctx, input }) => {
-    const user = await ctx.db.user.findUnique({
-      where: {
-        id: input,
-      },
-      select: {
-        job: true,
-        location: true,
-        techStack: true,
-        education: true
       }
-    });
-    return user;
-  }),
+    }),
+
+  getProfile: privateProcedure
+    .input(z.string())
+    .query(async ({ ctx, input }) => {
+      const user = await ctx.db.user.findUnique({
+        where: {
+          id: input,
+        },
+        select: {
+          job: true,
+          location: true,
+          techStack: true,
+          education: true,
+        },
+      });
+      return user;
+    }),
 
   // LIKES
   getLikes: privateProcedure.input(z.string()).query(async ({ ctx, input }) => {
@@ -95,7 +109,7 @@ export const userRouter = createTRPCRouter({
         return updateUser;
       }
     }),
-  
+
   unLike: privateProcedure
     .input(z.object({ postId: z.number(), userId: z.string() }))
     .mutation(async ({ ctx, input }) => {
