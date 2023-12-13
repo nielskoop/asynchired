@@ -8,56 +8,6 @@ import {
 
 export const userRouter = createTRPCRouter({
   // USER
-  // Inside your tRPC procedure
-  addUser: publicProcedure
-    .input(
-      z.object({
-        id: z.string(),
-        email: z.string(),
-        name: z.string(),
-      }),
-    )
-    .mutation(async ({ ctx, input }) => {
-      if (!input.id || !input.email) {
-        return null;
-      }
-
-      // Fetch data from your webhook endpoint
-      try {
-        const response = await fetch("/api/webhook");
-        const webhookData = await response.json();
-
-        // Extract the necessary data from webhookData
-        // For example: const { id, email } = webhookData;
-
-        // Use this data in your mutation logic
-        const userId = input.id;
-        const user = await ctx.db.user?.upsert({
-          where: {
-            id: userId,
-          },
-          update: {
-            email: input.email,
-            name: input.name,
-          },
-          create: {
-            id: input.id,
-            email: input.email,
-            name: input.name,
-            job: "",
-            location: "",
-            techStack: "",
-            education: "",
-          },
-        });
-
-        return user;
-      } catch (error) {
-        console.error("Error fetching from webhook:", error);
-        throw new Error("Failed to fetch data from webhook");
-      }
-    }),
-
   getUser: privateProcedure
     .input(z.string().nullable().optional())
     .query(async ({ ctx, input }) => {
