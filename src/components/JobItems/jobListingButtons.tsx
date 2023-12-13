@@ -25,8 +25,7 @@ export const MarkAppliedButton = (props: { post: Post }) => {
   const { userId } = useAuth();
 
   // const ctx = api.useUtils();
-  const { data: userDetails } =
-    api.user.getUser.useQuery(userId);
+  const { data: userDetails } = api.user.getUser.useQuery(userId);
 
   const [applied, setApplied] = useState(false);
 
@@ -39,6 +38,13 @@ export const MarkAppliedButton = (props: { post: Post }) => {
   const { mutate: apply } = api.user.apply.useMutation({
     onSuccess: () => {
       console.log("success!");
+      toast.success("Applied!", {
+        style: {
+          borderRadius: "10px",
+          background: "#00A907",
+          color: "#fff",
+        },
+      });
       setApplied(!applied);
       api.user.getUser.useQuery(userId);
     },
@@ -48,18 +54,24 @@ export const MarkAppliedButton = (props: { post: Post }) => {
     },
   });
 
-  const { mutate: unApply } =
-    api.user.unApply.useMutation({
-      onSuccess: () => {
-        console.log("success!");
-        setApplied(!applied);
-        api.user.getUser.useQuery(userId);
-      },
-      onError: (e) => {
-        const errorMessage = e.data?.zodError?.fieldErrors.content;
-        console.log("Request went into onError: ", errorMessage);
-      },
-    });
+  const { mutate: unApply } = api.user.unApply.useMutation({
+    onSuccess: () => {
+      console.log("success!");
+      toast.success("Unapplied!", {
+        style: {
+          borderRadius: "10px",
+          background: "#00A907",
+          color: "#fff",
+        },
+      });
+      setApplied(!applied);
+      api.user.getUser.useQuery(userId);
+    },
+    onError: (e) => {
+      const errorMessage = e.data?.zodError?.fieldErrors.content;
+      console.log("Request went into onError: ", errorMessage);
+    },
+  });
 
   async function appliedPost() {
     if (!userId) {
@@ -96,8 +108,7 @@ export const MarkAppliedButton = (props: { post: Post }) => {
 // LIKE BUTTON
 export const LikeButton = (props: { post: Post }) => {
   const { userId } = useAuth();
-  const { data: userDetails } =
-    api.user.getUser.useQuery(userId);
+  const { data: userDetails } = api.user.getUser.useQuery(userId);
 
   const [isLiked, setIsLiked] = useState(false);
 
@@ -110,6 +121,13 @@ export const LikeButton = (props: { post: Post }) => {
   const { mutate: like } = api.user.like.useMutation({
     onSuccess: () => {
       console.log("success!");
+      toast.success("Liked!", {
+        style: {
+          borderRadius: "10px",
+          background: "#00A907",
+          color: "#fff",
+        },
+      });
       setIsLiked(!isLiked);
       api.user.getUser.useQuery(userId);
     },
@@ -119,18 +137,24 @@ export const LikeButton = (props: { post: Post }) => {
     },
   });
 
-  const { mutate: unLike } =
-    api.user.unLike.useMutation({
-      onSuccess: () => {
-        console.log("success!");
-        setIsLiked(!isLiked);
-        api.user.getUser.useQuery(userId);
-      },
-      onError: (e) => {
-        const errorMessage = e.data?.zodError?.fieldErrors.content;
-        console.log("Request went into onError: ", errorMessage);
-      },
-    });
+  const { mutate: unLike } = api.user.unLike.useMutation({
+    onSuccess: () => {
+      console.log("success!");
+      toast.success("Unliked!", {
+        style: {
+          borderRadius: "10px",
+          background: "#00A907",
+          color: "#fff",
+        },
+      });
+      setIsLiked(!isLiked);
+      api.user.getUser.useQuery(userId);
+    },
+    onError: (e) => {
+      const errorMessage = e.data?.zodError?.fieldErrors.content;
+      console.log("Request went into onError: ", errorMessage);
+    },
+  });
 
   async function likePost() {
     console.log("you clicked me user: ", userId);
@@ -167,8 +191,7 @@ export const LikeButton = (props: { post: Post }) => {
 // DISLIKE BUTTON
 export const DislikeButton = (props: { post: Post }) => {
   const { userId } = useAuth();
-  const { data: userDetails } =
-    api.user.getUser.useQuery(userId);
+  const { data: userDetails } = api.user.getUser.useQuery(userId);
   const [isDisliked, setIsDisliked] = useState(false);
 
   useEffect(() => {
@@ -179,7 +202,13 @@ export const DislikeButton = (props: { post: Post }) => {
 
   const { mutate: dislike } = api.user.dislike.useMutation({
     onSuccess: () => {
-      console.log("success!");
+      toast.success("Disliked!", {
+        style: {
+          borderRadius: "10px",
+          background: "#00A907",
+          color: "#fff",
+        },
+      });
       setIsDisliked(!isDisliked);
       api.user.getUser.useQuery(userId);
     },
@@ -189,18 +218,24 @@ export const DislikeButton = (props: { post: Post }) => {
     },
   });
 
-  const { mutate: unDislike } =
-    api.user.unDislike.useMutation({
-      onSuccess: () => {
-        console.log("success!");
-        setIsDisliked(!isDisliked);
-        api.user.getUser.useQuery(userId);
-      },
-      onError: (e) => {
-        const errorMessage = e.data?.zodError?.fieldErrors.content;
-        console.log("Request went into onError: ", errorMessage);
-      },
-    });
+  const { mutate: unDislike } = api.user.unDislike.useMutation({
+    onSuccess: () => {
+      console.log("success!");
+      toast.success("Undisliked!", {
+        style: {
+          borderRadius: "10px",
+          background: "#00A907",
+          color: "#fff",
+        },
+      });
+      setIsDisliked(!isDisliked);
+      api.user.getUser.useQuery(userId);
+    },
+    onError: (e) => {
+      const errorMessage = e.data?.zodError?.fieldErrors.content;
+      console.log("Request went into onError: ", errorMessage);
+    },
+  });
 
   async function dislikePost() {
     console.log("you clicked me user: ", userId);
